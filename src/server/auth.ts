@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         password: {},
       },
       async authorize(credentials, req) {
+        console.log("credentials", credentials);
         // const session = await getServerSession(authOptions);
         // if (session?.user?.role == "admin") {
 
