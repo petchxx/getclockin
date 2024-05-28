@@ -1,0 +1,65 @@
+"use client";
+import { Button, Link } from "@nextui-org/react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import React from "react";
+
+export default function Landing() {
+  return (
+    <div className="flex items-center justify-center pt-12">
+      <div className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row">
+        <motion.div
+          className="mr-12 mt-10 md:mt-0"
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "tween" }}
+        >
+          <h1 className="text-lg text-primary">ClockIn</h1>
+          <h1 className="text-4xl ">
+            ระบบบันทึกเวลาทำงาน
+            {/* eng */}
+          </h1>
+          <p className="mt-4 max-w-2xl text-foreground/60">
+            ClockIn คือระบบบันทึกเวลาทำงานที่ใช้งานง่าย และสะดวก
+            สามารถบันทึกเวลาและสถานที่ทำงานได้ทุกเวลา
+            และสามารถดูรายงานการทำงานได้ง่ายๆ และสะดวก
+            เหมาะสำหรับบริษัทที่ต้องการบันทึกเวลาการทำงานของพนักงาน
+            {/* eng */}
+            {/*ClockIn is an easy-to-use and convenient time tracking system.
+              It can record the time and location of work at all times. And
+              can view work reports easily and conveniently. Suitable for
+              companies that want to record employee work hours*/}
+          </p>
+          <div className="mt-4 flex gap-2">
+            <Button
+              disableRipple
+              className="relative overflow-visible bg-primary  text-white shadow-xl after:absolute after:inset-0 after:z-[-1] after:rounded-xl after:bg-primary/40 after:transition after:!duration-500 after:content-[''] hover:after:scale-150 hover:after:opacity-0"
+              as={Link}
+              href="/signup"
+            >
+              เริ่มต้นใช้งาน
+            </Button>
+
+            <Button color="primary" variant="bordered">
+              ดูตัวอย่าง
+            </Button>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 200 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "tween" }}
+          className=""
+        >
+          <Image
+            src="/images/phone1.png"
+            className="object-cover"
+            alt="Clockin"
+            width={300}
+            height={300}
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+}

@@ -19,7 +19,7 @@ import { type Session } from "next-auth";
 import { usePathname, useRouter } from "next/navigation";
 import { type } from "os";
 import React, { useState } from "react";
-import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ThemeSwitcher } from "../ThemeSwitcher";
 
 type Props = {
   session: Session | null;
