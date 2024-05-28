@@ -49,12 +49,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
-  }) as Adapter,
+  adapter: DrizzleAdapter(db) as Adapter,
   providers: [
     Credentials({
       credentials: {
