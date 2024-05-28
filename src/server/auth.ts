@@ -5,6 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
+import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env";
@@ -23,11 +24,13 @@ import {
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
+  type UserRole = "admin" | "company";
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      company_key: string;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
@@ -59,10 +62,65 @@ export const authOptions: NextAuthOptions = {
     verificationTokensTable: verificationTokens,
   }) as Adapter,
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    Credentials({
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials, req) {
+        // const session = await getServerSession(authOptions);
+        // if (session?.user?.role == "admin") {
+
+        // const user = (await sql`
+        // SELECT * FROM companies WHERE email = ${credentials?.email}
+        // `) as any;
+        // return {
+        // id: user.rows[0].id,
+        // email: user.rows[0].email,
+        // role: "company",
+        // company_key: user.rows[0].company_key,
+        // };
+        // }
+
+        // const admin = (await sql`
+        //             SELECT * FROM admins WHERE email = ${credentials?.email}
+        //         `) as any;
+        // if (admin.rows[0]) {
+        //   const verifyPassword = await compare(
+        //     credentials?.password || "",
+        //     admin.rows[0].password,
+        //   );
+        //   if (admin && verifyPassword) {
+        //     return {
+        //       id: admin.rows[0].id,
+        //       email: admin.rows[0].email,
+        //       role: "admin",
+        //     };
+        //   }
+        // }
+        //
+        // const user = (await sql`
+        //             SELECT * FROM companies WHERE email = ${credentials?.email}
+        //         `) as any;
+        // const verifyPassword = await compare(
+        //   credentials?.password || "",
+        //   user.rows[0].password,
+        // );
+        // if (user.rows[0] && verifyPassword) {
+        //   return {
+        //     id: user.rows[0].id,
+        //     email: user.rows[0].email,
+        //     role: "company",
+        //     company_key: user.rows[0].company_key,
+        //   };
+        // }
+        return null;
+      },
     }),
+    // DiscordProvider({
+    // clientId: env.DISCORD_CLIENT_ID,
+    // clientSecret: env.DISCORD_CLIENT_SECRET,
+    // }),
     /**
      * ...add more providers here.
      *
