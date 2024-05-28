@@ -19,11 +19,11 @@ export function ThemeSwitcher() {
     <div>
       {theme === "dark" ? (
         <Button isIconOnly variant="light" onClick={() => setTheme("light")}>
-          <Icon icon="ion:moon-outline" fontSize={20} />
+          <Icon icon="ion:sunny-outline" fontSize={20} />
         </Button>
       ) : (
         <Button isIconOnly variant="light" onClick={() => setTheme("dark")}>
-          <Icon icon="ion:sunny-outline" fontSize={20} />
+          <Icon icon="ion:moon-outline" fontSize={20} />
         </Button>
       )}
     </div>
