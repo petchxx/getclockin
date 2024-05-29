@@ -1,4 +1,7 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import bcrypt from "bcrypt";
+
+import { sql } from "drizzle-orm";
 import {
   getServerSession,
   type DefaultSession,
@@ -10,6 +13,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { companies } from "./db/schema";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -23,7 +27,7 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      company_key: string;
+      email: string;
       role: UserRole;
     } & DefaultSession["user"];
   }
@@ -58,52 +62,25 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         console.log("credentials", credentials);
-        // const session = await getServerSession(authOptions);
-        // if (session?.user?.role == "admin") {
+        const company = await db
+          .select()
+          .from(companies)
+          .where(sql`${companies.email} = ${credentials?.email}`);
+        console.log("company", company);
+        if (company[0]) {
+          const verifyPassword = await bcrypt.compare(
+            credentials?.password || "",
+            company[0].password,
+          );
+          if (verifyPassword) {
+            return {
+              id: company[0].id.toString(),
+              email: company[0].email,
+              role: "company",
+            };
+          }
+        }
 
-        // const user = (await sql`
-        // SELECT * FROM companies WHERE email = ${credentials?.email}
-        // `) as any;
-        // return {
-        // id: user.rows[0].id,
-        // email: user.rows[0].email,
-        // role: "company",
-        // company_key: user.rows[0].company_key,
-        // };
-        // }
-
-        // const admin = (await sql`
-        //             SELECT * FROM admins WHERE email = ${credentials?.email}
-        //         `) as any;
-        // if (admin.rows[0]) {
-        //   const verifyPassword = await compare(
-        //     credentials?.password || "",
-        //     admin.rows[0].password,
-        //   );
-        //   if (admin && verifyPassword) {
-        //     return {
-        //       id: admin.rows[0].id,
-        //       email: admin.rows[0].email,
-        //       role: "admin",
-        //     };
-        //   }
-        // }
-        //
-        // const user = (await sql`
-        //             SELECT * FROM companies WHERE email = ${credentials?.email}
-        //         `) as any;
-        // const verifyPassword = await compare(
-        //   credentials?.password || "",
-        //   user.rows[0].password,
-        // );
-        // if (user.rows[0] && verifyPassword) {
-        //   return {
-        //     id: user.rows[0].id,
-        //     email: user.rows[0].email,
-        //     role: "company",
-        //     company_key: user.rows[0].company_key,
-        //   };
-        // }
         return null;
       },
     }),

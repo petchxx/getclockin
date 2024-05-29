@@ -8,6 +8,13 @@ import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const router = useRouter();
 
+  async function handleLogin(formdata: FormData) {
+    await signIn("credentials", {
+      email: formdata.get("email") as string,
+      password: formdata.get("password") as string,
+      callbackUrl: "/dashboard",
+    });
+  }
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
@@ -22,7 +29,7 @@ export default function LoginForm() {
             ClockIn
           </Link>
           <p className="text-l text-gray-400">แดชบอร์ด</p>
-          <form>
+          <form action={handleLogin}>
             <Input
               name="email"
               className="mt-6 w-80"

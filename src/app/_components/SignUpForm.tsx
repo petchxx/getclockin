@@ -12,9 +12,37 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { api } from "~/trpc/react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function SignUpForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter();
+
+  const createCompany = api.company.create.useMutation({
+    onSuccess(data) {
+      console.log(data);
+      signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: "/dashboard",
+      });
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
+  async function handleSignUp(formData: FormData) {
+    if (formData.get("password") !== formData.get("confirmPassword")) {
+      return toast.error("รหัสผ่านไม่ตรงกัน");
+    }
+    createCompany.mutate({
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    });
+  }
 
   return (
     <main>
@@ -27,7 +55,7 @@ export default function SignUpForm() {
             ClockIn
           </h1>
           <p className="text-l text-gray-400">ลงทะเบียน</p>
-          <form>
+          <form action={handleSignUp}>
             <Input
               className="mt-6 w-80"
               type="email"

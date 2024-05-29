@@ -1,32 +1,34 @@
+import bcrypt from "bcrypt";
+import { sql } from "drizzle-orm";
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 import { companies } from "~/server/db/schema";
-
 export const companyRouter = createTRPCRouter({
-  create: protectedProcedure
+  create: publicProcedure
     .input(
       z.object({
-        company_key: z.string(),
-        name: z.string().min(1),
-        email: z.string().email(),
+        email: z.string().email({ message: "อีเมลไม่ถูกต้อง" }),
         password: z.string().min(8),
-        app_password: z.string().min(8),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.insert(companies).values({
-        company_key: input.company_key,
-        name: input.name,
+      const exist = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.email} = ${input.email}`);
+
+      if (exist.length > 0) throw new Error("บริษัทนี้มีอยู่แล้วในระบบ");
+      const hashedPassword = await bcrypt.hash(input.password, 10);
+      await ctx.db.insert(companies).values({
         email: input.email,
-        password: input.password,
-        app_password: input.app_password,
+        password: hashedPassword,
         status: "pending",
       });
+      return { email: input.email, password: input.password };
     }),
 
   hello: publicProcedure
