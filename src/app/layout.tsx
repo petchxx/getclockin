@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${nst.className}`}>
+    <html suppressHydrationWarning lang="en" className={`${nst.className}`}>
       <body>
         <TRPCReactProvider>
           <Providers>{children}</Providers>

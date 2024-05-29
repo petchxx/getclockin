@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
+      <NextThemesProvider attribute="class" defaultTheme="system">
         {children}
         <ToastContainer />
       </NextThemesProvider>

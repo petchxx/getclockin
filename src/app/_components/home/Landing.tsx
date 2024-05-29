@@ -57,6 +57,7 @@ export default function Landing() {
             alt="Clockin"
             width={300}
             height={300}
+            priority={true}
           />
         </motion.div>
       </div>
