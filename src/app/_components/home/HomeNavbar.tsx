@@ -151,7 +151,7 @@ export default function HomeNavbar({ session }: Props) {
         </NavbarMenuItem>
         {!session && (
           <NavbarMenuItem>
-            <Link color="primary" size="lg" className="w-full" href="#contact">
+            <Link color="primary" size="lg" className="w-full" href="/signup">
               เริ่มต้นใช้งาน
             </Link>
           </NavbarMenuItem>

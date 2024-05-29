@@ -18,12 +18,12 @@ type Props = {
 
 export default function PricingCard({ plan, isAnnual }: Props) {
   return (
-    <Card className="group w-80 items-start p-4 transition-colors duration-200 hover:border-primary">
+    <Card className="group w-80 items-start p-4 hover:border-primary">
       <Card className="flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary">
         <Icon
           icon={plan.icon ?? ""}
           height={20}
-          className="transition-colors duration-200 group-hover:text-white"
+          className=" group-hover:text-white"
         />
       </Card>
       <p className="mt-2">{plan.name}</p>

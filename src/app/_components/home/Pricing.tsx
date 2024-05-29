@@ -60,8 +60,8 @@ export default function Pricing() {
     },
   ];
   return (
-    <div className="mt-12 pt-32" id="pricing">
-      <div className="mt-6 flex flex-col items-center">
+    <div className="mt-14 pt-20" id="pricing">
+      <div className="flex flex-col items-center">
         <Chip color="primary" className="rounded-full ">
           แพ็คเกจ
         </Chip>
