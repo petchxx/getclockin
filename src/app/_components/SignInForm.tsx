@@ -5,16 +5,17 @@ import { Card, Input, Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+export default function SignInForm() {
   const router = useRouter();
 
-  async function handleLogin(formdata: FormData) {
+  async function handleSignIn(formdata: FormData) {
     await signIn("credentials", {
       email: formdata.get("email") as string,
       password: formdata.get("password") as string,
       callbackUrl: "/dashboard",
     });
   }
+
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
@@ -29,7 +30,7 @@ export default function LoginForm() {
             ClockIn
           </Link>
           <p className="text-l text-gray-400">แดชบอร์ด</p>
-          <form action={handleLogin}>
+          <form action={handleSignIn}>
             <Input
               name="email"
               className="mt-6 w-80"
@@ -54,8 +55,6 @@ export default function LoginForm() {
             >
               เข้าสู่ระบบ
             </Button>
-
-            {/* <LoginButton /> */}
           </form>
           <p className="mt-4 text-sm text-gray-400">
             ยังไม่มีบัญชีใช่หรือไม่?

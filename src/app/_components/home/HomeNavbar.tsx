@@ -111,7 +111,7 @@ export default function HomeNavbar({ session }: Props) {
         {!session && (
           <NavbarItem>
             <Button color="primary" variant="flat">
-              <Link href="/login">เข้าสู่ระบบ</Link>
+              <Link href="/signin">เข้าสู่ระบบ</Link>
             </Button>
           </NavbarItem>
         )}

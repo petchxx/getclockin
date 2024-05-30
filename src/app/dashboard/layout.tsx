@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import React from "react";
 import { getServerAuthSession } from "~/server/auth";
+import Sidebar from "../_components/dashboard/Sidebar";
 
 type Props = {
   children: React.ReactNode;
@@ -9,7 +10,12 @@ type Props = {
 export default async function layout({ children }: Props) {
   const session = await getServerAuthSession();
   if (!session) {
-    redirect("/login");
+    redirect("/signin");
   }
-  return <div>layout{children}</div>;
+  return (
+    <div>
+      <Sidebar />
+      {children}
+    </div>
+  );
 }

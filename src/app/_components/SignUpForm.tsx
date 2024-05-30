@@ -93,7 +93,7 @@ export default function SignUpForm() {
           </form>
           <p className="mt-4 text-sm text-gray-400">
             มีบัญชีอยู่แล้ว?{" "}
-            <Link href="/login" className="text-sm">
+            <Link href="/signin" className="text-sm">
               เข้าสู่ระบบ
             </Link>
           </p>
