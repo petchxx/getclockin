@@ -66,9 +66,13 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: {},
         password: {},
+        role: {},
       },
       async authorize(credentials, req) {
         console.log("credentials", credentials);
+        if (credentials?.role === "admin") {
+          console.log("admin");
+        }
         const company = await db
           .select()
           .from(companies)

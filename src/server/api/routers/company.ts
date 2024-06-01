@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { sql } from "drizzle-orm";
-import { z } from "zod";
+import { string, z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -29,6 +29,16 @@ export const companyRouter = createTRPCRouter({
         status: "pending",
       });
       return { email: input.email, password: input.password };
+    }),
+
+  get: protectedProcedure
+    .input(z.object({ id: string() }))
+    .query(async ({ ctx, input }) => {
+      const company = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.id} = ${input.id}`);
+      return company[0];
     }),
 
   hello: publicProcedure
