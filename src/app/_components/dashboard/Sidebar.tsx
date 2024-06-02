@@ -6,7 +6,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { Button, toggle } from "@nextui-org/react";
 import SidebarItem from "./SidebarItem";
-import { Icon } from "@iconify/react/dist/iconify.mjs";
+import { Icon } from "@iconify/react";
 
 type Props = {
   company: any;

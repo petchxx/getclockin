@@ -1,4 +1,5 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
+
 import { Button, Card } from "@nextui-org/react";
 import React from "react";
 
