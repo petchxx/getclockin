@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import React from "react";
 import Image from "next/image";
-import { Icon } from "@iconify/react/dist/iconify.mjs";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Feature() {
   const features = [

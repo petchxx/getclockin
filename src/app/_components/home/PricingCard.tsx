@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.mjs";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button, Card } from "@nextui-org/react";
 import React from "react";
 
