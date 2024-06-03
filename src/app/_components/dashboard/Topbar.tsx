@@ -51,7 +51,7 @@ export default function Topbar({ company }: Props) {
   return (
     <Navbar
       maxWidth="full"
-      className=" rounded-md border-1 border-foreground/30 bg-background shadow-sm shadow-foreground/20"
+      className=" rounded-md border-1 border-foreground/30 bg-background "
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -145,7 +145,7 @@ export default function Topbar({ company }: Props) {
           </DropdownMenu>
         </Dropdown>
       </div>
-      <NavbarMenu className="bg-[#f8f7fa]">
+      <NavbarMenu className="bg-background">
         <NavbarMenuItem className="mt-6 flex flex-col gap-2">
           <Link
             color={`${pathname == "/dashboard" ? "primary" : "foreground"}`}

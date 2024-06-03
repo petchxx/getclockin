@@ -7,6 +7,7 @@ import {
   primaryKey,
   serial,
   text,
+  time,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -40,7 +41,9 @@ export const companies = createTable("company", {
   is_trial: boolean("is_trial").default(true),
   stripe_customer_id: varchar("stripe_customer_id", { length: 255 }),
   stripe_subscription_id: varchar("stripe_subscription_id", { length: 255 }),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
 
 export const employees = createTable("employee", {
@@ -50,14 +53,16 @@ export const employees = createTable("employee", {
   name: varchar("name", { length: 255 }).notNull(),
   phone: varchar("phone", { length: 255 }).notNull(),
   role: varchar("role", { length: 255 }).notNull(),
-  start_time: timestamp("start_time", { withTimezone: true }).notNull(),
-  stop_time: timestamp("stop_time", { withTimezone: true }).notNull(),
+  start_time: varchar("start_time", { length: 255 }).notNull(),
+  stop_time: varchar("stop_time", { length: 255 }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   salary: integer("salary").notNull(),
   off_days: varchar("off_days", { length: 255 }).default(
     sql`ARRAY[]::VARCHAR[]`,
   ),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
 
 export const clocks = createTable("clock", {
