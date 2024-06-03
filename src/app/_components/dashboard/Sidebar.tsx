@@ -16,7 +16,7 @@ type Props = {
 export default function Sidebar({ company }: Props) {
   return (
     <div
-      className={`sticky top-0 hidden h-screen w-80  bg-white p-4 shadow-small lg:block`}
+      className={`sticky top-0 hidden h-screen w-80 border-r-1 border-foreground/30 bg-background p-4 shadow-sm shadow-foreground/20 lg:block`}
     >
       <h1 className="flex text-4xl font-bold text-primary ">ClockIn</h1>
       <div className="mt-6">

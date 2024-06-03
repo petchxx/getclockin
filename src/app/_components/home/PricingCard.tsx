@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 
 import { Button, Card } from "@nextui-org/react";
 import React from "react";
+import { Company } from "~/lib/interface/company";
 
 type Props = {
   plan: {
@@ -15,9 +16,10 @@ type Props = {
     yearlyPriceId: string;
   };
   isAnnual: boolean;
+  company?: Company;
 };
 
-export default function PricingCard({ plan, isAnnual }: Props) {
+export default function PricingCard({ plan, isAnnual, company }: Props) {
   return (
     <Card className="group w-80 items-start p-4 hover:border-primary">
       <Card className="flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary">
@@ -54,7 +56,7 @@ export default function PricingCard({ plan, isAnnual }: Props) {
         variant="bordered"
         color="primary"
       >
-        ทดลองใช้ฟรี 30 วัน!
+        {company?.is_trial == true ? "ทดลองใช้ฟรี 30 วัน!" : "เลือกแพ็คเกจ"}
       </Button>
     </Card>
   );

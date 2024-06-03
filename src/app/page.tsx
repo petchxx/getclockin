@@ -33,7 +33,9 @@ export default async function Home() {
       <HomeNavbar session={session} />
       <Landing />
       <Feature />
-      <Pricing />
+      <div className="mt-14 pt-20" id="pricing">
+        <Pricing />
+      </div>
       <div className="mt-12 pt-32" id="contact">
         <div className="flex justify-center text-5xl font-bold">ติดต่อเรา</div>
         <div className="m-4 flex justify-center">

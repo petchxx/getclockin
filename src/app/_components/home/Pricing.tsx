@@ -1,5 +1,5 @@
 "use client";
-import { Icon } from "@iconify/react/dist/iconify.mjs";
+import { Icon } from "@iconify/react";
 import {
   Badge,
   Button,
@@ -11,8 +11,13 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import PricingCard from "./PricingCard";
+import { Company } from "~/lib/interface/company";
 
-export default function Pricing() {
+type Props = {
+  company?: Company;
+};
+
+export default function Pricing({ company }: Props) {
   const [isAnnual, setIsAnnual] = React.useState(false);
 
   const plans = [
@@ -60,17 +65,21 @@ export default function Pricing() {
     },
   ];
   return (
-    <div className="mt-14 pt-20" id="pricing">
+    <div>
       <div className="flex flex-col items-center">
         <Chip color="primary" className="rounded-full ">
           แพ็คเกจ
         </Chip>
-        <p className="mt-4 text-center text-4xl">ทดลองใช้ฟรี 30 วัน!</p>
+        {company?.is_trial == true ? (
+          <p className="mt-4 text-center text-4xl">ทดลองใช้ฟรี 30 วัน!</p>
+        ) : (
+          <p className="mt-4 text-center text-4xl">ต่ออายุการใช้งาน</p>
+        )}
         <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
-          ทดลองใช้งานระบบของเราได้ฟรีเป็นเวลา 30 วัน
           เพื่อให้คุณได้สัมผัสกับความสามารถและคุณสมบัติที่เรามีให้
-          กรุณาเลือกแพ็คเกจที่ต้องการ หากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม
-          กรุณาติดต่อเรา
+          กรุณาเลือกแพ็คเกจที่ต้องการ
+          <br />
+          หากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม กรุณาติดต่อเรา
         </p>
         <Tabs aria-label="Options" className="mt-4">
           <Tab key="monthly" title="รายเดือน">

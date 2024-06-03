@@ -33,6 +33,8 @@ export default {
           layout: {}, // dark theme layout tokens
           colors: {
             primary: {
+              foreground: "#000000",
+
               DEFAULT: "#F5A524",
             },
           }, // dark theme colors
