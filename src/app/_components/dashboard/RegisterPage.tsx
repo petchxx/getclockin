@@ -1,12 +1,17 @@
-import { Input, Link } from "@nextui-org/react";
+"use client";
+import { Button, Input, Link } from "@nextui-org/react";
 import React from "react";
 import { Company } from "~/lib/interface/company";
+import { Icon } from "@iconify/react";
 
 type Props = {
   company: Company;
 };
 
 export default function RegisterPage({ company }: Props) {
+  async function handleSubmit(formData: FormData) {
+    console.log(formData.get("name"));
+  }
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/"></Link>
@@ -18,32 +23,44 @@ export default function RegisterPage({ company }: Props) {
           >
             ClockIn
           </Link>
-          <p className="text-l text-gray-400">แดชบอร์ด</p>
-          <form>
+          <p className="text-l text-gray-400">กรอกข้อมูลเพิ่มเริ่มต้นใช้งาน</p>
+          <form action={handleSubmit}>
             <Input
               name="email"
               className="mt-6 w-80"
               type="email"
               label="อีเมล"
               variant="bordered"
-              value=""
+              value={company.email}
+              isDisabled
+            />
+
+            <Input
+              name="name"
+              className="mt-4 w-80"
+              label="ชื่อบริษัท"
+              placeholder="testcompany"
+              type="text"
+              variant="bordered"
+              startContent={<p className="text-sm">@</p>}
             />
             <Input
-              name="password"
+              name="app_password"
               className="mt-4 w-80"
-              label="รหัสผ่าน"
+              label="รหัสผ่านแอพ"
               placeholder="********"
-              type="password"
+              type="text"
               variant="bordered"
             />
+            <Button
+              color="primary"
+              className="mt-6 h-12 w-80"
+              type="submit"
+              variant="shadow"
+            >
+              ยืนยัน
+            </Button>
           </form>
-          <p className="mt-4 text-sm text-gray-400">
-            ยังไม่มีบัญชีใช่หรือไม่?
-            <Link className="cursor-pointer text-primary" href={"/signup"}>
-              {" "}
-              สมัครเลย
-            </Link>
-          </p>
         </div>
       </div>
     </main>
