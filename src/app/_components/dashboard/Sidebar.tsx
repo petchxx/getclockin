@@ -7,9 +7,10 @@ import { signOut, useSession } from "next-auth/react";
 import { Button, toggle } from "@nextui-org/react";
 import SidebarItem from "./SidebarItem";
 import { Icon } from "@iconify/react";
+import { Company } from "~/lib/interface/company";
 
 type Props = {
-  company: any;
+  company: Company;
 };
 
 export default function Sidebar({ company }: Props) {

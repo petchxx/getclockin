@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { sql } from "drizzle-orm";
 import { string, z } from "zod";
+import { ulid } from "ulid";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -16,6 +17,8 @@ export const companyRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const branchId = ulid();
+
       const exist = await ctx.db
         .select()
         .from(companies)
@@ -24,6 +27,7 @@ export const companyRouter = createTRPCRouter({
       if (exist.length > 0) throw new Error("บริษัทนี้มีอยู่แล้วในระบบ");
       const hashedPassword = await bcrypt.hash(input.password, 10);
       await ctx.db.insert(companies).values({
+        id: branchId,
         email: input.email,
         password: hashedPassword,
         status: "pending",

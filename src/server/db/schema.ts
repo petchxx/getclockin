@@ -20,7 +20,7 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const createTable = pgTableCreator((name) => `getclockin_${name}`);
 
 export const admins = createTable("admin", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   email: varchar("email", { length: 255 }).unique().notNull(),
   password: varchar("password", { length: 255 }).notNull(),
   created_at: timestamp("created_at", { withTimezone: true })
@@ -29,7 +29,7 @@ export const admins = createTable("admin", {
 });
 
 export const companies = createTable("company", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   company_key: varchar("company_key", { length: 255 }).unique(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).unique().notNull(),
@@ -43,7 +43,7 @@ export const companies = createTable("company", {
 });
 
 export const employees = createTable("employee", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   company_id: varchar("company_id", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).unique().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
@@ -60,7 +60,7 @@ export const employees = createTable("employee", {
 });
 
 export const clocks = createTable("clock", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   date_time: timestamp("date_time", { withTimezone: true }).notNull(),
   company_id: varchar("company_id", { length: 255 }).notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
@@ -71,7 +71,7 @@ export const clocks = createTable("clock", {
 });
 
 export const leaves = createTable("leave", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   company_id: varchar("company_id", { length: 255 }).notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   leave_type: varchar("leave_type", { length: 255 }).notNull(),
@@ -83,7 +83,7 @@ export const leaves = createTable("leave", {
 });
 
 export const overtimes = createTable("overtime", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   company_id: varchar("company_id", { length: 255 }).notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   date: timestamp("date", { withTimezone: true }).notNull(),
