@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTableCreator,
@@ -30,13 +31,13 @@ export const admins = createTable("admin", {
 
 export const companies = createTable("company", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  company_key: varchar("company_key", { length: 255 }).unique(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).unique().notNull(),
   password: varchar("password", { length: 255 }).notNull(),
   app_password: varchar("app_password", { length: 255 }),
   line_token: varchar("line_token", { length: 255 }),
   status: varchar("status", { length: 255 }).notNull(),
+  is_trial: boolean("is_trial").default(true),
   stripe_customer_id: varchar("stripe_customer_id", { length: 255 }),
   stripe_subscription_id: varchar("stripe_subscription_id", { length: 255 }),
   created_at: timestamp("created_at", { withTimezone: true }),
