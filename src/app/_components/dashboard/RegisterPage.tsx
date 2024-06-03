@@ -3,14 +3,25 @@ import { Button, Input, Link } from "@nextui-org/react";
 import React from "react";
 import { Company } from "~/lib/interface/company";
 import { Icon } from "@iconify/react";
+import { api } from "~/trpc/react";
 
 type Props = {
   company: Company;
 };
 
 export default function RegisterPage({ company }: Props) {
+  const register = api.company.register.useMutation({
+    onSuccess(data) {
+      console.log(data);
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
   async function handleSubmit(formData: FormData) {
-    console.log(formData.get("name"));
+    const name = formData.get("name") as string;
+    const app_password = formData.get("app_password") as string;
+    register.mutate({ id: company.id, name, app_password });
   }
   return (
     <main>

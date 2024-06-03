@@ -35,6 +35,26 @@ export const companyRouter = createTRPCRouter({
       return { email: input.email, password: input.password };
     }),
 
+  register: publicProcedure
+    .input(
+      z.object({
+        id: string(),
+        name: string(),
+        app_password: string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const company = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.name} = ${input.name}`);
+      if (company.length > 0) throw new Error("บริษัทนี้มีอยู่แล้วในระบบ");
+      return await ctx.db
+        .update(companies)
+        .set({ name: input.name, app_password: input.app_password })
+        .where(sql`${companies.id} = ${input.id}`);
+    }),
+
   get: protectedProcedure
     .input(z.object({ id: string() }))
     .query(async ({ ctx, input }) => {

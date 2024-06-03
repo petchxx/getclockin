@@ -16,7 +16,7 @@ export default async function layout({ children }: Props) {
     redirect("/signout");
   }
 
-  if (!company?.company_key || !company.name || !company.app_password) {
+  if (!company.name || !company.app_password) {
     return <RegisterPage company={company} />;
   }
   return (
