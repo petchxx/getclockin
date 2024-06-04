@@ -60,6 +60,9 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  pages: {
+    signIn: "/signin",
+  },
   // adapter: DrizzleAdapter(db) as Adapter,
   providers: [
     Credentials({

@@ -4,16 +4,23 @@ import Link from "next/link";
 import { Card, Input, Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SignInForm() {
   const router = useRouter();
 
   async function handleSignIn(formdata: FormData) {
-    await signIn("credentials", {
+    const signin = await signIn("credentials", {
       email: formdata.get("email") as string,
       password: formdata.get("password") as string,
-      callbackUrl: "/dashboard",
+      redirect: false,
     });
+    if (!signin?.ok) {
+      toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      return;
+    } else {
+      router.push("/dashboard");
+    }
   }
 
   return (
