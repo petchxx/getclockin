@@ -17,7 +17,7 @@ export const companyRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const branchId = ulid();
+      const companyId = ulid();
 
       const exist = await ctx.db
         .select()
@@ -27,7 +27,7 @@ export const companyRouter = createTRPCRouter({
       if (exist.length > 0) throw new Error("บริษัทนี้มีอยู่แล้วในระบบ");
       const hashedPassword = await bcrypt.hash(input.password, 10);
       await ctx.db.insert(companies).values({
-        id: branchId,
+        id: companyId,
         email: input.email,
         password: hashedPassword,
         status: "pending",
@@ -38,7 +38,6 @@ export const companyRouter = createTRPCRouter({
   register: publicProcedure
     .input(
       z.object({
-        id: string(),
         name: string(),
         app_password: string(),
       }),
@@ -52,7 +51,7 @@ export const companyRouter = createTRPCRouter({
       return await ctx.db
         .update(companies)
         .set({ name: input.name, app_password: input.app_password })
-        .where(sql`${companies.id} = ${input.id}`);
+        .where(sql`${companies.id} = ${ctx.session.user.id}`);
     }),
 
   get: protectedProcedure

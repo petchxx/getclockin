@@ -25,8 +25,8 @@ export default function SignUpForm() {
     onSuccess(data) {
       console.log(data);
       signIn("credentials", {
-        email: data.email,
-        password: data.password,
+        email: data?.email,
+        password: data?.password,
         callbackUrl: "/dashboard",
       });
     },

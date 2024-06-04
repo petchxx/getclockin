@@ -18,15 +18,22 @@ export default async function layout({ children }: Props) {
   if (!session || !company) {
     redirect("/signout");
   }
-
+  //not set up yet
   if (!company.name || !company.app_password) {
-    return <RegisterPage company={company} />;
+    return (
+      <div className="w-full p-4">
+        <Topbar company={company} title={"ลงทะเบียน"} />
+        <div className="mt-6">
+          <RegisterPage company={company} />;
+        </div>
+      </div>
+    );
   }
 
   if (company.status != "active") {
     return (
       <div className="w-full p-4">
-        <Topbar company={company} />
+        <Topbar company={company} title={"เลือกแพ็คเกจ"} />
         <div className="mt-6">
           <Pricing company={company} />
         </div>

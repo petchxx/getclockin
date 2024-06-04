@@ -3,6 +3,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTableCreator,
   primaryKey,
   serial,
@@ -57,9 +58,7 @@ export const employees = createTable("employee", {
   stop_time: varchar("stop_time", { length: 255 }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   salary: integer("salary").notNull(),
-  off_days: varchar("off_days", { length: 255 }).default(
-    sql`ARRAY[]::VARCHAR[]`,
-  ),
+  off_days: jsonb("off_days").notNull(),
   created_at: timestamp("created_at", { withTimezone: true }).default(
     sql`CURRENT_TIMESTAMP`,
   ),

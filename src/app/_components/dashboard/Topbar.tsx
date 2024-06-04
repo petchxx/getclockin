@@ -30,15 +30,15 @@ import { ThemeSwitcher } from "../ThemeSwitcher";
 
 type Props = {
   company: Company;
+  title?: String;
 };
 
-export default function Topbar({ company }: Props) {
+export default function Topbar({ company, title }: Props) {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const getTitle = () => {
-    if (pathname == "/dashboard" && company.status == "pending")
-      return "เลือกแพ็คเกจ";
+    if (title) return title;
     if (pathname == "/dashboard") return "แดชบอร์ด";
     if (pathname == "/dashboard/employee") return "พนักงาน";
     if (pathname == "/dashboard/calculate") return "คำนวนเงินเดือน";

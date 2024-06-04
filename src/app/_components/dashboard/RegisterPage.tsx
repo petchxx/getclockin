@@ -4,15 +4,14 @@ import React from "react";
 import { Company } from "~/lib/interface/company";
 import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
-type Props = {
-  company: Company;
-};
-
-export default function RegisterPage({ company }: Props) {
+export default function RegisterPage() {
+  const router = useRouter();
   const register = api.company.register.useMutation({
     onSuccess(data) {
       console.log(data);
+      router.refresh();
     },
     onError(error) {
       console.error(error);
@@ -21,7 +20,7 @@ export default function RegisterPage({ company }: Props) {
   async function handleSubmit(formData: FormData) {
     const name = formData.get("name") as string;
     const app_password = formData.get("app_password") as string;
-    register.mutate({ id: company.id, name, app_password });
+    register.mutate({ name, app_password });
   }
   return (
     <main>
@@ -36,16 +35,6 @@ export default function RegisterPage({ company }: Props) {
           </Link>
           <p className="text-l text-gray-400">กรอกข้อมูลเพิ่มเริ่มต้นใช้งาน</p>
           <form action={handleSubmit}>
-            <Input
-              name="email"
-              className="mt-6 w-80"
-              type="email"
-              label="อีเมล"
-              variant="bordered"
-              value={company.email}
-              isDisabled
-            />
-
             <Input
               name="name"
               className="mt-4 w-80"
