@@ -13,7 +13,7 @@ export default function SidebarItem({ path, icon, title }: Props) {
     <Link
       className={`mt-1 flex h-10 cursor-pointer items-center rounded-lg px-4   ${
         pathname == path
-          ? "bg-primary text-background"
+          ? "bg-primary text-content1"
           : "text-foreground transition-background hover:bg-black hover:bg-opacity-5"
       }`}
       href={path}

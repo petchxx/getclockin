@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { Button, toggle } from "@nextui-org/react";
+import { Button, Card, toggle } from "@nextui-org/react";
 import SidebarItem from "./SidebarItem";
 import { Icon } from "@iconify/react";
 import { Company } from "~/lib/interface/company";
@@ -15,8 +15,8 @@ type Props = {
 
 export default function Sidebar({ company }: Props) {
   return (
-    <div
-      className={`sticky top-0 hidden h-screen w-80 border-r-1 border-foreground/30 bg-background p-4 lg:block`}
+    <Card
+      className={`sticky top-0 hidden h-screen w-80 rounded-l-none rounded-r-xl p-4 lg:block`}
     >
       <h1 className="flex text-4xl font-bold text-primary ">ClockIn</h1>
       <div className="mt-6">
@@ -66,6 +66,6 @@ export default function Sidebar({ company }: Props) {
           title="ตั้งค่า"
         />
       </div>
-    </div>
+    </Card>
   );
 }
