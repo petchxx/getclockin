@@ -85,14 +85,24 @@ export default function Pricing({ company }: Props) {
           <Tab key="monthly" title="รายเดือน">
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               {plans.map((plan, index) => (
-                <PricingCard key={index} plan={plan} isAnnual={false} />
+                <PricingCard
+                  company={company}
+                  key={index}
+                  plan={plan}
+                  isAnnual={false}
+                />
               ))}
             </div>
           </Tab>
           <Tab key="annual" title="รายปี">
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               {plans.map((plan, index) => (
-                <PricingCard key={index} plan={plan} isAnnual={true} />
+                <PricingCard
+                  company={company}
+                  key={index}
+                  plan={plan}
+                  isAnnual={true}
+                />
               ))}
             </div>
           </Tab>

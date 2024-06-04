@@ -36,7 +36,7 @@ export default async function layout({ children }: Props) {
   return (
     <main className="flex min-h-[100dvh]">
       <Sidebar company={company} />
-      <div className="w-full bg-background p-4">
+      <div className="w-full p-4">
         <Topbar company={company} />
         <div className="">{children}</div>
       </div>
