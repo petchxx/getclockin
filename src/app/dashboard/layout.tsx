@@ -14,17 +14,18 @@ type Props = {
 
 export default async function layout({ children }: Props) {
   const session = await getServerAuthSession();
-  const company = await api.company.get({ id: session?.user.id ?? "" });
-  if (!session || !company) {
-    redirect("/signout");
+  if (!session) {
+    return redirect("/signin");
   }
+  const company = await api.company.get({ id: session?.user.id ?? "" });
   //not set up yet
-  if (!company.name || !company.app_password) {
+  if (!company) return redirect("/signin");
+  if (!company?.name || !company?.app_password) {
     return (
       <div className="w-full p-4">
         <Topbar company={company} title={"ลงทะเบียน"} />
         <div className="mt-6">
-          <RegisterPage company={company} />;
+          <RegisterPage />;
         </div>
       </div>
     );

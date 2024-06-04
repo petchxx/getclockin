@@ -1,17 +1,13 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import bcrypt from "bcrypt";
 
 import { sql } from "drizzle-orm";
 import {
+  UserRole,
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import { type Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
-import DiscordProvider from "next-auth/providers/discord";
-
-import { env } from "~/env";
 import { db } from "~/server/db";
 import { companies } from "./db/schema";
 
@@ -22,7 +18,7 @@ import { companies } from "./db/schema";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
-  type UserRole = "admin" | "company";
+  type UserRole = "admin" | "company" | "employee";
   interface Session extends DefaultSession {
     user: {
       id: string;
@@ -32,10 +28,10 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role: UserRole;
+  }
 }
 
 /**
@@ -45,7 +41,7 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt({ token, user }: { token: any; user: any }) {
+    jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -53,10 +49,12 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    session({ session, token }: any) {
-      session.user.id = token.id;
-      session.user.email = token.email;
-      session.user.role = token.role;
+    session({ session, token }) {
+      if (session) {
+        session.user.id = token.id as string;
+        session.user.email = token.email ?? "";
+        session.user.role = token.role as UserRole;
+      }
       return session;
     },
   },
@@ -83,7 +81,7 @@ export const authOptions: NextAuthOptions = {
         console.log("company", company);
         if (company[0]) {
           const verifyPassword = await bcrypt.compare(
-            credentials?.password || "",
+            credentials?.password ?? "",
             company[0].password,
           );
           if (verifyPassword) {

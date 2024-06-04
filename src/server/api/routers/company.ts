@@ -35,7 +35,7 @@ export const companyRouter = createTRPCRouter({
       return { email: input.email, password: input.password };
     }),
 
-  register: publicProcedure
+  register: protectedProcedure
     .input(
       z.object({
         name: string(),

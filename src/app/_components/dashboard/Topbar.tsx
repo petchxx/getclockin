@@ -137,7 +137,9 @@ export default function Topbar({ company, title }: Props) {
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => router.push("/signout")}
+                onClick={async () => {
+                  await signOut();
+                }}
               >
                 ออกจากระบบ
               </DropdownItem>

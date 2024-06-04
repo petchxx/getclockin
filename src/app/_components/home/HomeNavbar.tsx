@@ -29,9 +29,6 @@ export default function HomeNavbar({ session }: Props) {
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const signOut = () => {
-    router.push("/api/auth/signout");
-  };
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} className="">
       <NavbarContent>
