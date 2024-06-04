@@ -15,7 +15,7 @@ export const employeeRouter = createTRPCRouter({
         name: z.string().min(1),
         phone: z.string().min(10),
         role: z.string().min(1),
-        salary: z.number().int().min(1),
+        salary: z.string(),
         off_days: z.array(z.string()),
         start_time: z.string().min(1),
         stop_time: z.string().min(1),
@@ -23,6 +23,14 @@ export const employeeRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const employeeId = ulid();
+      //check if employee exist
+      const exist = await ctx.db
+        .select()
+        .from(employees)
+        .where(
+          sql`${employees.email} = ${input.email} AND ${employees.company_id} = ${ctx.session.user.id}`,
+        );
+      if (exist.length > 0) throw new Error("พนักงานคนนี้มีอยู่แล้วในระบบ");
       return await ctx.db
         .insert(employees)
         .values({
@@ -32,11 +40,11 @@ export const employeeRouter = createTRPCRouter({
           name: input.name,
           phone: input.phone,
           role: input.role,
-          salary: input.salary,
+          salary: parseInt(input.salary),
           off_days: JSON.stringify(input.off_days),
           start_time: input.start_time,
           stop_time: input.stop_time,
-          status: "active",
+          status: "out",
         })
         .returning();
     }),

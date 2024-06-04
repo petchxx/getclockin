@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import moment from "moment";
 import { Time } from "@internationalized/date";
+import { api } from "~/trpc/react";
 
 type Props = {};
 
@@ -44,7 +45,28 @@ export default function AddEmployee({}: Props) {
     "Sunday",
   ];
 
-  const handleAddEmployee = async (onClose: any) => {
+  const addEmployee = api.employee.create.useMutation({
+    onSuccess(data) {
+      console.log(data);
+      router.refresh();
+      toast.success("Employee Added");
+      setEmail("");
+      setName("");
+      setPhone("");
+      setRole("");
+      setSalary("");
+      setStartTime(new Time(9));
+      setStopTime(new Time(18));
+      setOffDays(new Set([]));
+    },
+    onError(error) {
+      console.error(error);
+      router.refresh();
+      toast.error(error.message);
+    },
+  });
+
+  const handleAddEmployee = async () => {
     const offDaysArray = Array.from(offDays);
     console.log(
       email,
@@ -56,39 +78,17 @@ export default function AddEmployee({}: Props) {
       stopTime,
       offDaysArray,
     );
-    fetch("/api/employee", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        name: name,
-        phone: phone,
-        role: role,
-        salary: salary,
-        start_time: startTime,
-        stop_time: stopTime,
-        off_days: offDaysArray,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        if (res.success) {
-          onClose();
-          setEmail("");
-          setName("");
-          setPhone("");
-          setRole("");
-          setSalary("");
-          setStartTime(new Time());
-          setStopTime(new Time());
-          setOffDays(new Set([]));
-          router.refresh();
-          toast.success("Employee Added");
-        } else {
-          router.refresh();
-          toast.error(res.error);
-        }
-      });
+
+    addEmployee.mutate({
+      email,
+      name,
+      phone,
+      role,
+      salary: salary.toString(),
+      start_time: startTime.toString(),
+      stop_time: stopTime.toString(),
+      off_days: offDaysArray as string[],
+    });
   };
 
   return (
@@ -199,8 +199,9 @@ export default function AddEmployee({}: Props) {
                 <Button
                   color="primary"
                   onPress={() => {
-                    handleAddEmployee(onClose);
+                    handleAddEmployee();
                   }}
+                  onClick={onClose}
                 >
                   เพิ่ม
                 </Button>

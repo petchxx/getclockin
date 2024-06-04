@@ -50,7 +50,7 @@ export const companies = createTable("company", {
 export const employees = createTable("employee", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   company_id: varchar("company_id", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 }).unique().notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   phone: varchar("phone", { length: 255 }).notNull(),
   role: varchar("role", { length: 255 }).notNull(),

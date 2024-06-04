@@ -28,6 +28,7 @@ import { getServerSession } from "next-auth";
 import { toast } from "react-toastify";
 import UpdateEmployee from "./UpdateEmployee";
 import AddEmployee from "./AddEmployee";
+import { Icon } from "@iconify/react";
 
 type Props = {
   employees: any;
@@ -181,7 +182,7 @@ export default function EmployeePage({ employees }: Props) {
         return (
           <Chip
             // className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[cellValue]}
             size="sm"
             variant="flat"
           >
@@ -191,7 +192,7 @@ export default function EmployeePage({ employees }: Props) {
       case "off_days":
         return (
           <div className="flex gap-1">
-            {cellValue.map((day: string) => (
+            {JSON.parse(cellValue).map((day: string) => (
               <Chip
                 className="capitalize"
                 color="default"
@@ -199,7 +200,19 @@ export default function EmployeePage({ employees }: Props) {
                 variant="flat"
                 key={day}
               >
-                {day}
+                {day == "Sunday"
+                  ? "อาทิตย์"
+                  : day == "Monday"
+                    ? "จันทร์"
+                    : day == "Tuesday"
+                      ? "อังคาร"
+                      : day == "Wednesday"
+                        ? "พุธ"
+                        : day == "Thursday"
+                          ? "พฤหัสบดี"
+                          : day == "Friday"
+                            ? "ศุกร์"
+                            : "เสาร์"}
               </Chip>
             ))}
           </div>
@@ -207,11 +220,11 @@ export default function EmployeePage({ employees }: Props) {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            {/* <Tooltip content="Details">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <MdOutlineRemoveRedEye />
-                            </span>
-                        </Tooltip> */}
+            {/* <Tooltip content="Details"> */}
+            {/*   <span className="cursor-pointer text-lg text-default-400 active:opacity-50"> */}
+            {/*     <MdOutlineRemoveRedEye /> */}
+            {/*   </span> */}
+            {/* </Tooltip> */}
             <Tooltip content="แก้ไขพนักงาน">
               <span>
                 <UpdateEmployee
@@ -232,6 +245,7 @@ export default function EmployeePage({ employees }: Props) {
                 className="cursor-pointer text-lg text-danger active:opacity-50"
                 onClick={() => handleDelete(user.id)}
               >
+                <Icon icon="ion:trash-outline" />
                 {/* <MdDeleteOutline /> */}
               </span>
             </Tooltip>
