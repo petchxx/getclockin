@@ -55,6 +55,16 @@ export const employeeRouter = createTRPCRouter({
       .where(sql`${employees.company_id} = ${ctx.session.user.id}`);
     return result;
   }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .delete(employees)
+        .where(
+          sql`${employees.id} = ${input.id} AND ${employees.company_id} = ${ctx.session.user.id}`,
+        );
+      return result;
+    }),
 
   hello: publicProcedure
     .input(z.object({ text: z.string() }))

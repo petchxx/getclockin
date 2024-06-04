@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import UpdateEmployee from "./UpdateEmployee";
 import AddEmployee from "./AddEmployee";
 import { Icon } from "@iconify/react";
+import DeleteEmployee from "./DeleteEmployee";
 
 type Props = {
   employees: any;
@@ -241,13 +242,7 @@ export default function EmployeePage({ employees }: Props) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="ลบพนักงาน">
-              <span
-                className="cursor-pointer text-lg text-danger active:opacity-50"
-                onClick={() => handleDelete(user.id)}
-              >
-                <Icon icon="ion:trash-outline" />
-                {/* <MdDeleteOutline /> */}
-              </span>
+              <DeleteEmployee id={user.id} />
             </Tooltip>
           </div>
         );

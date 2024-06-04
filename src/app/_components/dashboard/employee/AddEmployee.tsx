@@ -49,7 +49,7 @@ export default function AddEmployee({}: Props) {
     onSuccess(data) {
       console.log(data);
       router.refresh();
-      toast.success("Employee Added");
+      toast.success("เพิ่มพนักงานสำเร็จ");
       setEmail("");
       setName("");
       setPhone("");
@@ -62,7 +62,7 @@ export default function AddEmployee({}: Props) {
     onError(error) {
       console.error(error);
       router.refresh();
-      toast.error(error.message);
+      toast.error("เพิ่มพนักงานไม่สำเร็จ");
     },
   });
 
