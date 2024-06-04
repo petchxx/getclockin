@@ -41,7 +41,7 @@ export const employeeRouter = createTRPCRouter({
           phone: input.phone,
           role: input.role,
           salary: parseInt(input.salary),
-          off_days: JSON.stringify(input.off_days),
+          off_days: input.off_days,
           start_time: input.start_time,
           stop_time: input.stop_time,
           status: "out",

@@ -192,7 +192,7 @@ export default function EmployeePage({ employees }: Props) {
       case "off_days":
         return (
           <div className="flex gap-1">
-            {JSON.parse(cellValue).map((day: string) => (
+            {cellValue.map((day: string) => (
               <Chip
                 className="capitalize"
                 color="default"
