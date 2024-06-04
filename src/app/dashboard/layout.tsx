@@ -24,9 +24,7 @@ export default async function layout({ children }: Props) {
     return (
       <div className="w-full p-4">
         <Topbar company={company} title={"ลงทะเบียน"} />
-        <div className="mt-6">
-          <RegisterPage />;
-        </div>
+        <RegisterPage />
       </div>
     );
   }

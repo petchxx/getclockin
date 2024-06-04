@@ -24,15 +24,15 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getServerSession } from "next-auth";
 import { toast } from "react-toastify";
 import UpdateEmployee from "./UpdateEmployee";
 import AddEmployee from "./AddEmployee";
 import { Icon } from "@iconify/react";
 import DeleteEmployee from "./DeleteEmployee";
+import { Employee } from "~/lib/interface/employee";
 
 type Props = {
-  employees: any;
+  employees: Employee[];
 };
 
 export default function EmployeePage({ employees }: Props) {

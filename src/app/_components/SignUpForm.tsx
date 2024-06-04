@@ -22,9 +22,9 @@ export default function SignUpForm() {
   const router = useRouter();
 
   const createCompany = api.company.create.useMutation({
-    onSuccess(data) {
+    async onSuccess(data) {
       console.log(data);
-      signIn("credentials", {
+      await signIn("credentials", {
         email: data?.email,
         password: data?.password,
         callbackUrl: "/dashboard",
