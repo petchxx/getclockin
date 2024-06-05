@@ -19,7 +19,7 @@ export default function SignInPage() {
     if (!signin?.ok) {
       toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
     } else {
-      router.push("/app/home");
+      router.refresh();
     }
   }
   return (

@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Button } from "@nextui-org/react";
 
-export function ThemeSwitcher() {
+type Props = {
+  size?: "sm" | "md" | "lg";
+};
+
+export function ThemeSwitcher({ size }: Props) {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -18,11 +22,21 @@ export function ThemeSwitcher() {
   return (
     <div>
       {theme === "dark" ? (
-        <Button isIconOnly variant="light" onClick={() => setTheme("light")}>
+        <Button
+          size={size ?? "md"}
+          isIconOnly
+          variant="light"
+          onClick={() => setTheme("light")}
+        >
           <Icon icon="ion:sunny-outline" fontSize={20} />
         </Button>
       ) : (
-        <Button isIconOnly variant="light" onClick={() => setTheme("dark")}>
+        <Button
+          isIconOnly
+          size={size ?? "md"}
+          variant="light"
+          onClick={() => setTheme("dark")}
+        >
           <Icon icon="ion:moon-outline" fontSize={20} />
         </Button>
       )}

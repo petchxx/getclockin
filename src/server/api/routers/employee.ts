@@ -48,7 +48,7 @@ export const employeeRouter = createTRPCRouter({
         })
         .returning();
     }),
-  get: protectedProcedure.query(async ({ ctx }) => {
+  getAll: protectedProcedure.query(async ({ ctx }) => {
     const result = await ctx.db
       .select()
       .from(employees)
@@ -97,32 +97,13 @@ export const employeeRouter = createTRPCRouter({
         );
     }),
 
-  signIn: publicProcedure
-    .input(
-      z.object({
-        company_name: z.string(),
-        email: z.string(),
-        password: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const [company] = await ctx.db
-        .select()
-        .from(companies)
-        .where(sql`${companies.name} = ${input.company_name}`);
-      if (!company) throw new Error("ไม่พบชื่อบริษัท");
-
-      const [employee] = await ctx.db
-        .select()
-        .from(employees)
-        .where(
-          sql`${employees.email} = ${input.email} AND ${employees.company_id} = ${company?.id} `,
-        );
-      if (!employee) throw new Error("ไม่พบผู้ใช้งาน");
-      if (company?.app_password !== input.password)
-        throw new Error("รหัสผ่านไม่ถูกต้อง");
-      return employee;
-    }),
+  get: protectedProcedure.query(async ({ ctx }) => {
+    const [result] = await ctx.db
+      .select()
+      .from(employees)
+      .where(sql`${employees.id} = ${ctx.session.user.id}`);
+    return result;
+  }),
 
   hello: publicProcedure
     .input(z.object({ text: z.string() }))

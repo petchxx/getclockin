@@ -137,26 +137,6 @@ export default function EmployeePage({ employees }: Props) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const handleDelete = (id: number) => {
-    fetch(`/api/employee`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          toast.success("Employee deleted successfully");
-        } else {
-          toast.error(data.error || "Something went wrong");
-        }
-      });
-
-    router.refresh();
-  };
-
   const renderCell = React.useCallback((user: any, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof any];
 
