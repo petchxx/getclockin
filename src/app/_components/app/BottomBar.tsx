@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/react";
 import { Button, Card } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
+import { title } from "process";
 import React from "react";
 
 export default function BottomBar() {
@@ -15,20 +16,22 @@ export default function BottomBar() {
       title: "Home",
     },
     {
-      icon: "ion:home",
-      outline: "ion:home-outline",
+      icon: "ion:calendar",
+      outline: "ion:calendar-outline",
       path: "/app/leave",
       title: "Leave",
     },
     {
-      icon: "ion:home",
-      outline: "ion:home-outline",
-      path: "/app",
+      icon: "ion:time",
+      outline: "ion:time-outline",
+      path: "/app/overtime",
+      title: "Overtime",
     },
     {
-      icon: "ion:home",
-      outline: "ion:home-outline",
-      path: "/app",
+      icon: "ion:settings",
+      outline: "ion:settings-outline",
+      path: "/app/settings",
+      title: "Settings",
     },
   ];
   return (
@@ -39,13 +42,14 @@ export default function BottomBar() {
             key={index}
             variant="light"
             isIconOnly
+            size="lg"
             onClick={() => {
               router.push(item.path);
             }}
-            className="h-12 w-12"
+            // className="h-12 w-12"
           >
             <Icon
-              icon={`${pathname == "/app" ? "ion:home" : "ion:home-outline"}`}
+              icon={`${pathname == item.path ? item.icon : item.outline}`}
               fontSize={20}
             />
           </Button>
