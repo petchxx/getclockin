@@ -65,6 +65,37 @@ export const employeeRouter = createTRPCRouter({
         );
       return result;
     }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        email: z.string().email({ message: "อีเมลไม่ถูกต้อง" }),
+        name: z.string().min(1),
+        phone: z.string().min(10),
+        role: z.string().min(1),
+        salary: z.string(),
+        off_days: z.array(z.string()),
+        start_time: z.string().min(1),
+        stop_time: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .update(employees)
+        .set({
+          email: input.email,
+          name: input.name,
+          phone: input.phone,
+          role: input.role,
+          salary: parseInt(input.salary),
+          off_days: input.off_days,
+          start_time: input.start_time,
+          stop_time: input.stop_time,
+        })
+        .where(
+          sql`${employees.id} = ${input.id} AND ${employees.company_id} = ${ctx.session.user.id}`,
+        );
+    }),
 
   hello: publicProcedure
     .input(z.object({ text: z.string() }))

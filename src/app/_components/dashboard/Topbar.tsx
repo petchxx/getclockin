@@ -30,7 +30,7 @@ import { ThemeSwitcher } from "../ThemeSwitcher";
 
 type Props = {
   company: Company;
-  title?: String;
+  title?: string;
 };
 
 export default function Topbar({ company, title }: Props) {

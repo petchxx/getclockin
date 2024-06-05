@@ -21,9 +21,7 @@ import moment from "moment";
 import { Time } from "@internationalized/date";
 import { api } from "~/trpc/react";
 
-type Props = {};
-
-export default function AddEmployee({}: Props) {
+export default function AddEmployee() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [email, setEmail] = React.useState("");

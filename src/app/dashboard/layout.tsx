@@ -14,7 +14,7 @@ type Props = {
 
 export default async function layout({ children }: Props) {
   const session = await getServerAuthSession();
-  if (!session) {
+  if (!session || session.user.role != "company") {
     return redirect("/signin");
   }
   const company = await api.company.get({ id: session?.user.id ?? "" });

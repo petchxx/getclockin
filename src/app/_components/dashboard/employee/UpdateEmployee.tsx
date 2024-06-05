@@ -11,10 +11,15 @@ import {
   SelectItem,
   useDisclosure,
   Selection,
+  TimeInput,
 } from "@nextui-org/react";
+import { Time } from "@internationalized/date";
+
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { api } from "~/trpc/react";
 
 type Props = {
   id: string;
@@ -46,9 +51,15 @@ export default function UpdateEmployee({
   const [phone, setPhone] = React.useState("");
   const [role, setRole] = React.useState("");
   const [salary, setSalary] = React.useState("");
-  const [startTime, setStartTime] = React.useState("");
-  const [stopTime, setStopTime] = React.useState("");
+  const [startTime, setStartTime] = React.useState(new Time(9));
+  const [stopTime, setStopTime] = React.useState(new Time(18));
+
   const [offDays, setOffDays] = React.useState<Selection>(new Set([]));
+
+  function convertStringToTime(timeString: string) {
+    const [hours, minutes, seconds] = timeString.split(":").map(Number);
+    return new Time(hours, minutes, seconds);
+  }
 
   useEffect(() => {
     setEmail(currentEmail);
@@ -56,8 +67,8 @@ export default function UpdateEmployee({
     setPhone(currentPhone);
     setRole(currentRole);
     setSalary(currentSalary.toString());
-    setStartTime(currentStartTime);
-    setStopTime(currentStopTime);
+    setStartTime(convertStringToTime(currentStartTime));
+    setStopTime(convertStringToTime(currentStopTime));
     setOffDays(new Set(currentOffDays));
   }, []);
 
@@ -71,36 +82,30 @@ export default function UpdateEmployee({
     "Sunday",
   ];
 
-  const handleUpdateEmployee = async (onClose: any) => {
+  const updateEmployee = api.employee.update.useMutation({
+    async onSuccess() {
+      toast.success("แก้ไขพนักงานสำเร็จ");
+      router.refresh();
+    },
+    async onError(error) {
+      console.error(error);
+      toast.error("เกิดข้อผิดพลาด");
+      router.refresh();
+    },
+  });
+  const handleUpdateEmployee = async () => {
     const offDaysArray = Array.from(offDays);
-    fetch(`/api/employee`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: id,
-        email: email,
-        name: name,
-        phone: phone,
-        role: role,
-        salary: salary,
-        start_time: startTime,
-        stop_time: stopTime,
-        off_days: offDaysArray,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          onClose();
-          router.refresh();
-          toast.success("Employee updated successfully");
-        } else {
-          router.refresh();
-          toast.error(data.error || "Something went wrong");
-        }
-      });
+    updateEmployee.mutate({
+      id: id,
+      email: email,
+      name: name,
+      phone: phone,
+      role: role,
+      salary: salary,
+      start_time: startTime.toString(),
+      stop_time: stopTime.toString(),
+      off_days: offDaysArray as string[],
+    });
   };
 
   return (
@@ -109,6 +114,7 @@ export default function UpdateEmployee({
         className="cursor-pointer text-lg text-default-400 active:opacity-50"
         onClick={() => onOpen()}
       >
+        <Icon icon="ion:pencil-outline" />
         {/* <MdOutlineEdit /> */}
       </span>
       <Modal
@@ -169,33 +175,38 @@ export default function UpdateEmployee({
                 >
                   {days.map((day) => (
                     <SelectItem key={day} value={day}>
-                      {day}
+                      {day === "Sunday"
+                        ? "อาทิตย์"
+                        : day === "Monday"
+                          ? "จันทร์"
+                          : day === "Tuesday"
+                            ? "อังคาร"
+                            : day === "Wednesday"
+                              ? "พุธ"
+                              : day === "Thursday"
+                                ? "พฤหัสบดี"
+                                : day === "Friday"
+                                  ? "ศุกร์"
+                                  : "เสาร์"}
                     </SelectItem>
                   ))}
                 </Select>
-                <div className="mb-8 flex justify-between">
-                  <div className="w-48">
-                    <div className="text-sm">
-                      <h1>เวลาเริ่มงาน</h1>
-                    </div>
-                    <Input
-                      variant="bordered"
-                      type="time"
-                      value={startTime}
-                      onValueChange={setStartTime}
-                    />
-                  </div>
-                  <div className="w-48">
-                    <div className="text-sm">
-                      <h1>เวลาเลิกงาน</h1>
-                    </div>
-                    <Input
-                      variant="bordered"
-                      type="time"
-                      value={stopTime}
-                      onValueChange={setStopTime}
-                    />
-                  </div>
+                <div className="mb-8 flex justify-between gap-2">
+                  <TimeInput
+                    value={startTime}
+                    onChange={setStartTime}
+                    label="เวลาเริ่มงาน"
+                    variant="bordered"
+                    hourCycle={24}
+                  />
+
+                  <TimeInput
+                    value={stopTime}
+                    onChange={setStopTime}
+                    label="เวลาเลิกงาน"
+                    variant="bordered"
+                    hourCycle={24}
+                  />
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -204,9 +215,8 @@ export default function UpdateEmployee({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => {
-                    handleUpdateEmployee(onClose);
-                  }}
+                  onPress={onClose}
+                  onClick={() => handleUpdateEmployee()}
                 >
                   บันทึก
                 </Button>
