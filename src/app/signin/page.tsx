@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function page() {
   const session = await getServerAuthSession();
-  if (session) {
+  if (session?.user.role == "company") {
     redirect("/dashboard");
   }
   return <SignInForm />;

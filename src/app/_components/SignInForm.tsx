@@ -13,6 +13,7 @@ export default function SignInForm() {
     const signin = await signIn("credentials", {
       email: formdata.get("email") as string,
       password: formdata.get("password") as string,
+      role: "company",
       redirect: false,
     });
     if (!signin?.ok) {

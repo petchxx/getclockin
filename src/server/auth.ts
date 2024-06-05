@@ -9,7 +9,7 @@ import {
 } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { db } from "~/server/db";
-import { companies } from "./db/schema";
+import { companies, employees } from "./db/schema";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -58,38 +58,74 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  pages: {
-    signIn: "/signin",
-  },
   // adapter: DrizzleAdapter(db) as Adapter,
   providers: [
     Credentials({
       credentials: {
         email: {},
         password: {},
+        company_name: {},
         role: {},
       },
       async authorize(credentials, req) {
-        console.log("credentials", credentials);
+        if (!credentials?.role) return null;
+        //Employee
+        if (credentials?.role === "employee") {
+          if (
+            !credentials?.email ||
+            !credentials?.password ||
+            !credentials?.company_name
+          )
+            return null;
+
+          console.log("credentials", credentials);
+          const [company] = await db
+            .select()
+            .from(companies)
+            .where(
+              sql`${companies.name} = ${credentials.company_name} AND ${companies.app_password} = ${credentials.password}`,
+            );
+          console.log("company", company);
+          if (!company) return null;
+
+          const [employee] = await db
+            .select()
+            .from(employees)
+            .where(
+              sql`${employees.email} = ${credentials.email} AND ${employees.company_id} = ${company?.id} `,
+            );
+          if (!employee) return null;
+          return {
+            id: employee.id.toString(),
+            email: employee.email,
+            role: "employee",
+          };
+        }
+
+        //Admin
         if (credentials?.role === "admin") {
           console.log("admin");
         }
-        const company = await db
-          .select()
-          .from(companies)
-          .where(sql`${companies.email} = ${credentials?.email}`);
-        console.log("company", company);
-        if (company[0]) {
-          const verifyPassword = await bcrypt.compare(
-            credentials?.password ?? "",
-            company[0].password,
-          );
-          if (verifyPassword) {
-            return {
-              id: company[0].id.toString(),
-              email: company[0].email,
-              role: "company",
-            };
+
+        //Company
+        if (credentials?.role === "company") {
+          const company = await db
+            .select()
+            .from(companies)
+            .where(sql`${companies.email} = ${credentials?.email}`);
+          console.log("company", company);
+          if (company[0]) {
+            const verifyPassword = await bcrypt.compare(
+              credentials?.password ?? "",
+              company[0].password,
+            );
+            if (verifyPassword) {
+              return {
+                id: company[0].id.toString(),
+                email: company[0].email,
+                role: "company",
+              };
+            }
           }
         }
 

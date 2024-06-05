@@ -105,17 +105,16 @@ export default function HomeNavbar({ session }: Props) {
         {/*     <Link href="/signup">เริ่มต้นใช้งาน</Link> */}
         {/*   </NavbarItem> */}
         {/* )} */}
-        {!session && (
-          <NavbarItem>
-            <Button color="primary" variant="flat">
-              <Link href="/signin">เข้าสู่ระบบ</Link>
-            </Button>
-          </NavbarItem>
-        )}
-        {session && (
+        {session?.user.role == "company" || session?.user.role == "admin" ? (
           <NavbarItem>
             <Button color="primary" variant="flat">
               <Link href="/dashboard">แดชบอร์ด</Link>
+            </Button>
+          </NavbarItem>
+        ) : (
+          <NavbarItem>
+            <Button color="primary" variant="flat">
+              <Link href="/signin">เข้าสู่ระบบ</Link>
             </Button>
           </NavbarItem>
         )}

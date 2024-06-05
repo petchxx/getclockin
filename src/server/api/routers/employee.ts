@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { employees } from "~/server/db/schema";
+import { companies, employees } from "~/server/db/schema";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -95,6 +95,33 @@ export const employeeRouter = createTRPCRouter({
         .where(
           sql`${employees.id} = ${input.id} AND ${employees.company_id} = ${ctx.session.user.id}`,
         );
+    }),
+
+  signIn: publicProcedure
+    .input(
+      z.object({
+        company_name: z.string(),
+        email: z.string(),
+        password: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const [company] = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.name} = ${input.company_name}`);
+      if (!company) throw new Error("ไม่พบชื่อบริษัท");
+
+      const [employee] = await ctx.db
+        .select()
+        .from(employees)
+        .where(
+          sql`${employees.email} = ${input.email} AND ${employees.company_id} = ${company?.id} `,
+        );
+      if (!employee) throw new Error("ไม่พบผู้ใช้งาน");
+      if (company?.app_password !== input.password)
+        throw new Error("รหัสผ่านไม่ถูกต้อง");
+      return employee;
     }),
 
   hello: publicProcedure

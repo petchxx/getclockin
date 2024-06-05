@@ -24,11 +24,18 @@ export default function SignUpForm() {
   const createCompany = api.company.create.useMutation({
     async onSuccess(data) {
       console.log(data);
-      await signIn("credentials", {
+      const signin = await signIn("credentials", {
         email: data?.email,
         password: data?.password,
-        callbackUrl: "/dashboard",
+        role: "company",
+        redirect: false,
       });
+      if (!signin?.ok) {
+        toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        return;
+      } else {
+        router.push("/dashboard");
+      }
     },
     onError(error) {
       toast.error(error.message);

@@ -1,9 +1,27 @@
 "use client";
 import { Button, Input, Link } from "@nextui-org/react";
 import React from "react";
+import { api } from "~/trpc/react";
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
-  async function handleSignIn() {}
+  const router = useRouter();
+  async function handleSignIn(formData: FormData) {
+    const signin = await signIn("credentials", {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      company_name: formData.get("company_name") as string,
+      role: "employee",
+      redirect: false,
+    });
+    if (!signin?.ok) {
+      toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+    } else {
+      router.push("/app/home");
+    }
+  }
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
