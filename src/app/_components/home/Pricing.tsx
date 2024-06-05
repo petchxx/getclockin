@@ -70,10 +70,10 @@ export default function Pricing({ company }: Props) {
         <Chip color="primary" className="rounded-full ">
           แพ็คเกจ
         </Chip>
-        {company?.is_trial == true ? (
-          <p className="mt-4 text-center text-4xl">ทดลองใช้ฟรี 30 วัน!</p>
-        ) : (
+        {company?.is_trial == false ? (
           <p className="mt-4 text-center text-4xl">ต่ออายุการใช้งาน</p>
+        ) : (
+          <p className="mt-4 text-center text-4xl">ทดลองใช้ฟรี 30 วัน!</p>
         )}
         <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
           เพื่อให้คุณได้สัมผัสกับความสามารถและคุณสมบัติที่เรามีให้

@@ -56,7 +56,7 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
         variant="bordered"
         color="primary"
       >
-        {company?.is_trial == true ? "ทดลองใช้ฟรี 30 วัน!" : "เลือกแพ็คเกจ"}
+        {company?.is_trial == false ? "เลือกแพ็คเกจ" : "ทดลองใช้ฟรี 30 วัน!"}
       </Button>
     </Card>
   );
