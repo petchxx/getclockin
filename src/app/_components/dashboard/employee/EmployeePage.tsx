@@ -124,9 +124,9 @@ export default function EmployeePage({ employees }: Props) {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: any, b: any) => {
-      const first = a[sortDescriptor.column as any] as number;
-      const second = b[sortDescriptor.column as any] as number;
+    return [...items].sort((a: Employee, b: Employee) => {
+      const first = a[sortDescriptor.column as keyof Employee] as number;
+      const second = b[sortDescriptor.column as keyof Employee] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -137,99 +137,108 @@ export default function EmployeePage({ employees }: Props) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const renderCell = React.useCallback((user: any, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof any];
+  const renderCell = React.useCallback(
+    (employee: Employee, columnKey: React.Key) => {
+      const cellValue = employee[columnKey as keyof Employee];
+      switch (columnKey) {
+        case "name":
+          return (
+            <User
+              avatarProps={{ radius: "lg", src: "" }}
+              description={employee.email}
+              name={employee.name}
+            >
+              {employee.email}
+            </User>
+          );
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-
-      case "start_time":
-      case "stop_time":
-        return (
-          <p>
-            {cellValue.split(":")[0]}:{cellValue.split(":")[1]}
-          </p>
-        );
-      case "status":
-        return (
-          <Chip
-            // className="capitalize"
-            color={statusColorMap[cellValue]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue == "in" ? "เข้างาน" : "ออกงาน"}
-          </Chip>
-        );
-      case "off_days":
-        return (
-          <div className="flex gap-1">
-            {cellValue.map((day: string) => (
-              <Chip
-                className="capitalize"
-                color="default"
-                size="sm"
-                variant="flat"
-                key={day}
-              >
-                {day == "Sunday"
-                  ? "อาทิตย์"
-                  : day == "Monday"
-                    ? "จันทร์"
-                    : day == "Tuesday"
-                      ? "อังคาร"
-                      : day == "Wednesday"
-                        ? "พุธ"
-                        : day == "Thursday"
-                          ? "พฤหัสบดี"
-                          : day == "Friday"
-                            ? "ศุกร์"
-                            : "เสาร์"}
-              </Chip>
-            ))}
-          </div>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            {/* <Tooltip content="Details"> */}
-            {/*   <span className="cursor-pointer text-lg text-default-400 active:opacity-50"> */}
-            {/*     <MdOutlineRemoveRedEye /> */}
-            {/*   </span> */}
-            {/* </Tooltip> */}
-            <Tooltip content="แก้ไขพนักงาน">
-              <span>
-                <UpdateEmployee
-                  id={user.id}
-                  currentEmail={user.email}
-                  currentName={user.name}
-                  currentPhone={user.phone}
-                  currentRole={user.role}
-                  currentSalary={user.salary}
-                  currentOffDays={user.off_days}
-                  currentStartTime={user.start_time}
-                  currentStopTime={user.stop_time}
-                />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="ลบพนักงาน">
-              <DeleteEmployee id={user.id} />
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+        case "start_time":
+          return (
+            <p>
+              {employee.start_time.split(":")[0]}:
+              {employee.start_time.split(":")[1]}
+            </p>
+          );
+        case "stop_time":
+          return (
+            <p>
+              {employee.stop_time.split(":")[0]}:
+              {employee.stop_time.split(":")[1]}
+            </p>
+          );
+        case "status":
+          return (
+            <Chip
+              // className="capitalize"
+              color={statusColorMap[employee.status]}
+              size="sm"
+              variant="flat"
+            >
+              {employee.status == "in" ? "เข้างาน" : "ออกงาน"}
+            </Chip>
+          );
+        case "off_days":
+          return (
+            <div className="flex gap-1">
+              {employee.off_days.map((day: string) => (
+                <Chip
+                  className="capitalize"
+                  color="default"
+                  size="sm"
+                  variant="flat"
+                  key={day}
+                >
+                  {day == "Sunday"
+                    ? "อาทิตย์"
+                    : day == "Monday"
+                      ? "จันทร์"
+                      : day == "Tuesday"
+                        ? "อังคาร"
+                        : day == "Wednesday"
+                          ? "พุธ"
+                          : day == "Thursday"
+                            ? "พฤหัสบดี"
+                            : day == "Friday"
+                              ? "ศุกร์"
+                              : "เสาร์"}
+                </Chip>
+              ))}
+            </div>
+          );
+        case "actions":
+          return (
+            <div className="relative flex items-center gap-2">
+              {/* <Tooltip content="Details"> */}
+              {/*   <span className="cursor-pointer text-lg text-default-400 active:opacity-50"> */}
+              {/*     <MdOutlineRemoveRedEye /> */}
+              {/*   </span> */}
+              {/* </Tooltip> */}
+              <Tooltip content="แก้ไขพนักงาน">
+                <span>
+                  <UpdateEmployee
+                    id={employee.id}
+                    currentEmail={employee.email}
+                    currentName={employee.name}
+                    currentPhone={employee.phone}
+                    currentRole={employee.role}
+                    currentSalary={employee.salary}
+                    currentOffDays={employee.off_days}
+                    currentStartTime={employee.start_time}
+                    currentStopTime={employee.stop_time}
+                  />
+                </span>
+              </Tooltip>
+              <Tooltip color="danger" content="ลบพนักงาน">
+                <DeleteEmployee id={employee.id} />
+              </Tooltip>
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [],
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {

@@ -4,9 +4,7 @@ import { Button, Card } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-type Props = {};
-
-export default function BottomBar({}: Props) {
+export default function BottomBar() {
   const pathname = usePathname();
   const router = useRouter();
   const items = [
@@ -38,6 +36,7 @@ export default function BottomBar({}: Props) {
       <div className="flex w-full max-w-screen-lg justify-evenly ">
         {items.map((item, index) => (
           <Button
+            key={index}
             variant="light"
             isIconOnly
             onClick={() => {

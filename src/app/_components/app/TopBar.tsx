@@ -4,9 +4,7 @@ import { ThemeSwitcher } from "../ThemeSwitcher";
 import { Avatar, Skeleton } from "@nextui-org/react";
 import { api } from "~/trpc/react";
 
-type Props = {};
-
-export default function TopBar({}: Props) {
+export default function TopBar() {
   const employee = api.employee.get.useQuery().data;
   return (
     <div className="flex justify-center">

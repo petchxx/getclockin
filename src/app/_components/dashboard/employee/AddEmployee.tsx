@@ -196,8 +196,8 @@ export default function AddEmployee() {
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => {
-                    handleAddEmployee();
+                  onPress={async () => {
+                    await handleAddEmployee();
                   }}
                   onClick={onClose}
                 >

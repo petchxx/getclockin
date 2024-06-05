@@ -9,5 +9,5 @@ export interface Employee {
   stop_time: string;
   status: string;
   salary: number;
-  off_days: unknown;
+  off_days: string[];
 }
