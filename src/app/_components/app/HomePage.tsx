@@ -2,7 +2,7 @@
 import Clock from "react-live-clock";
 
 import { signOut } from "next-auth/react";
-import { Avatar, Button, User } from "@nextui-org/react";
+import { Avatar, Button, Skeleton, User } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { Employee } from "~/lib/interface/employee";
 import { ThemeSwitcher } from "../ThemeSwitcher";
@@ -19,35 +19,20 @@ export default function HomePage({ employee }: Props) {
   }, []);
   return (
     <main className="">
-      <div className="flex items-center justify-between p-4">
-        <div className="flex gap-4">
-          <Avatar
-            isBordered
-            radius="lg"
-            src=""
-            size="lg"
-            color="primary"
-            name={employee?.name}
-          />
-          <div className="flex flex-col justify-center">
-            <p className="font-semibold">{employee?.name}</p>
-            <p className="text-sm text-gray-500">{employee?.email}</p>
-          </div>
-        </div>
-        <ThemeSwitcher size="lg" />
-      </div>
       <div className="mt-4 flex flex-col items-center justify-center p-4">
-        {showClock ? (
-          <div className="flex flex-col items-center gap-2">
-            <div>
+        <div className="flex flex-col items-center gap-2">
+          <div>
+            <Skeleton isLoaded={showClock} className="rounded-2xl">
               <Clock
                 format={"dddd, DD MMMM"}
                 ticking={true}
                 timezone={"Asia/Bangkok"}
                 locale={"TH"}
               />
-            </div>
-            <div>
+            </Skeleton>
+          </div>
+          <div>
+            <Skeleton isLoaded={showClock} className="rounded-2xl">
               <Clock
                 format={"HH:mm"}
                 ticking={true}
@@ -55,12 +40,10 @@ export default function HomePage({ employee }: Props) {
                 locale={"TH"}
                 className="text-7xl "
               />
-            </div>
+            </Skeleton>
           </div>
-        ) : (
-          <span></span>
-        )}
-        <Button variant="shadow" className="h-12 w-80" color="primary">
+        </div>
+        <Button variant="shadow" className="mt-6 h-12 w-80" color="primary">
           Clock In
         </Button>
       </div>
