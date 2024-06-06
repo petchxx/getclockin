@@ -5,8 +5,12 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/",
-  "start_url": "/",
+  "scope": "/app/",
+  "start_url": "/app/",
+  "theme_color": {
+    "dark": "#000000",
+    "light": "#ffffff"
+  },
   "icons": [
     {
       "src": "icons/icon-48x48.png",
