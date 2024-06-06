@@ -35,7 +35,7 @@ export default function BottomBar() {
     },
   ];
   return (
-    <div className="absolute bottom-0 flex w-full justify-center rounded-none border-t-1 border-foreground/10 bg-background p-2">
+    <div className="absolute bottom-0 flex w-full justify-center rounded-none border-t-1 border-foreground/10 bg-background p-1 pb-3">
       <div className="flex w-full max-w-screen-lg justify-evenly ">
         {items.map((item, index) => (
           <Button

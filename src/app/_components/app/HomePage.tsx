@@ -2,7 +2,7 @@
 import Clock from "react-live-clock";
 
 import { signOut } from "next-auth/react";
-import { Avatar, Button, Skeleton, User } from "@nextui-org/react";
+import { Avatar, Button, Card, Skeleton, User } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { Employee } from "~/lib/interface/employee";
 import { ThemeSwitcher } from "../ThemeSwitcher";
@@ -43,20 +43,21 @@ export default function HomePage({ employee }: Props) {
             </Skeleton>
           </div>
         </div>
+        <div className="w-80 ">
+          <div className="flex justify-between">
+            <p>การเข้างาน</p>
+            <p className="text-primary">เพิ่มเติม</p>
+          </div>
+          <div>
+            <Card>Hi</Card>
+          </div>
+        </div>
         <Button variant="shadow" className="mt-6 h-12 w-80" color="primary">
           Clock In
         </Button>
       </div>
       <p>{employee?.status}</p>
       {employee?.name}
-      <Button
-        color="danger"
-        onClick={async () => {
-          await signOut();
-        }}
-      >
-        Sign Out
-      </Button>
     </main>
   );
 }
