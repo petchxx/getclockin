@@ -36,7 +36,7 @@ export default function BottomBar() {
   ];
   return (
     <div className="fixed bottom-0 flex w-full justify-center rounded-none border-t-1 border-foreground/10 bg-background pb-6 pt-1">
-      <div className="flex w-full max-w-screen-lg justify-evenly ">
+      <div className="flex w-full max-w-screen-sm justify-evenly ">
         {items.map((item, index) => (
           <Button
             key={index}
