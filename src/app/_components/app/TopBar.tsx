@@ -8,16 +8,16 @@ export default function TopBar() {
   const employee = api.employee.get.useQuery().data;
   return (
     <div className="flex justify-center">
-      <div className="flex w-full max-w-screen-lg items-center justify-between p-4">
+      <div className="flex w-full max-w-screen-lg items-center justify-between p-6">
         <div className="flex gap-4">
           <Skeleton isLoaded={employee != null} className="rounded-2xl">
             <Avatar
               isBordered
-              radius="lg"
+              radius="md"
               src=""
-              size="lg"
-              color="primary"
+              // color="primary"
               name={employee?.name}
+              className="h-12 w-12"
             />
           </Skeleton>
           <div className="flex flex-col justify-center gap-2">
