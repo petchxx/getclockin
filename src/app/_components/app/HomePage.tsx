@@ -1,4 +1,6 @@
 "use client";
+import { Time } from "@internationalized/date";
+
 import Clock from "react-live-clock";
 
 import { signOut } from "next-auth/react";
@@ -12,6 +14,8 @@ import {
   ModalFooter,
   ModalHeader,
   Skeleton,
+  Textarea,
+  TimeInput,
   User,
   useDisclosure,
 } from "@nextui-org/react";
@@ -19,6 +23,8 @@ import React, { useEffect, useState } from "react";
 import { Employee } from "~/lib/interface/employee";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { Input } from "postcss";
+import { toast } from "react-toastify";
 
 type Props = {
   employee: Employee;
@@ -31,7 +37,23 @@ export default function HomePage({ employee }: Props) {
     setShowClock(true);
   }, []);
 
-  async function handleClock() {}
+  async function handleClock(onClose: () => void) {
+    const location = window.navigator && window.navigator.geolocation;
+
+    if (location) {
+      location.getCurrentPosition(
+        (position) => {
+          onClose();
+          toast.success(
+            position.coords.latitude + " " + position.coords.longitude,
+          );
+        },
+        (error) => {
+          return toast.error("กรุณาเปิดตำแหน่ง");
+        },
+      );
+    }
+  }
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <main className="">
@@ -64,7 +86,7 @@ export default function HomePage({ employee }: Props) {
             <p>การเข้างาน</p>
             <p className="text-primary">เพิ่มเติม</p>
           </div>
-          <div className="mt-4 flex min-h-[280px] flex-col gap-3 ">
+          <div className="mt-4 flex min-h-[280px] flex-col gap-2">
             <Card className="flex-row justify-between gap-2 p-4">
               <div className="flex items-center gap-2">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20">
@@ -130,6 +152,7 @@ export default function HomePage({ employee }: Props) {
           className="mt-6 h-12 w-80"
           color="primary"
           onPress={onOpen}
+          size="lg"
         >
           {employee.status == "active" ? "ออกงาน" : "เข้างาน"}
         </Button>
@@ -138,41 +161,38 @@ export default function HomePage({ employee }: Props) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="bottom-center"
+        className="h-[85%] sm:h-auto"
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                {employee.status == "active" ? "ออกงาน" : "เข้างาน"}
               </ModalHeader>
               <ModalBody>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
-                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                </p>
+                <TimeInput
+                  label="เวลาเข้างาน"
+                  hourCycle={24}
+                  isReadOnly
+                  value={
+                    new Time(new Date().getHours(), new Date().getMinutes())
+                  }
+                ></TimeInput>
+                <Textarea
+                  label="หมายเหตุ"
+                  placeholder="วันนี้คุณเป็นยังไงบ้าง..."
+                  minRows={4}
+                ></Textarea>
+                <div className="flex justify-end">
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    ปิด
+                  </Button>
+                  <Button color="primary" onClick={() => handleClock(onClose)}>
+                    ยืนยัน
+                  </Button>
+                </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
+              <ModalFooter></ModalFooter>
             </>
           )}
         </ModalContent>

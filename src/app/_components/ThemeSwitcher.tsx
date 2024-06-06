@@ -21,14 +21,14 @@ export function ThemeSwitcher({ size }: Props) {
 
   return (
     <div>
-      {theme === "dark" ? (
+      {theme == "dark" ? (
         <Button
           size={size ?? "md"}
           isIconOnly
           variant="light"
           onClick={() => setTheme("light")}
         >
-          <Icon icon="ion:sunny-outline" fontSize={24} />
+          <Icon icon="ion:sunny" fontSize={24} />
         </Button>
       ) : (
         <Button
@@ -37,7 +37,7 @@ export function ThemeSwitcher({ size }: Props) {
           variant="light"
           onClick={() => setTheme("dark")}
         >
-          <Icon icon="ion:moon-outline" fontSize={24} />
+          <Icon icon="ion:moon" fontSize={24} />
         </Button>
       )}
     </div>
