@@ -24,9 +24,6 @@ export default function SignInPage() {
   }
   return (
     <main>
-      <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
-        back
-      </Link>
       <div className=" flex h-[100dvh] items-center justify-center">
         <div className="flex flex-col items-center justify-center p-10">
           <Link
@@ -35,7 +32,7 @@ export default function SignInPage() {
           >
             ClockIn
           </Link>
-          <p className="text-l text-gray-400">พนักงาน</p>
+          <p className="text-l text-gray-400">แอพพลิเคชั่น</p>
           <form action={handleSignIn}>
             <Input
               name="company_name"
