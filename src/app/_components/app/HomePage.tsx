@@ -38,7 +38,7 @@ export default function HomePage({ employee }: Props) {
   }, []);
 
   async function handleClock(onClose: () => void) {
-    const location = window.navigator && window.navigator.geolocation;
+    const location = window.navigator?.geolocation;
 
     if (location) {
       location.getCurrentPosition(
