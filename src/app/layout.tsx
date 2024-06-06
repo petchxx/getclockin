@@ -14,6 +14,7 @@ export const metadata = {
   description:
     "ClockIn ระบบบันทึกเวลาทำงานของพนักงาน ระบบคำนวนเงินเดือน ระบบจัดการพนักงาน",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({
