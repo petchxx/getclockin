@@ -3,7 +3,14 @@ import { getServerAuthSession } from "~/server/auth";
 import SignInPage from "../_components/app/SignInPage";
 import BottomBar from "../_components/app/BottomBar";
 import TopBar from "../_components/app/TopBar";
+import type { Viewport } from "next";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 type Props = {
   children: ReactNode;
 };
@@ -14,12 +21,9 @@ export default async function layout({ children }: Props) {
     return <SignInPage />;
   }
   console.log(session);
+
   return (
     <div>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
       <TopBar />
       {children}
       <BottomBar />
