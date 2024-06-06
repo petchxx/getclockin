@@ -21,7 +21,7 @@ export function ThemeSwitcher({ size }: Props) {
 
   return (
     <div>
-      {theme == "dark" ? (
+      {theme != "light" ? (
         <Button
           size={size ?? "md"}
           isIconOnly
