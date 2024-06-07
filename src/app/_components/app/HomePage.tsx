@@ -25,6 +25,8 @@ import { ThemeSwitcher } from "../ThemeSwitcher";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Input } from "postcss";
 import { toast } from "react-toastify";
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   employee: Employee;
@@ -32,27 +34,55 @@ type Props = {
 
 export default function HomePage({ employee }: Props) {
   const [showClock, setShowClock] = useState(false);
+  const [note, setNote] = useState("");
+  const [location, setLocation] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     setShowClock(true);
   }, []);
+  const clock = api.employee.clock.useMutation({
+    async onSuccess() {
+      toast.success("เข้างานสำเร็จ");
+      router.refresh();
+    },
+    async onError(error) {
+      toast.error(error.message);
+      router.refresh();
+    },
+  });
 
-  async function handleClock(onClose: () => void) {
+  async function onOpenModal() {
     const location = window.navigator?.geolocation;
-
     if (location) {
       location.getCurrentPosition(
         (position) => {
-          onClose();
-          toast.success(
-            position.coords.latitude + " " + position.coords.longitude,
+          // onClose();
+          // toast.success(
+          //   position.coords.latitude + " " + position.coords.longitude,
+          // );
+
+          setLocation(
+            `https://maps.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`,
           );
+          onOpen();
         },
         (error) => {
-          return toast.error("กรุณาเปิดตำแหน่ง");
+          toast.error("กรุณาเปิดตำแหน่ง");
         },
       );
     }
+  }
+
+  async function handleClock(onClose: () => void) {
+    const status = employee.status == "in" ? "out" : "in";
+    clock.mutate({
+      status: status,
+      note: note,
+      location: location,
+    });
+
+    onClose();
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
@@ -151,10 +181,12 @@ export default function HomePage({ employee }: Props) {
           variant="shadow"
           className="mt-6 h-12 w-80"
           color="primary"
-          onPress={onOpen}
+          onClick={async () => {
+            onOpenModal();
+          }}
           size="lg"
         >
-          {employee.status == "active" ? "ออกงาน" : "เข้างาน"}
+          {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
         </Button>
       </div>
       <Modal
@@ -167,11 +199,11 @@ export default function HomePage({ employee }: Props) {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                {employee.status == "active" ? "ออกงาน" : "เข้างาน"}
+                {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
               </ModalHeader>
               <ModalBody>
                 <TimeInput
-                  label="เวลาเข้างาน"
+                  label={`เวลา${employee.status == "in" ? "ออกงาน" : "เข้างาน"}`}
                   hourCycle={24}
                   isReadOnly
                   value={
@@ -182,8 +214,9 @@ export default function HomePage({ employee }: Props) {
                   label="หมายเหตุ"
                   placeholder="วันนี้คุณเป็นยังไงบ้าง..."
                   minRows={4}
+                  onChange={(e) => setNote(e.target.value)}
                 ></Textarea>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-1">
                   <Button color="danger" variant="light" onPress={onClose}>
                     ปิด
                   </Button>

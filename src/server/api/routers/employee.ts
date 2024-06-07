@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { companies, employees } from "~/server/db/schema";
+import { clocks, companies, employees } from "~/server/db/schema";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -111,6 +111,41 @@ export const employeeRouter = createTRPCRouter({
       return {
         greeting: `Hello ${input.text}`,
       };
+    }),
+
+  clock: protectedProcedure
+    .input(
+      z.object({
+        status: z.string(),
+        note: z.string(),
+        location: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const clockId = ulid();
+      // Start transaction
+      const update = await ctx.db.transaction(async (tx) => {
+        // Insert clock entry
+        await tx.insert(clocks).values({
+          id: clockId,
+          employee_id: ctx.session.user.id,
+          status: input.status,
+          note: input.note,
+          location: input.location,
+        });
+
+        // Update employee status
+        const [updatedEmployee] = await tx
+          .update(employees)
+          .set({
+            status: input.status,
+          })
+          .where(sql`${employees.id} = ${ctx.session.user.id}`);
+
+        return updatedEmployee;
+      });
+
+      return update;
     }),
 
   // create: protectedProcedure

@@ -66,18 +66,20 @@ export const employees = createTable("employee", {
 
 export const clocks = createTable("clock", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  date_time: timestamp("date_time", { withTimezone: true }).notNull(),
-  company_id: varchar("company_id", { length: 255 }).notNull(),
+  date_time: timestamp("date_time", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   note: varchar("note", { length: 255 }),
   location: varchar("location", { length: 255 }),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
 
 export const leaves = createTable("leave", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  company_id: varchar("company_id", { length: 255 }).notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   leave_type: varchar("leave_type", { length: 255 }).notNull(),
   from: timestamp("from", { withTimezone: true }).notNull(),
@@ -89,7 +91,6 @@ export const leaves = createTable("leave", {
 
 export const overtimes = createTable("overtime", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  company_id: varchar("company_id", { length: 255 }).notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   date: timestamp("date", { withTimezone: true }).notNull(),
   from: timestamp("from", { withTimezone: true }).notNull(),
