@@ -66,9 +66,9 @@ export const employees = createTable("employee", {
 
 export const clocks = createTable("clock", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  date_time: timestamp("date_time", { withTimezone: true }).default(
-    sql`CURRENT_TIMESTAMP`,
-  ),
+  date_time: timestamp("date_time", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   note: varchar("note", { length: 255 }),

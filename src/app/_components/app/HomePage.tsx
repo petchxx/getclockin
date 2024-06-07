@@ -8,6 +8,7 @@ import {
   Avatar,
   Button,
   Card,
+  CircularProgress,
   Modal,
   ModalBody,
   ModalContent,
@@ -27,6 +28,8 @@ import { Input } from "postcss";
 import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import moment from "moment";
+import { time } from "console";
 
 type Props = {
   employee: Employee;
@@ -43,17 +46,21 @@ export default function HomePage({ employee }: Props) {
   }, []);
   const clock = api.employee.clock.useMutation({
     async onSuccess(data) {
-      toast.success(`${data == "in" ? "เข้า" : "ออก"}งานสำเร็จ`);
+      toast.success((data == "in" ? "เข้า" : "ออก") + "งานสำเร็จ");
       router.refresh();
+      refetch();
     },
     async onError(error) {
       toast.error(error.message);
       router.refresh();
+      refetch();
     },
   });
 
+  const { refetch, data, isSuccess } = api.employee.recentClock.useQuery();
   async function onOpenModal() {
     const location = window.navigator?.geolocation;
+
     if (location) {
       location.getCurrentPosition(
         (position) => {
@@ -73,6 +80,61 @@ export default function HomePage({ employee }: Props) {
       );
     }
   }
+
+  const calculateEarlyLate = (
+    start: string,
+    stop: string,
+    status: string,
+    clock_date_time: Date,
+  ) => {
+    const start_time = moment(start, "HH:mm:ss");
+    const stop_time = moment(stop, "HH:mm:ss");
+    const clock_time = moment(clock_date_time);
+
+    if (status === "in") {
+      const difference = clock_time.diff(start_time, "minutes");
+
+      if (difference < 0) {
+        const earlyBy = Math.abs(difference - 1);
+        return (
+          <p className="text-green-500">
+            + {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+          </p>
+        );
+      } else if (difference === 0) {
+        return <p className="text-green-500">ตรงเวลา</p>;
+      } else {
+        const lateBy = Math.abs(difference);
+        return (
+          <p className="text-red-500">
+            - {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+          </p>
+        );
+      }
+    }
+
+    if (status === "out") {
+      const difference = clock_time.diff(stop_time, "minutes");
+
+      if (difference < 0) {
+        const earlyBy = Math.abs(difference - 1);
+        return (
+          <p className="text-red-500">
+            - {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+          </p>
+        );
+      } else if (difference === 0) {
+        return <p className="text-green-500">ตรงเวลา</p>;
+      } else {
+        const lateBy = Math.abs(difference);
+        return (
+          <p className="text-green-500">
+            + {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+          </p>
+        );
+      }
+    }
+  };
 
   async function handleClock(onClose: () => void) {
     const status = employee.status == "in" ? "out" : "in";
@@ -117,64 +179,67 @@ export default function HomePage({ employee }: Props) {
             <p className="text-primary">เพิ่มเติม</p>
           </div>
           <div className="mt-4 flex min-h-[280px] flex-col gap-2">
-            <Card className="flex-row justify-between gap-2 p-4">
-              <div className="flex items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20">
-                  <Icon
-                    icon="ion:log-out-outline"
-                    fontSize={24}
-                    className="text-primary"
-                  />
-                </div>
-                <div className="flex flex-col ">
-                  <p className="text-medium">เข้างาน</p>
-                  <p className="text-sm text-gray-500">มกราคม, 11 วันจันทร์</p>
-                </div>
+            {/* display skeleton when loading  */}
+            {!data ? (
+              <div className="flex flex-col gap-2">
+                <Skeleton className="h-20 rounded-xl" />
+                <Skeleton className="h-20 rounded-xl" />
+                <Skeleton className="h-20 rounded-xl" />
               </div>
-              <div className="flex flex-col items-end justify-center">
-                <p>18:15</p>
-                <p className="text-sm text-red-500">-9 ชั่วโมง</p>
+            ) : data.length > 0 ? (
+              data?.map((clock, index) => (
+                <Card
+                  key={index}
+                  className="flex-row justify-between gap-2 p-4"
+                >
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
+                    >
+                      {clock.status == "in" ? (
+                        <Icon
+                          icon="ion:log-in-outline"
+                          fontSize={24}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <Icon
+                          icon="ion:log-out-outline"
+                          fontSize={24}
+                          className="text-red-500"
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col ">
+                      <p className="text-medium">
+                        {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {moment(clock.date_time).format("dddd, DD MMMM ")}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end justify-center">
+                    <p className="text-medium">
+                      {moment(clock.date_time).format("HH:mm")}
+                    </p>
+                    <p className="text-sm text-red-500">
+                      {calculateEarlyLate(
+                        employee.start_time,
+                        employee.stop_time,
+                        clock.status,
+                        clock.date_time,
+                      )}
+                    </p>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="mt-6 flex w-full flex-col items-center justify-center gap-2 text-gray-500">
+                <Icon icon="ion:finger-print-outline" fontSize={64} />
+                <p>ไม่พบการเข้างาน</p>
               </div>
-            </Card>
-            <Card className="flex-row justify-between gap-2 p-4">
-              <div className="flex items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20">
-                  <Icon
-                    icon="ion:log-out-outline"
-                    fontSize={24}
-                    className="text-primary"
-                  />
-                </div>
-                <div className="flex flex-col ">
-                  <p className="text-medium">เข้างาน</p>
-                  <p className="text-sm text-gray-500">มกราคม, 11 วันจันทร์</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-end justify-center">
-                <p>18:15</p>
-                <p className="text-sm text-red-500">-9 ชั่วโมง</p>
-              </div>
-            </Card>
-
-            <Card className="flex-row justify-between gap-2 p-4">
-              <div className="flex items-center gap-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20">
-                  <Icon
-                    icon="ion:log-out-outline"
-                    fontSize={24}
-                    className="text-primary"
-                  />
-                </div>
-                <div className="flex flex-col ">
-                  <p className="text-medium">เข้างาน</p>
-                  <p className="text-sm text-gray-500">มกราคม, 11 วันจันทร์</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-end justify-center">
-                <p>18:15</p>
-                <p className="text-sm text-red-500">-9 ชั่วโมง</p>
-              </div>
-            </Card>
+            )}
           </div>
         </div>
         <Button

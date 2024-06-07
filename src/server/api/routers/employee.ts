@@ -148,6 +148,16 @@ export const employeeRouter = createTRPCRouter({
       return input.status;
     }),
 
+  recentClock: protectedProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db
+      .select()
+      .from(clocks)
+      .where(sql`${clocks.employee_id} = ${ctx.session.user.id}`)
+      .orderBy(sql`${clocks.date_time} DESC`)
+      .limit(3);
+    return result;
+  }),
+
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))
   //   .mutation(async ({ ctx, input }) => {
