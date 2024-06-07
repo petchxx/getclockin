@@ -23,20 +23,20 @@ export default function Sidebar({ company }: Props) {
         {/* <h1 className='text-black'>Dashboard</h1> */}
         <SidebarItem
           path="/dashboard"
-          icon={<Icon icon="ion:grid-outline" fontSize={20} />}
+          icon={<Icon icon="ion:grid-outline" fontSize={24} />}
           title="แดชบอร์ด"
         />
 
         <p className="mt-2 text-sm ">จัดการพนักงาน</p>
         <SidebarItem
           path="/dashboard/employee"
-          icon={<Icon icon="ion:people-outline" fontSize={20} />}
+          icon={<Icon icon="ion:people-outline" fontSize={24} />}
           title="พนักงาน"
         />
 
         <SidebarItem
           path="/dashboard/calculate"
-          icon={<Icon icon="ion:cash-outline" fontSize={20} />}
+          icon={<Icon icon="ion:cash-outline" fontSize={24} />}
           title="คำนวนเงินเดือน"
         />
 
@@ -44,25 +44,25 @@ export default function Sidebar({ company }: Props) {
 
         <SidebarItem
           path="/dashboard/leave"
-          icon={<Icon icon="ion:calendar-outline" fontSize={20} />}
+          icon={<Icon icon="ion:calendar-outline" fontSize={24} />}
           title="ลางาน"
         />
 
         <SidebarItem
           path="/dashboard/overtime"
-          icon={<Icon icon="ion:timer-outline" fontSize={20} />}
+          icon={<Icon icon="ion:timer-outline" fontSize={24} />}
           title="เพิ่มเวลาทำงาน"
         />
         <p className="mt-2 text-sm">บัญชี</p>
         <SidebarItem
           path="/dashboard/plan"
-          icon={<Icon icon="ion:card-outline" fontSize={20} />}
+          icon={<Icon icon="ion:card-outline" fontSize={24} />}
           title="แพ็คเกจของฉัน"
         />
 
         <SidebarItem
           path="/dashboard/settings"
-          icon={<Icon icon="ion:settings-outline" fontSize={20} />}
+          icon={<Icon icon="ion:settings-outline" fontSize={24} />}
           title="ตั้งค่า"
         />
       </div>
