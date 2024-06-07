@@ -145,7 +145,7 @@ export const employeeRouter = createTRPCRouter({
         return updatedEmployee;
       });
 
-      return update;
+      return input.status;
     }),
 
   // create: protectedProcedure

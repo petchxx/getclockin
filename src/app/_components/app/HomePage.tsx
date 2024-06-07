@@ -42,8 +42,8 @@ export default function HomePage({ employee }: Props) {
     setShowClock(true);
   }, []);
   const clock = api.employee.clock.useMutation({
-    async onSuccess() {
-      toast.success("เข้างานสำเร็จ");
+    async onSuccess(data) {
+      toast.success(`${data == "in" ? "เข้า" : "ออก"}งานสำเร็จ`);
       router.refresh();
     },
     async onError(error) {
