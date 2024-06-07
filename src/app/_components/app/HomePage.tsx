@@ -48,12 +48,12 @@ export default function HomePage({ employee }: Props) {
     async onSuccess(data) {
       toast.success((data == "in" ? "เข้า" : "ออก") + "งานสำเร็จ");
       router.refresh();
-      refetch();
+      await refetch();
     },
     async onError(error) {
       toast.error(error.message);
       router.refresh();
-      refetch();
+      await refetch();
     },
   });
 
