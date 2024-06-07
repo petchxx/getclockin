@@ -7,7 +7,7 @@ import { api } from "~/trpc/react";
 export default function TopBar() {
   const employee = api.employee.get.useQuery().data;
   return (
-    <div className="flex justify-center">
+    <div className="fixed flex w-full justify-center ">
       <div className="flex w-full max-w-screen-sm items-center justify-between p-6">
         <div className="flex gap-4">
           <Skeleton isLoaded={employee != null} className="rounded-2xl">
