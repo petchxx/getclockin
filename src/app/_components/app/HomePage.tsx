@@ -22,7 +22,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Employee } from "~/lib/interface/employee";
 import { ThemeSwitcher } from "../ThemeSwitcher";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import { Input } from "postcss";
 import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
@@ -182,7 +182,7 @@ export default function HomePage({ employee }: Props) {
           className="mt-6 h-12 w-80"
           color="primary"
           onClick={async () => {
-            onOpenModal();
+            await onOpenModal();
           }}
           size="lg"
         >
