@@ -44,20 +44,22 @@ export default function HomePage({ employee }: Props) {
   useEffect(() => {
     setShowClock(true);
   }, []);
+
+  const utils = api.useUtils();
   const clock = api.employee.clock.useMutation({
     async onSuccess(data) {
       toast.success((data == "in" ? "เข้า" : "ออก") + "งานสำเร็จ");
+      utils.invalidate();
       router.refresh();
-      await refetch();
     },
     async onError(error) {
       toast.error(error.message);
+      utils.invalidate();
       router.refresh();
-      await refetch();
     },
   });
 
-  const { refetch, data, isSuccess } = api.employee.recentClock.useQuery();
+  const data = api.employee.recentClock.useQuery().data;
   async function onOpenModal() {
     const location = window.navigator?.geolocation;
 
@@ -87,9 +89,26 @@ export default function HomePage({ employee }: Props) {
     status: string,
     clock_date_time: Date,
   ) => {
-    const start_time = moment(start, "HH:mm:ss");
-    const stop_time = moment(stop, "HH:mm:ss");
-    const clock_time = moment(clock_date_time);
+    const today = moment().startOf("day"); // Get the start of the current day
+
+    // Set the date part of each time to today
+    const start_time = moment(start, "HH:mm:ss").set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
+
+    const stop_time = moment(stop, "HH:mm:ss").set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
+
+    const clock_time = moment(clock_date_time).set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
 
     if (status === "in") {
       const difference = clock_time.diff(start_time, "minutes");
@@ -97,17 +116,17 @@ export default function HomePage({ employee }: Props) {
       if (difference < 0) {
         const earlyBy = Math.abs(difference - 1);
         return (
-          <p className="text-green-500">
-            + {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+          <p className="text-foreground/50">
+            ก่อน {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
           </p>
         );
       } else if (difference === 0) {
-        return <p className="text-green-500">ตรงเวลา</p>;
+        return <p className="text-foreground/50">ตรงเวลา</p>;
       } else {
         const lateBy = Math.abs(difference);
         return (
           <p className="text-red-500">
-            - {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+            สาย {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
           </p>
         );
       }
@@ -120,16 +139,16 @@ export default function HomePage({ employee }: Props) {
         const earlyBy = Math.abs(difference - 1);
         return (
           <p className="text-red-500">
-            - {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+            ก่อน {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
           </p>
         );
       } else if (difference === 0) {
-        return <p className="text-green-500">ตรงเวลา</p>;
+        return <p className="text-foreground/50">ตรงเวลา</p>;
       } else {
         const lateBy = Math.abs(difference);
         return (
-          <p className="text-green-500">
-            + {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+          <p className="text-foreground/50">
+            เกิน {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
           </p>
         );
       }
@@ -211,19 +230,19 @@ export default function HomePage({ employee }: Props) {
                       )}
                     </div>
                     <div className="flex flex-col ">
-                      <p className="text-medium">
+                      <p className="">
                         {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs text-foreground/50">
                         {moment(clock.date_time).format("dddd, DD MMMM ")}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end justify-center">
-                    <p className="text-medium">
+                    <p className="">
                       {moment(clock.date_time).format("HH:mm")}
                     </p>
-                    <p className="text-sm text-red-500">
+                    <p className="text-xs ">
                       {calculateEarlyLate(
                         employee.start_time,
                         employee.stop_time,
@@ -235,9 +254,9 @@ export default function HomePage({ employee }: Props) {
                 </Card>
               ))
             ) : (
-              <div className="mt-6 flex w-full flex-col items-center justify-center gap-2 text-gray-500">
+              <div className="mt-8 flex w-full flex-col items-center justify-center gap-2 text-foreground/50">
                 <Icon icon="ion:finger-print-outline" fontSize={64} />
-                <p>ไม่พบการเข้างาน</p>
+                <p className="mt-2">กดเข้างานได้เลย!</p>
               </div>
             )}
           </div>
@@ -245,7 +264,7 @@ export default function HomePage({ employee }: Props) {
         <Button
           variant="shadow"
           className="mt-6 h-12 w-80"
-          color="primary"
+          color={`${employee.status == "in" ? "danger" : "primary"}`}
           onClick={async () => {
             await onOpenModal();
           }}

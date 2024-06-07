@@ -38,7 +38,13 @@ export const companyRouter = createTRPCRouter({
   register: protectedProcedure
     .input(
       z.object({
-        name: string(),
+        //name is username like instagram username
+        name: z
+          .string()
+          .min(3, { message: "Username must be at least 3 characters long" })
+          .regex(/^[a-z0-9]+$/, {
+            message: "Username can only contain lowercase letters and numbers",
+          }),
         app_password: string(),
       }),
     )

@@ -3,6 +3,7 @@ import React from "react";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import { Avatar, Skeleton } from "@nextui-org/react";
 import { api } from "~/trpc/react";
+import crypto from "crypto";
 
 export default function TopBar() {
   const employee = api.employee.get.useQuery().data;
@@ -14,24 +15,21 @@ export default function TopBar() {
             <Avatar
               isBordered
               radius="md"
-              src=""
-              // color="primary"
+              src={`https://www.gravatar.com/avatar/${crypto
+                .createHash("sha256")
+                .update(employee?.email ?? "")
+                .digest("hex")}?s=80&d=identicon`}
+              color={employee?.status == "in" ? "success" : "default"}
               name={employee?.name}
-              className="h-12 w-12"
+              className="h-12 w-12 bg-content3 text-foreground"
             />
           </Skeleton>
           <div className="flex flex-col justify-center gap-2">
-            <Skeleton
-              isLoaded={employee != null}
-              className="h-4 w-32 rounded-2xl"
-            >
+            <Skeleton isLoaded={employee != null} className="h-4 rounded-2xl">
               <p className="font-semibold">{employee?.name}</p>
             </Skeleton>
-            <Skeleton
-              isLoaded={employee != null}
-              className="h-4 w-52 rounded-2xl"
-            >
-              <p className="text-sm text-gray-500">{employee?.email}</p>
+            <Skeleton isLoaded={employee != null} className="h-4 rounded-2xl">
+              <p className="text-sm text-foreground/50">{employee?.role}</p>
             </Skeleton>
           </div>
         </div>

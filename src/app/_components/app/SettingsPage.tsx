@@ -10,8 +10,8 @@ export default function SettingsPage() {
     <Button
       color="danger"
       onClick={async () => {
-        await signOut();
-        router.push("/");
+        await signOut({ redirect: false });
+        router.push("/app");
       }}
     >
       Sign Out

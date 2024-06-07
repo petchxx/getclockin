@@ -38,6 +38,7 @@ export default function SignInPage() {
               name="company_name"
               className="mt-6 w-80"
               type="text"
+              autoCapitalize="none"
               label="ชื่อบริษัท"
               placeholder="testcompany"
               variant="bordered"
@@ -45,7 +46,7 @@ export default function SignInPage() {
             />
             <Input
               name="email"
-              className="mt-6 w-80"
+              className="mt-2 w-80"
               type="email"
               label="อีเมล"
               placeholder="example@gmail.com"
@@ -53,7 +54,7 @@ export default function SignInPage() {
             />
             <Input
               name="password"
-              className="mt-4 w-80"
+              className="mt-2 w-80"
               label="รหัสผ่าน"
               placeholder="********"
               type="password"
