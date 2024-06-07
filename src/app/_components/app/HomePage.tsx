@@ -148,7 +148,7 @@ export default function HomePage({ employee }: Props) {
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
-    <main className="">
+    <main className="z-10 pb-24">
       <div className="mt-2 flex flex-col items-center justify-center p-4">
         <div className="flex flex-col items-center gap-2">
           <div>
