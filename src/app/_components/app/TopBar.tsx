@@ -1,15 +1,21 @@
 "use client";
 import React from "react";
 import { ThemeSwitcher } from "../ThemeSwitcher";
-import { Avatar, Skeleton } from "@nextui-org/react";
+import { Avatar, Card, Skeleton } from "@nextui-org/react";
 import { api } from "~/trpc/react";
 import crypto from "crypto";
+import { usePathname } from "next/navigation";
 
-export default function TopBar() {
+type Props = {
+  title?: string;
+};
+
+export default function TopBar({ title }: Props) {
   const employee = api.employee.get.useQuery().data;
+  const pathname = usePathname();
 
-  return (
-    <div className="fixed top-0 z-20 flex w-full justify-center bg-background ">
+  return pathname === "/app" ? (
+    <div className="fixed top-0 z-20 flex w-full justify-center rounded-none bg-background  ">
       <div className="flex w-full max-w-screen-sm items-center justify-between px-6 py-4 ">
         <div className="flex gap-4">
           <Skeleton isLoaded={employee != null} className="rounded-2xl">
@@ -39,5 +45,9 @@ export default function TopBar() {
         <ThemeSwitcher size="lg" />
       </div>
     </div>
+  ) : (
+    <Card className="flex h-16 items-center justify-center rounded-none shadow-sm ">
+      <h1 className="text-xl font-medium ">{title}</h1>
+    </Card>
   );
 }

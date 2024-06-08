@@ -21,16 +21,7 @@ export function ThemeSwitcher({ size }: Props) {
 
   return (
     <div>
-      {theme != "light" ? (
-        <Button
-          size={size ?? "md"}
-          isIconOnly
-          variant="light"
-          onClick={() => setTheme("light")}
-        >
-          <Icon icon="line-md:sun-rising-loop" fontSize={24} />
-        </Button>
-      ) : (
+      {theme == "light" ? (
         <Button
           isIconOnly
           size={size ?? "md"}
@@ -38,6 +29,15 @@ export function ThemeSwitcher({ size }: Props) {
           onClick={() => setTheme("dark")}
         >
           <Icon icon="line-md:moon-rising-loop" fontSize={24} />
+        </Button>
+      ) : (
+        <Button
+          size={size ?? "md"}
+          isIconOnly
+          variant="light"
+          onClick={() => setTheme("light")}
+        >
+          <Icon icon="line-md:sun-rising-loop" fontSize={24} />
         </Button>
       )}
     </div>

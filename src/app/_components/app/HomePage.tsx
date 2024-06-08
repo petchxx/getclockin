@@ -167,9 +167,9 @@ export default function HomePage({ employee }: Props) {
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
-    <div>
+    <div className="">
       <TopBar />
-      <main className="z-10 my-24">
+      <main className="z-10 pb-24 pt-20">
         <div className="mt-2 flex flex-col items-center justify-center p-4">
           <div className="flex flex-col items-center gap-2">
             <div>
@@ -294,7 +294,7 @@ export default function HomePage({ employee }: Props) {
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           placement="bottom-center"
-          className="h-[85%] sm:h-auto"
+          className="h-[99%] sm:h-auto"
         >
           <ModalContent>
             {(onClose) => (
@@ -317,7 +317,7 @@ export default function HomePage({ employee }: Props) {
                     minRows={4}
                     onChange={(e) => setNote(e.target.value)}
                   ></Textarea>
-                  <div className="flex justify-end gap-1">
+                  <div className="flex  justify-end gap-1">
                     <Button color="danger" variant="light" onPress={onClose}>
                       ปิด
                     </Button>
