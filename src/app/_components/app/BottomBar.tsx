@@ -35,7 +35,7 @@ export default function BottomBar() {
     },
   ];
   return (
-    <Card className="fixed bottom-0 flex h-[10%] w-full items-center justify-center rounded-none border-t border-content3 bg-background pb-6 pt-1 shadow-none">
+    <Card className="fixed bottom-0 flex h-[10%] w-full items-center justify-center rounded-none bg-background pb-6 pt-1 shadow-small shadow-content3">
       <div className="flex w-full max-w-screen-sm justify-evenly">
         {items.map((item, index) => (
           <Button
