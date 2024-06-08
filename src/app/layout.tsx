@@ -4,9 +4,6 @@ import { Noto_Sans_Thai } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Providers } from "./providers";
-import { ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
 const nst = Noto_Sans_Thai({ subsets: ["latin"] });
 
 export const metadata = {
@@ -25,7 +22,6 @@ export default async function RootLayout({
     <html suppressHydrationWarning lang="en" className={`${nst.className}`}>
       <body>
         <TRPCReactProvider>
-          <ToastContainer />
           <Providers>{children}</Providers>
         </TRPCReactProvider>
       </body>

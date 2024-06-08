@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import TopBar from "./TopBar";
 
 type Props = {
   employee: Employee;
@@ -166,168 +167,174 @@ export default function HomePage({ employee }: Props) {
   }
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
-    <main className="z-10 pb-24">
-      <div className="mt-2 flex flex-col items-center justify-center p-4">
-        <div className="flex flex-col items-center gap-2">
-          <div>
-            <Skeleton isLoaded={showClock} className="rounded-2xl">
-              <Clock
-                format={"dddd, DD MMMM"}
-                ticking={true}
-                timezone={"Asia/Bangkok"}
-                locale={"TH"}
-              />
-            </Skeleton>
+    <div>
+      <TopBar />
+      <main className="z-10 my-24">
+        <div className="mt-2 flex flex-col items-center justify-center p-4">
+          <div className="flex flex-col items-center gap-2">
+            <div>
+              <Skeleton isLoaded={showClock} className="rounded-2xl">
+                <Clock
+                  format={"dddd, DD MMMM"}
+                  ticking={true}
+                  timezone={"Asia/Bangkok"}
+                  locale={"TH"}
+                />
+              </Skeleton>
+            </div>
+            <div>
+              <Skeleton isLoaded={showClock} className="rounded-2xl">
+                <Clock
+                  format={"HH:mm"}
+                  ticking={true}
+                  timezone={"Asia/Bangkok"}
+                  locale={"TH"}
+                  className="text-7xl "
+                />
+              </Skeleton>
+            </div>
           </div>
-          <div>
-            <Skeleton isLoaded={showClock} className="rounded-2xl">
-              <Clock
-                format={"HH:mm"}
-                ticking={true}
-                timezone={"Asia/Bangkok"}
-                locale={"TH"}
-                className="text-7xl "
-              />
-            </Skeleton>
-          </div>
-        </div>
-        <div className="w-80 ">
-          <div className="mt-6 flex justify-between">
-            <p>การเข้างาน</p>
-            <p className="text-primary">เพิ่มเติม</p>
-          </div>
-          <div className="mt-4 flex min-h-[280px] flex-col gap-2">
-            {/* display skeleton when loading  */}
-            {!data ? (
-              <div className="flex flex-col gap-2">
-                <Skeleton className="h-20 rounded-xl" />
-                <Skeleton className="h-20 rounded-xl" />
-                <Skeleton className="h-20 rounded-xl" />
-              </div>
-            ) : data.length > 0 ? (
-              data?.map((clock, index) => (
-                <div
-                  className="transform transition-transform duration-300 ease-in-out hover:scale-[1.02]"
-                  key={index}
-                >
-                  <Card className="flex-row justify-between gap-2 p-4 ">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
-                      >
-                        {clock.status == "in" ? (
-                          <Icon
-                            icon="ion:log-in-outline"
-                            fontSize={24}
-                            className="text-primary"
-                          />
-                        ) : (
-                          <Icon
-                            icon="ion:log-out-outline"
-                            fontSize={24}
-                            className="text-red-500"
-                          />
-                        )}
+          <div className="w-80 ">
+            <div className="mt-6 flex justify-between">
+              <p>การเข้างาน</p>
+              <p className="text-primary">เพิ่มเติม</p>
+            </div>
+            <div className="mt-4 flex min-h-[280px] flex-col gap-2">
+              {/* display skeleton when loading  */}
+              {!data ? (
+                <div className="flex flex-col gap-2">
+                  <Skeleton className="h-20 rounded-xl" />
+                  <Skeleton className="h-20 rounded-xl" />
+                  <Skeleton className="h-20 rounded-xl" />
+                </div>
+              ) : data.length > 0 ? (
+                data?.map((clock, index) => (
+                  <div
+                    className="transform transition-transform duration-300 ease-in-out hover:scale-105"
+                    key={index}
+                  >
+                    <Card className="flex-row justify-between gap-2 p-4 ">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
+                        >
+                          {clock.status == "in" ? (
+                            <Icon
+                              icon="ion:log-in-outline"
+                              fontSize={24}
+                              className="text-primary"
+                            />
+                          ) : (
+                            <Icon
+                              icon="ion:log-out-outline"
+                              fontSize={24}
+                              className="text-red-500"
+                            />
+                          )}
+                        </div>
+                        <div className="flex flex-col ">
+                          <p className="">
+                            {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
+                          </p>
+                          <p className="text-xs text-foreground/50">
+                            {moment(clock.date_time).format("dddd, DD MMMM ")}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex flex-col ">
+                      <div className="flex flex-col items-end justify-center">
                         <p className="">
-                          {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
+                          {moment(clock.date_time).format("HH:mm")}
                         </p>
-                        <p className="text-xs text-foreground/50">
-                          {moment(clock.date_time).format("dddd, DD MMMM ")}
+                        <p className="text-xs ">
+                          {calculateEarlyLate(
+                            employee.start_time,
+                            employee.stop_time,
+                            clock.status,
+                            clock.date_time,
+                          )}
                         </p>
                       </div>
-                    </div>
-                    <div className="flex flex-col items-end justify-center">
-                      <p className="">
-                        {moment(clock.date_time).format("HH:mm")}
-                      </p>
-                      <p className="text-xs ">
-                        {calculateEarlyLate(
-                          employee.start_time,
-                          employee.stop_time,
-                          clock.status,
-                          clock.date_time,
-                        )}
-                      </p>
-                    </div>
-                  </Card>
+                    </Card>
+                  </div>
+                ))
+              ) : (
+                <div className="group flex h-[280px] w-full items-center justify-center gap-2 text-foreground/50">
+                  <div
+                    onClick={async () => {
+                      await onOpenModal();
+                    }}
+                    className="flex flex-col items-center justify-center"
+                  >
+                    <Icon
+                      icon="ion:finger-print-outline"
+                      className="transition-colors duration-300 ease-in-out group-hover:text-primary"
+                      fontSize={64}
+                    />
+                    <p className="mt-2 transition-colors duration-300 ease-in-out group-hover:text-primary">
+                      กดเข้างานได้เลย!
+                    </p>
+                  </div>
                 </div>
-              ))
-            ) : (
-              <div className="group flex h-[280px] w-full items-center justify-center gap-2 text-foreground/50">
-                <div
-                  onClick={async () => {
-                    await onOpenModal();
-                  }}
-                  className="flex flex-col items-center justify-center"
-                >
-                  <Icon
-                    icon="ion:finger-print-outline"
-                    className="transition-colors duration-300 ease-in-out group-hover:text-primary"
-                    fontSize={64}
-                  />
-                  <p className="mt-2 transition-colors duration-300 ease-in-out group-hover:text-primary">
-                    กดเข้างานได้เลย!
-                  </p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
+          <Button
+            variant="shadow"
+            className="mt-6 h-12 w-80"
+            color={`${employee.status == "in" ? "danger" : "primary"}`}
+            onClick={async () => {
+              await onOpenModal();
+            }}
+            size="lg"
+          >
+            {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
+          </Button>
         </div>
-        <Button
-          variant="shadow"
-          className="mt-6 h-12 w-80"
-          color={`${employee.status == "in" ? "danger" : "primary"}`}
-          onClick={async () => {
-            await onOpenModal();
-          }}
-          size="lg"
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          placement="bottom-center"
+          className="h-[85%] sm:h-auto"
         >
-          {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
-        </Button>
-      </div>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="bottom-center"
-        className="h-[85%] sm:h-auto"
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
-              </ModalHeader>
-              <ModalBody>
-                <TimeInput
-                  label={`เวลา${employee.status == "in" ? "ออกงาน" : "เข้างาน"}`}
-                  hourCycle={24}
-                  isReadOnly
-                  value={
-                    new Time(new Date().getHours(), new Date().getMinutes())
-                  }
-                ></TimeInput>
-                <Textarea
-                  label="หมายเหตุ"
-                  placeholder="วันนี้คุณเป็นยังไงบ้าง..."
-                  minRows={4}
-                  onChange={(e) => setNote(e.target.value)}
-                ></Textarea>
-                <div className="flex justify-end gap-1">
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    ปิด
-                  </Button>
-                  <Button color="primary" onClick={() => handleClock(onClose)}>
-                    ยืนยัน
-                  </Button>
-                </div>
-              </ModalBody>
-              <ModalFooter></ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </main>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  {employee.status == "in" ? "ออกงาน" : "เข้างาน"}
+                </ModalHeader>
+                <ModalBody>
+                  <TimeInput
+                    label={`เวลา${employee.status == "in" ? "ออกงาน" : "เข้างาน"}`}
+                    hourCycle={24}
+                    isReadOnly
+                    value={
+                      new Time(new Date().getHours(), new Date().getMinutes())
+                    }
+                  ></TimeInput>
+                  <Textarea
+                    label="หมายเหตุ"
+                    placeholder="วันนี้คุณเป็นยังไงบ้าง..."
+                    minRows={4}
+                    onChange={(e) => setNote(e.target.value)}
+                  ></Textarea>
+                  <div className="flex justify-end gap-1">
+                    <Button color="danger" variant="light" onPress={onClose}>
+                      ปิด
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => handleClock(onClose)}
+                    >
+                      ยืนยัน
+                    </Button>
+                  </div>
+                </ModalBody>
+                <ModalFooter></ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      </main>
+    </div>
   );
 }

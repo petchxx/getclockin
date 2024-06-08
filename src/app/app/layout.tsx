@@ -24,8 +24,7 @@ export default async function layout({ children }: Props) {
 
   return (
     <div>
-      <TopBar />
-      <div className="pt-24">{children}</div>
+      <div className="">{children}</div>
       <BottomBar />
     </div>
   );
