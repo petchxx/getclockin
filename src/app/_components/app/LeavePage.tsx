@@ -85,7 +85,10 @@ export default function LeavePage() {
               </div>
             ) : getLeave.length > 0 ? (
               getLeave?.map((leave) => (
-                <Card className="flex-row justify-between gap-2 p-4 ">
+                <Card
+                  key={leave.id}
+                  className="flex-row justify-between gap-2 p-4 "
+                >
                   <div className="flex items-center gap-2">
                     <div
                       className={`flex h-12 w-12 items-center justify-center rounded-xl ${leave.status == "pending" ? "bg-primary/20" : "bg-red-500/20"}`}
