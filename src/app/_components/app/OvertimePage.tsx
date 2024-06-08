@@ -3,9 +3,8 @@ import React from "react";
 import Topbar from "./TopBar";
 import { Button } from "@nextui-org/react";
 import { Icon } from "@iconify/react/dist/iconify.mjs";
-type Props = {};
 
-export default function OvertimePage({}: Props) {
+export default function OvertimePage() {
   return (
     <div>
       <Topbar title="ขอทำงานล่วงเวลา" />

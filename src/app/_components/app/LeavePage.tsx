@@ -16,9 +16,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react/dist/iconify.mjs";
-type Props = {};
 
-export default function LeavePage({}: Props) {
+export default function LeavePage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   async function handleLeave(onClose: () => void) {
