@@ -63,7 +63,7 @@ export default function LeavePage() {
   });
 
   const getLeave = api.employee.getLeaves.useQuery({
-    limit: 5,
+    limit: 10,
   }).data;
 
   return (
@@ -150,7 +150,7 @@ export default function LeavePage() {
         </div>
       </div>
       <Button
-        className="absolute bottom-[12%] right-[4%] h-12 w-12 rounded-xl"
+        className="fixed bottom-[12%] right-[4%] h-12 w-12 rounded-xl"
         color="primary"
         variant="flat"
         isIconOnly

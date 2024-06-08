@@ -6,7 +6,15 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { clocks, companies, employees, leaves } from "~/server/db/schema";
+import {
+  clocks,
+  companies,
+  employees,
+  leaves,
+  overtimes,
+} from "~/server/db/schema";
+import { input } from "@nextui-org/react";
+import { date } from "drizzle-orm/mysql-core";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -161,6 +169,7 @@ export const employeeRouter = createTRPCRouter({
         .select()
         .from(leaves)
         .where(sql`${leaves.employee_id} = ${ctx.session.user.id}`)
+        .orderBy(sql`${leaves.created_at} DESC`)
         .limit(input.limit);
       return result;
     }),
@@ -182,6 +191,48 @@ export const employeeRouter = createTRPCRouter({
           id: leaveId,
           employee_id: ctx.session.user.id,
           leave_type: input.leave_type,
+          from: input.from,
+          to: input.to,
+          status: "pending",
+          note: input.note ?? "",
+        })
+        .returning();
+      return result;
+    }),
+
+  getOvertime: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .select()
+        .from(overtimes)
+        .where(sql`${overtimes.employee_id} = ${ctx.session.user.id}`)
+        .orderBy(sql`${overtimes.created_at} DESC`)
+        .limit(input.limit);
+      return result;
+    }),
+
+  requestOvertime: protectedProcedure
+    .input(
+      z.object({
+        note: z.string(),
+        from: z.string(),
+        to: z.string(),
+        date: z.date(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const overtimeId = ulid();
+      const result = await ctx.db
+        .insert(overtimes)
+        .values({
+          id: overtimeId,
+          employee_id: ctx.session.user.id,
+          date: input.date,
           from: input.from,
           to: input.to,
           status: "pending",

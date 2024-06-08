@@ -86,16 +86,20 @@ export const leaves = createTable("leave", {
   to: timestamp("to", { withTimezone: true }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   note: varchar("note", { length: 255 }),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
 
 export const overtimes = createTable("overtime", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   employee_id: varchar("employee_id", { length: 255 }).notNull(),
   date: timestamp("date", { withTimezone: true }).notNull(),
-  from: timestamp("from", { withTimezone: true }).notNull(),
-  to: timestamp("to", { withTimezone: true }).notNull(),
+  from: varchar("from", { length: 255 }).notNull(),
+  to: varchar("to", { length: 255 }).notNull(),
   status: varchar("status", { length: 255 }).notNull(),
   note: varchar("note", { length: 255 }),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).default(
+    sql`CURRENT_TIMESTAMP`,
+  ),
 });
