@@ -48,12 +48,12 @@ export default function HomePage({ employee }: Props) {
   const clock = api.employee.clock.useMutation({
     async onSuccess(data) {
       toast.success((data == "in" ? "เข้า" : "ออก") + "งานสำเร็จ");
-      utils.invalidate();
+      await utils.invalidate();
       router.refresh();
     },
     async onError(error) {
       toast.error(error.message);
-      utils.invalidate();
+      await utils.invalidate();
       router.refresh();
     },
   });
@@ -206,11 +206,11 @@ export default function HomePage({ employee }: Props) {
               </div>
             ) : data.length > 0 ? (
               data?.map((clock, index) => (
-                <div className="transform transition-transform duration-300 ease-in-out hover:scale-[1.02]">
-                  <Card
-                    key={index}
-                    className="flex-row justify-between gap-2 p-4 "
-                  >
+                <div
+                  className="transform transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+                  key={index}
+                >
+                  <Card className="flex-row justify-between gap-2 p-4 ">
                     <div className="flex items-center gap-2">
                       <div
                         className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
