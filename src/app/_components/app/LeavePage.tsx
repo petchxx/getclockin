@@ -70,9 +70,9 @@ export default function LeavePage() {
     <div className="">
       <Topbar title="ขอลางาน" />
       <div className="flex w-full justify-center">
-        <div className="flex w-80 flex-col gap-4 p-4">
+        <div className="mt-6 flex w-80 flex-col gap-4">
           <div className="flex justify-between">
-            <p>ขอลางาน</p>
+            <p>รายการล่าสุด</p>
             <p className="text-primary">เพิ่มเติม</p>
           </div>
 
