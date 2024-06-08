@@ -1,4 +1,6 @@
 "use client";
+import { I18nProvider } from "@react-aria/i18n";
+
 import { Time } from "@internationalized/date";
 
 import Clock from "react-live-clock";
@@ -174,12 +176,17 @@ export default function HomePage({ employee }: Props) {
           <div className="flex flex-col items-center gap-2">
             <div>
               <Skeleton isLoaded={showClock} className="rounded-2xl">
-                <Clock
-                  format={"dddd, DD MMMM"}
-                  ticking={true}
-                  timezone={"Asia/Bangkok"}
-                  locale={"TH"}
-                />
+                {new Date().toLocaleDateString("th-TH", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+                {/* <Clock */}
+                {/*   format={"dddd, DD MMMM"} */}
+                {/*   ticking={true} */}
+                {/*   timezone={"Asia/Bangkok"} */}
+                {/*   locale={"TH"} */}
+                {/* /> */}
               </Skeleton>
             </div>
             <div>
@@ -237,7 +244,14 @@ export default function HomePage({ employee }: Props) {
                             {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
                           </p>
                           <p className="text-xs text-foreground/50">
-                            {moment(clock.date_time).format("dddd, DD MMMM ")}
+                            {new Date(clock.date_time).toLocaleDateString(
+                              "th-TH",
+                              {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              },
+                            )}
                           </p>
                         </div>
                       </div>

@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { clocks, companies, employees } from "~/server/db/schema";
+import { clocks, companies, employees, leaves } from "~/server/db/schema";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -105,14 +105,6 @@ export const employeeRouter = createTRPCRouter({
     return result;
   }),
 
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   clock: protectedProcedure
     .input(
       z.object({
@@ -157,6 +149,47 @@ export const employeeRouter = createTRPCRouter({
       .limit(3);
     return result;
   }),
+
+  getLeaves: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .select()
+        .from(leaves)
+        .where(sql`${leaves.employee_id} = ${ctx.session.user.id}`)
+        .limit(input.limit);
+      return result;
+    }),
+
+  requestLeave: protectedProcedure
+    .input(
+      z.object({
+        leave_type: z.string(),
+        from: z.date(),
+        to: z.date(),
+        note: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const leaveId = ulid();
+      const result = await ctx.db
+        .insert(leaves)
+        .values({
+          id: leaveId,
+          employee_id: ctx.session.user.id,
+          leave_type: input.leave_type,
+          from: input.from,
+          to: input.to,
+          status: "pending",
+          note: input.note ?? "",
+        })
+        .returning();
+      return result;
+    }),
 
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))

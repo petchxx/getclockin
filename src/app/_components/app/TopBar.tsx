@@ -46,7 +46,7 @@ export default function TopBar({ title }: Props) {
       </div>
     </div>
   ) : (
-    <Card className="flex h-16 items-center justify-center rounded-none bg-background shadow-sm shadow-content3">
+    <Card className="flex h-16 items-center justify-center rounded-none bg-background shadow-small shadow-foreground">
       <h1 className="text-xl font-medium ">{title}</h1>
     </Card>
   );
