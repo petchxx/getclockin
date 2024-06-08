@@ -7,18 +7,21 @@ import crypto from "crypto";
 
 export default function TopBar() {
   const employee = api.employee.get.useQuery().data;
+
   return (
     <div className="fixed z-20 flex w-full justify-center bg-background ">
-      <div className="flex w-full max-w-screen-sm items-center justify-between p-6">
+      <div className="flex w-full max-w-screen-sm items-center justify-between px-6 py-4 ">
         <div className="flex gap-4">
           <Skeleton isLoaded={employee != null} className="rounded-2xl">
             <Avatar
               isBordered
               radius="md"
-              src={`https://www.gravatar.com/avatar/${crypto
-                .createHash("sha256")
-                .update(employee?.email ?? "")
-                .digest("hex")}?s=80&d=identicon`}
+              src={
+                `https://www.gravatar.com/avatar/${crypto
+                  .createHash("sha256")
+                  .update(employee?.email ?? "")
+                  .digest("hex")}?s=80&d=identicon` ?? ""
+              }
               color={employee?.status == "in" ? "success" : "default"}
               name={employee?.name}
               className="h-12 w-12 bg-content3 text-foreground"

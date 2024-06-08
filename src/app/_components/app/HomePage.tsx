@@ -29,7 +29,6 @@ import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
-import { time } from "console";
 
 type Props = {
   employee: Employee;
@@ -207,56 +206,71 @@ export default function HomePage({ employee }: Props) {
               </div>
             ) : data.length > 0 ? (
               data?.map((clock, index) => (
-                <Card
-                  key={index}
-                  className="flex-row justify-between gap-2 p-4"
-                >
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
-                    >
-                      {clock.status == "in" ? (
-                        <Icon
-                          icon="ion:log-in-outline"
-                          fontSize={24}
-                          className="text-primary"
-                        />
-                      ) : (
-                        <Icon
-                          icon="ion:log-out-outline"
-                          fontSize={24}
-                          className="text-red-500"
-                        />
-                      )}
+                <div className="transform transition-transform duration-300 ease-in-out hover:scale-[1.02]">
+                  <Card
+                    key={index}
+                    className="flex-row justify-between gap-2 p-4 "
+                  >
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
+                      >
+                        {clock.status == "in" ? (
+                          <Icon
+                            icon="ion:log-in-outline"
+                            fontSize={24}
+                            className="text-primary"
+                          />
+                        ) : (
+                          <Icon
+                            icon="ion:log-out-outline"
+                            fontSize={24}
+                            className="text-red-500"
+                          />
+                        )}
+                      </div>
+                      <div className="flex flex-col ">
+                        <p className="">
+                          {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
+                        </p>
+                        <p className="text-xs text-foreground/50">
+                          {moment(clock.date_time).format("dddd, DD MMMM ")}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col ">
+                    <div className="flex flex-col items-end justify-center">
                       <p className="">
-                        {clock.status == "in" ? "เข้างาน" : "ออกงาน"}
+                        {moment(clock.date_time).format("HH:mm")}
                       </p>
-                      <p className="text-xs text-foreground/50">
-                        {moment(clock.date_time).format("dddd, DD MMMM ")}
+                      <p className="text-xs ">
+                        {calculateEarlyLate(
+                          employee.start_time,
+                          employee.stop_time,
+                          clock.status,
+                          clock.date_time,
+                        )}
                       </p>
                     </div>
-                  </div>
-                  <div className="flex flex-col items-end justify-center">
-                    <p className="">
-                      {moment(clock.date_time).format("HH:mm")}
-                    </p>
-                    <p className="text-xs ">
-                      {calculateEarlyLate(
-                        employee.start_time,
-                        employee.stop_time,
-                        clock.status,
-                        clock.date_time,
-                      )}
-                    </p>
-                  </div>
-                </Card>
+                  </Card>
+                </div>
               ))
             ) : (
-              <div className="mt-8 flex w-full flex-col items-center justify-center gap-2 text-foreground/50">
-                <Icon icon="ion:finger-print-outline" fontSize={64} />
-                <p className="mt-2">กดเข้างานได้เลย!</p>
+              <div className="group flex h-[280px] w-full items-center justify-center gap-2 text-foreground/50">
+                <div
+                  onClick={async () => {
+                    await onOpenModal();
+                  }}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <Icon
+                    icon="ion:finger-print-outline"
+                    className="transition-colors duration-300 ease-in-out group-hover:text-primary"
+                    fontSize={64}
+                  />
+                  <p className="mt-2 transition-colors duration-300 ease-in-out group-hover:text-primary">
+                    กดเข้างานได้เลย!
+                  </p>
+                </div>
               </div>
             )}
           </div>
