@@ -10,7 +10,7 @@ export default function SettingsPage() {
   return (
     <div className="">
       <TopBar title="ตั้งค่า" />
-      <div className="flex justify-center">
+      <div className="flex justify-center py-20">
         <Button
           color="danger"
           className="mt-4 w-80"
