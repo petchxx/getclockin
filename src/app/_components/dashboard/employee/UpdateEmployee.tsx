@@ -10,7 +10,7 @@ import {
   Select,
   SelectItem,
   useDisclosure,
-  Selection,
+  type Selection,
   TimeInput,
 } from "@nextui-org/react";
 import { Time } from "@internationalized/date";

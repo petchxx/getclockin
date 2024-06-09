@@ -233,7 +233,9 @@ export default function EmployeePage({ employees }: Props) {
                 </span>
               </Tooltip>
               <Tooltip color="danger" content="ลบพนักงาน">
-                <DeleteEmployee id={employee.id} />
+                <span>
+                  <DeleteEmployee id={employee.id} />
+                </span>
               </Tooltip>
             </div>
           );

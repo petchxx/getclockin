@@ -214,7 +214,7 @@ export default function LeavePage({ leaves }: Props) {
                 {/* <MdCheck /> */}
               </span>
             </Tooltip>
-            <Tooltip color="danger" content="Decline">
+            <Tooltip color="danger" content="ไม่อนุมัติ">
               <span
                 className="cursor-pointer text-lg text-danger active:opacity-50"
                 onClick={async () => {
