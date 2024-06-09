@@ -8,8 +8,8 @@ type Props = {
 
 export default function SettingsPage({ company }: Props) {
   return (
-    <div>
-      <Card className="mt-4 ">
+    <div className="py-4">
+      <Card className="">
         <div className="m-4">
           <p className="text-lg font-bold">อีเมล์</p>
           <p className="text-sm text-foreground/50">ใช้ในการเข้าแดชบอร์ด</p>
@@ -51,6 +51,23 @@ export default function SettingsPage({ company }: Props) {
             className="mt-4"
             variant="bordered"
             defaultValue={company.line_token ?? ""}
+          />
+        </div>
+
+        <Divider className="" />
+        <Button className="m-4 w-24" variant="flat" color="primary">
+          บันทึก
+        </Button>
+      </Card>
+      <Card className="mt-4 ">
+        <div className="m-4">
+          <p className="text-lg font-bold">รหัสผ่านแอปพลิเคชั่น</p>
+          <p className="text-sm text-foreground/50">ใช้ในการเข้าแอปพลิเคชั่น</p>
+          <Input
+            className="mt-4"
+            variant="bordered"
+            type="password"
+            defaultValue={company.app_password ?? ""}
           />
         </div>
 

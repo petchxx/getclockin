@@ -2,6 +2,7 @@ export interface Company {
   id: string;
   email: string;
   status: string;
+  app_password: string;
   name: string | null;
   line_token: string | null;
   stripe_customer_id: string | null;
