@@ -60,15 +60,13 @@ export const companyRouter = createTRPCRouter({
         .where(sql`${companies.id} = ${ctx.session.user.id}`);
     }),
 
-  get: protectedProcedure
-    .input(z.object({ id: string() }))
-    .query(async ({ ctx, input }) => {
-      const company = await ctx.db
-        .select()
-        .from(companies)
-        .where(sql`${companies.id} = ${input.id}`);
-      return company[0];
-    }),
+  get: protectedProcedure.query(async ({ ctx, input }) => {
+    const company = await ctx.db
+      .select()
+      .from(companies)
+      .where(sql`${companies.id} = ${ctx.session.user.id}`);
+    return company[0];
+  }),
 
   getAllLeaves: protectedProcedure.query(async ({ ctx }) => {
     const result = await ctx.db
