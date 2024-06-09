@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { Leave, LeaveObject } from "~/lib/interface/leave";
+import { Icon } from "@iconify/react";
 
 type Props = {
   leaves: LeaveObject[];
@@ -51,12 +52,12 @@ export default function LeavePage({ leaves }: Props) {
   ];
 
   const columns = [
-    { name: "ชื่อ", uid: "name", sortable: true },
+    { name: "ชื่อ", uid: "name" },
     { name: "การลา", uid: "leave_type" },
-    { name: "จาก", uid: "start_date", sortable: true },
-    { name: "ถึง", uid: "end_date", sortable: true },
+    { name: "จาก", uid: "start_date" },
+    { name: "ถึง", uid: "end_date" },
     { name: "หมายเหตุ", uid: "note" },
-    { name: "สถานะ", uid: "status", sortable: true },
+    { name: "สถานะ", uid: "status" },
     { name: "แก้ไข", uid: "actions" },
   ];
 
@@ -121,9 +122,8 @@ export default function LeavePage({ leaves }: Props) {
 
   // const sortedItems = React.useMemo(() => {
   //   return [...items].sort((a: LeaveObject, b: LeaveObject) => {
-  //     const first = a[sortDescriptor.column?.split(".")[0] as keyof LeaveObject];
-  //     const second =
-  //       b[sortDescriptor.column.split(".")[0] as keyof LeaveObject];
+  //     const first = a[sortDescriptor.column as keyof LeaveObject];
+  //     const second = b[sortDescriptor.column as keyof LeaveObject];
   //     const cmp = first < second ? -1 : first > second ? 1 : 0;
   //
   //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -181,11 +181,16 @@ export default function LeavePage({ leaves }: Props) {
             </User>
           );
 
+        case "leave_type":
+          return leave.leave.leave_type;
+
         case "start_date":
           return moment(leave.leave.from).format("DD/MM/YYYY");
 
         case "end_date":
           return moment(leave.leave.to).format("DD/MM/YYYY");
+        case "note":
+          return leave.leave.note;
 
         case "status":
           return (
@@ -205,13 +210,14 @@ export default function LeavePage({ leaves }: Props) {
         case "actions":
           return (
             <div className="relative flex items-center gap-2">
-              <Tooltip color="success" content="Approve" className="text-white">
+              <Tooltip color="success" content="อนุมัติ" className="text-white">
                 <span
                   className="cursor-pointer text-lg text-success active:opacity-50"
                   onClick={async () => {
                     await handleApprove(leave.leave.id);
                   }}
                 >
+                  <Icon icon="ion:checkmark-outline" />
                   {/* <MdCheck /> */}
                 </span>
               </Tooltip>
@@ -334,7 +340,7 @@ export default function LeavePage({ leaves }: Props) {
           <label className="flex items-center text-small text-default-400">
             แถวต่อหน้า :
             <select
-              className="bg-white text-small text-default-400 outline-none"
+              className="text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
