@@ -5,6 +5,7 @@ import { Avatar, Card, Skeleton } from "@nextui-org/react";
 import { api } from "~/trpc/react";
 import crypto from "crypto";
 import { usePathname } from "next/navigation";
+import GravatarImage from "../GravatarImage";
 
 type Props = {
   title?: string;
@@ -22,12 +23,7 @@ export default function TopBar({ title }: Props) {
             <Avatar
               isBordered
               radius="md"
-              src={
-                `https://www.gravatar.com/avatar/${crypto
-                  .createHash("sha256")
-                  .update(employee?.email ?? "")
-                  .digest("hex")}?s=80&d=identicon` ?? ""
-              }
+              src={GravatarImage({ email: employee?.email ?? "" })}
               color={employee?.status == "in" ? "primary" : "default"}
               name={employee?.name}
               className="h-12 w-12 bg-content3 text-foreground"

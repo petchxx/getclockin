@@ -25,8 +25,9 @@ import {
 import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { Company } from "~/lib/interface/company";
+import { type Company } from "~/lib/interface/company";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import GravatarImage from "../GravatarImage";
 
 type Props = {
   company: Company;
@@ -117,6 +118,8 @@ export default function Topbar({ company, title }: Props) {
                   as="button"
                   size="sm"
                   className="transition-transform"
+                  src={GravatarImage({ email: company.email })}
+                  radius="md"
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">

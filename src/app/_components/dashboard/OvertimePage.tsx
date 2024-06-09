@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
 import { type Overtime } from "~/lib/interface/overtime";
+import GravatarImage from "../GravatarImage";
 
 type Props = {
   overtimes: Overtime[];
@@ -162,7 +163,10 @@ export default function OvertimePage({ overtimes }: Props) {
         case "name":
           return (
             <User
-              avatarProps={{ radius: "lg" }}
+              avatarProps={{
+                src: GravatarImage({ email: overtime.employeeEmail }),
+                radius: "lg",
+              }}
               description={overtime.employeeEmail}
               name={overtime.employeeName}
             >

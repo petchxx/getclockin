@@ -29,6 +29,8 @@ import { toast } from "react-toastify";
 import { type Leave } from "~/lib/interface/leave";
 import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
+import GravatarImage from "../GravatarImage";
+import { trace } from "console";
 
 type Props = {
   leaves: Leave[];
@@ -161,7 +163,10 @@ export default function LeavePage({ leaves }: Props) {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg" }}
+            avatarProps={{
+              src: GravatarImage({ email: leave.employeeEmail ?? "" }),
+              radius: "lg",
+            }}
             description={leave.employeeEmail}
             name={leave.employeeName}
           >
