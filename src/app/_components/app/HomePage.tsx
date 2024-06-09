@@ -3,8 +3,6 @@ import { I18nProvider } from "@react-aria/i18n";
 
 import { Time } from "@internationalized/date";
 
-import Clock from "react-live-clock";
-
 import { signOut } from "next-auth/react";
 import {
   Avatar,
