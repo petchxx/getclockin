@@ -7,7 +7,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { companies } from "~/server/db/schema";
+import { companies, employees, leaves } from "~/server/db/schema";
 export const companyRouter = createTRPCRouter({
   create: publicProcedure
     .input(
@@ -70,13 +70,14 @@ export const companyRouter = createTRPCRouter({
       return company[0];
     }),
 
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
+  getAllLeaves: protectedProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db
+      .select()
+      .from(leaves)
+      .innerJoin(employees, sql`${leaves.employee_id} = ${employees.id}`)
+      .where(sql`${employees.company_id} = ${ctx.session.user.id}`);
+    return result;
+  }),
 
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))
