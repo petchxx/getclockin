@@ -24,7 +24,7 @@ import {
   TimeInput,
   useDisclosure,
 } from "@nextui-org/react";
-import { Icon } from "@iconify/react/dist/iconify.mjs";
+import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";

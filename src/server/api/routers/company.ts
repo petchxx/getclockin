@@ -7,7 +7,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { companies, employees, leaves } from "~/server/db/schema";
+import { companies, employees, leaves, overtimes } from "~/server/db/schema";
 export const companyRouter = createTRPCRouter({
   create: publicProcedure
     .input(
@@ -74,8 +74,59 @@ export const companyRouter = createTRPCRouter({
       .from(leaves)
       .innerJoin(employees, sql`${leaves.employee_id} = ${employees.id}`)
       .where(sql`${employees.company_id} = ${ctx.session.user.id}`);
-    return result;
+    return result.map((leave) => {
+      return {
+        ...leave.leave,
+        employeeName: leave.employee.name,
+        employeeEmail: leave.employee.email,
+        employeeId: leave.employee.id,
+      };
+    });
   }),
+
+  updateLeave: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        status: z.enum(["approved", "rejected"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .update(leaves)
+        .set({ status: input.status })
+        .where(sql`${leaves.id} = ${input.id}`);
+    }),
+
+  getAllOvertimes: protectedProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db
+      .select()
+      .from(overtimes)
+      .innerJoin(employees, sql`${overtimes.employee_id} = ${employees.id}`)
+      .where(sql`${employees.company_id} = ${ctx.session.user.id}`);
+    return result.map((overtime) => {
+      return {
+        ...overtime.overtime,
+        employeeName: overtime.employee.name,
+        employeeEmail: overtime.employee.email,
+        employeeId: overtime.employee.id,
+      };
+    });
+  }),
+
+  updateOvertime: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        status: z.enum(["approved", "rejected"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .update(overtimes)
+        .set({ status: input.status })
+        .where(sql`${overtimes.id} = ${input.id}`);
+    }),
 
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))

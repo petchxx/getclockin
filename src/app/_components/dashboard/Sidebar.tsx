@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import { Button, Card, toggle } from "@nextui-org/react";
 import SidebarItem from "./SidebarItem";
 import { Icon } from "@iconify/react";
-import { Company } from "~/lib/interface/company";
+import { type Company } from "~/lib/interface/company";
 
 type Props = {
   company: Company;
@@ -45,13 +45,13 @@ export default function Sidebar({ company }: Props) {
         <SidebarItem
           path="/dashboard/leave"
           icon={<Icon icon="ion:calendar-outline" fontSize={24} />}
-          title="ลางาน"
+          title="ขอลางาน"
         />
 
         <SidebarItem
           path="/dashboard/overtime"
           icon={<Icon icon="ion:timer-outline" fontSize={24} />}
-          title="เพิ่มเวลาทำงาน"
+          title="ขอทำงานล่วงเวลา"
         />
         <p className="mt-2 text-sm">บัญชี</p>
         <SidebarItem

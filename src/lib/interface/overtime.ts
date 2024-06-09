@@ -1,9 +1,11 @@
-export interface Leave {
+import { type Employee } from "./employee";
+
+export interface Overtime {
   id: string;
   employee_id: string;
-  leave_type: string;
-  from: Date;
-  to: Date;
+  date: Date;
+  from: string;
+  to: string;
   status: string;
   note: string | null;
   employeeName: string;

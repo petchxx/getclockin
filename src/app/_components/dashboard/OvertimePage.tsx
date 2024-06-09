@@ -26,15 +26,15 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import { toast } from "react-toastify";
-import { type Leave } from "~/lib/interface/leave";
 import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
+import { type Overtime } from "~/lib/interface/overtime";
 
 type Props = {
-  leaves: Leave[];
+  overtimes: Overtime[];
 };
 
-export default function LeavePage({ leaves }: Props) {
+export default function OvertimePage({ overtimes }: Props) {
   const router = useRouter();
   const statusColorMap: Record<string, ChipProps["color"]> = {
     approved: "success",
@@ -44,7 +44,7 @@ export default function LeavePage({ leaves }: Props) {
 
   const INITIAL_VISIBLE_COLUMNS = [
     "name",
-    "leave_type",
+    "date",
     "from",
     "to",
     "note",
@@ -54,16 +54,16 @@ export default function LeavePage({ leaves }: Props) {
 
   const columns = [
     { name: "ชื่อ", uid: "name" },
-    { name: "การลา", uid: "leave_type", sortable: true },
+    { name: "วันที่", uid: "date", sortable: true },
     { name: "จาก", uid: "from", sortable: true },
-    { name: "ถึง", uid: "to" },
+    { name: "ถึง", uid: "to", sortable: true },
     { name: "หมายเหตุ", uid: "note" },
-    { name: "สถานะ", uid: "status" },
+    { name: "สถานะ", uid: "status", sortable: true },
     { name: "แก้ไข", uid: "actions" },
   ];
 
   const statusOptions = [
-    { name: "ยอมรับ", uid: "approved" },
+    { name: "อนุมัติ", uid: "approved" },
     { name: "กำลังรอ", uid: "pending" },
     { name: "ปฏิเสธ", uid: "rejected" },
   ];
@@ -93,7 +93,7 @@ export default function LeavePage({ leaves }: Props) {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...leaves].reverse();
+    let filteredUsers = [...overtimes];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -110,7 +110,7 @@ export default function LeavePage({ leaves }: Props) {
     }
 
     return filteredUsers;
-  }, [leaves, filterValue, statusFilter]);
+  }, [overtimes, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -123,8 +123,8 @@ export default function LeavePage({ leaves }: Props) {
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a, b) => {
-      const first = a[sortDescriptor.column as keyof Leave] as Date;
-      const second = b[sortDescriptor.column as keyof Leave] as Date;
+      const first = a[sortDescriptor.column as keyof Overtime] as Date;
+      const second = b[sortDescriptor.column as keyof Overtime] as Date;
       // const cmp = first < second ? -1 : first > second ? 1 : 0;
       if (!first || !second) return 0;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
@@ -137,7 +137,7 @@ export default function LeavePage({ leaves }: Props) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const updateLeave = api.company.updateLeave.useMutation({
+  const updateOvertime = api.company.updateOvertime.useMutation({
     async onSuccess() {
       toast.success("Leave updated successfully");
       router.refresh();
@@ -148,84 +148,89 @@ export default function LeavePage({ leaves }: Props) {
   });
 
   const handleApprove = async (id: string) => {
-    updateLeave.mutate({ id, status: "approved" });
+    updateOvertime.mutate({ id, status: "approved" });
   };
 
   const handleReject = async (id: string) => {
-    updateLeave.mutate({ id, status: "rejected" });
+    updateOvertime.mutate({ id, status: "rejected" });
   };
 
-  const renderCell = React.useCallback((leave: Leave, columnKey: React.Key) => {
-    // const cellValue = leave[columnKey as keyof LeaveObject];
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg" }}
-            description={leave.employeeEmail}
-            name={leave.employeeName}
-          >
-            {leave.employeeName}
-          </User>
-        );
+  const renderCell = React.useCallback(
+    (overtime: Overtime, columnKey: React.Key) => {
+      // const cellValue = leave[columnKey as keyof LeaveObject];
+      switch (columnKey) {
+        case "name":
+          return (
+            <User
+              avatarProps={{ radius: "lg" }}
+              description={overtime.employeeEmail}
+              name={overtime.employeeName}
+            >
+              {overtime.employeeName}
+            </User>
+          );
 
-      case "leave_type":
-        return leave.leave_type;
+        case "date":
+          return moment(overtime.date).format("DD/MM/YYYY");
 
-      case "from":
-        return moment(leave.from).format("DD/MM/YYYY");
+        case "from":
+          return (
+            overtime.from.split(":")[0] + ":" + overtime.from.split(":")[1]
+          );
 
-      case "to":
-        return moment(leave.to).format("DD/MM/YYYY");
-      case "note":
-        return leave.note;
+        case "to":
+          return overtime.to.split(":")[0] + ":" + overtime.to.split(":")[1];
+        case "note":
+          return overtime.note;
 
-      case "status":
-        return (
-          <Chip
-            // className="capitalize"
-            color={statusColorMap[leave.status]}
-            size="sm"
-            variant="flat"
-          >
-            {leave.status == "approved"
-              ? "ยอมรับ"
-              : leave.status == "pending"
-                ? "กำลังรอ"
-                : "ปฏิเสธ"}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip color="success" content="อนุมัติ" className="text-white">
-              <span
-                className="cursor-pointer text-lg text-success active:opacity-50"
-                onClick={async () => {
-                  await handleApprove(leave.id);
-                }}
-              >
-                <Icon icon="ion:checkmark-outline" />
-                {/* <MdCheck /> */}
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Decline">
-              <span
-                className="cursor-pointer text-lg text-danger active:opacity-50"
-                onClick={async () => {
-                  await handleReject(leave.id);
-                }}
-              >
-                <Icon icon="ion:close-outline" />
-                {/* <MdClose /> */}
-              </span>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return null;
-    }
-  }, []);
+        case "status":
+          return (
+            <Chip
+              // className="capitalize"
+              color={statusColorMap[overtime.status]}
+              size="sm"
+              variant="flat"
+            >
+              {overtime.status == "approved"
+                ? "ยอมรับ"
+                : overtime.status == "pending"
+                  ? "กำลังรอ"
+                  : "ปฏิเสธ"}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex items-center gap-2">
+              <Tooltip color="success" content="อนุมัติ" className="text-white">
+                <span
+                  className="cursor-pointer text-lg text-success active:opacity-50"
+                  onClick={async () => {
+                    await handleApprove(overtime.id);
+                  }}
+                >
+                  <Icon icon="ion:checkmark-outline" />
+                  {/* <MdCheck /> */}
+                </span>
+              </Tooltip>
+              <Tooltip color="danger" content="Decline">
+                <span
+                  className="cursor-pointer text-lg text-danger active:opacity-50"
+                  onClick={async () => {
+                    await handleReject(overtime.id);
+                  }}
+                >
+                  <Icon icon="ion:close-outline" />
+                  {/* <MdClose /> */}
+                </span>
+              </Tooltip>
+            </div>
+          );
+        default:
+          return null;
+      }
+    },
+    [],
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -322,7 +327,7 @@ export default function LeavePage({ leaves }: Props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            ทั้งหมด {leaves.length} รายการ
+            ทั้งหมด {overtimes.length} รายการ
           </span>
           <label className="flex items-center text-small text-default-400">
             แถวต่อหน้า :
@@ -344,7 +349,7 @@ export default function LeavePage({ leaves }: Props) {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    leaves.length,
+    overtimes.length,
     hasSearchFilter,
   ]);
 
