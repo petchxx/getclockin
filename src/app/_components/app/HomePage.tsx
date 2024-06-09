@@ -219,8 +219,9 @@ export default function HomePage({ employee }: Props) {
                   <div
                     className="transform transition-transform duration-300 ease-in-out hover:scale-105"
                     key={index}
+                    onCut={() => {}}
                   >
-                    <Card className="flex-row justify-between gap-2 p-4 ">
+                    <Card className="flex-row justify-between gap-2 p-4">
                       <div className="flex items-center gap-2">
                         <div
                           className={`flex h-12 w-12 items-center justify-center rounded-xl ${clock.status == "in" ? "bg-primary/20" : "bg-red-500/20"}`}
