@@ -1,9 +1,9 @@
 import React from "react";
 import OvertimePage from "~/app/_components/dashboard/OvertimePage";
-import { type OvertimeObject } from "~/lib/interface/overtime";
+import { type Overtime } from "~/lib/interface/overtime";
 import { api } from "~/trpc/server";
 
 export default async function page() {
   const overtime = await api.company.getAllOvertimes();
-  return <OvertimePage overtimes={overtime as OvertimeObject[]} />;
+  return <OvertimePage overtimes={overtime as Overtime[]} />;
 }

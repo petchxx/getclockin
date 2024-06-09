@@ -16,9 +16,9 @@ import {
   Chip,
   User,
   Pagination,
-  Selection,
-  ChipProps,
-  SortDescriptor,
+  type Selection,
+  type ChipProps,
+  type SortDescriptor,
   Tooltip,
   Skeleton,
 } from "@nextui-org/react";
@@ -29,7 +29,8 @@ import UpdateEmployee from "./UpdateEmployee";
 import AddEmployee from "./AddEmployee";
 import { Icon } from "@iconify/react";
 import DeleteEmployee from "./DeleteEmployee";
-import { Employee } from "~/lib/interface/employee";
+import { type Employee } from "~/lib/interface/employee";
+import GravatarImage from "../../GravatarImage";
 
 type Props = {
   employees: Employee[];
@@ -144,7 +145,10 @@ export default function EmployeePage({ employees }: Props) {
         case "name":
           return (
             <User
-              avatarProps={{ radius: "lg", src: "" }}
+              avatarProps={{
+                radius: "lg",
+                src: GravatarImage({ email: employee.email }),
+              }}
               description={employee.email}
               name={employee.name}
             >
