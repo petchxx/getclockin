@@ -23,7 +23,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { Employee } from "~/lib/interface/employee";
+import { type Employee } from "~/lib/interface/employee";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import { Icon } from "@iconify/react";
 import { Input } from "postcss";
@@ -32,6 +32,7 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import TopBar from "./TopBar";
+import LiveClock from "./LiveClock";
 
 type Props = {
   employee: Employee;
@@ -174,32 +175,7 @@ export default function HomePage({ employee }: Props) {
       <main className="z-10 pb-24 pt-20">
         <div className="mt-2 flex flex-col items-center justify-center p-4">
           <div className="flex flex-col items-center gap-2">
-            <div>
-              <Skeleton isLoaded={showClock} className="rounded-2xl">
-                {new Date().toLocaleDateString("th-TH", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-                {/* <Clock */}
-                {/*   format={"dddd, DD MMMM"} */}
-                {/*   ticking={true} */}
-                {/*   timezone={"Asia/Bangkok"} */}
-                {/*   locale={"TH"} */}
-                {/* /> */}
-              </Skeleton>
-            </div>
-            <div>
-              <Skeleton isLoaded={showClock} className="rounded-2xl">
-                <Clock
-                  format={"HH:mm"}
-                  ticking={true}
-                  timezone={"Asia/Bangkok"}
-                  locale={"TH"}
-                  className="text-7xl "
-                />
-              </Skeleton>
-            </div>
+            <LiveClock />
           </div>
           <div className="w-80 ">
             <div className="mt-6 flex justify-between">
