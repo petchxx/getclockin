@@ -91,21 +91,13 @@ export default function LeavePage() {
                 >
                   <div className="flex items-center gap-2">
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${leave.status == "pending" ? "bg-primary/20" : "bg-red-500/20"}`}
+                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${leave.status == "pending" ? "bg-primary/20" : leave.status == "approved" ? "bg-success/20" : "bg-red-500/20"}`}
                     >
-                      {leave.status == "pending" ? (
-                        <Icon
-                          icon="ion:trending-up-outline"
-                          fontSize={24}
-                          className="text-primary"
-                        />
-                      ) : (
-                        <Icon
-                          icon="ion:trending-up-outline"
-                          fontSize={24}
-                          className="text-red-500"
-                        />
-                      )}
+                      <Icon
+                        icon="ion:trending-up-outline"
+                        fontSize={24}
+                        className={`${leave.status == "pending" ? "text-primary" : leave.status == "approved" ? "text-green-500" : "text-red-500"}`}
+                      />
                     </div>
                     <div className="flex flex-col ">
                       <p className="">{leave.leave_type}</p>
