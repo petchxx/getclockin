@@ -146,6 +146,28 @@ export const companyRouter = createTRPCRouter({
   //   });
   // }),
   //
+  //
+  update: protectedProcedure
+    .input(
+      z.object({
+        email: z.string().email({ message: "อีเมลไม่ถูกต้อง" }),
+        name: z.string(),
+        line_token: z.string(),
+        app_pawword: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      //set to only one that have values
+      return await ctx.db
+        .update(companies)
+        .set({
+          email: input.email,
+          name: input.name,
+          line_token: input.line_token,
+          app_password: input.app_pawword,
+        })
+        .where(sql`${companies.id} = ${ctx.session.user.id}`);
+    }),
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),

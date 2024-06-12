@@ -1,12 +1,17 @@
+"use client";
 import { Button, Card, Divider, Input } from "@nextui-org/react";
-import React from "react";
-import { Company } from "~/lib/interface/company";
+import React, { useState } from "react";
+import { type Company } from "~/lib/interface/company";
 
 type Props = {
   company: Company;
 };
 
 export default function SettingsPage({ company }: Props) {
+  const [name, setName] = useState(company.name ?? "");
+  const [email, setEmail] = useState(company.email ?? "");
+  const [lineToken, setLineToken] = useState(company.line_token ?? "");
+  const [appPassword, setAppPassword] = useState(company.app_password ?? "");
   return (
     <div className="py-4">
       <Card className="">
@@ -16,7 +21,8 @@ export default function SettingsPage({ company }: Props) {
           <Input
             className="mt-4"
             variant="bordered"
-            defaultValue={company.email ?? ""}
+            defaultValue={email}
+            name="email"
           />
         </div>
 
@@ -29,11 +35,7 @@ export default function SettingsPage({ company }: Props) {
         <div className="m-4">
           <p className="text-lg font-bold">ชื่อบริษัท</p>
           <p className="text-sm text-foreground/50">ใช้ในการเข้าแอปพลิเคชั่น</p>
-          <Input
-            className="mt-4"
-            variant="bordered"
-            defaultValue={company.name ?? ""}
-          />
+          <Input className="mt-4" variant="bordered" defaultValue={name} />
         </div>
 
         <Divider className="" />
@@ -47,17 +49,55 @@ export default function SettingsPage({ company }: Props) {
           <p className="text-sm text-foreground/50">
             ใช้ในการแจ้งเตือนผ่านไลน์
           </p>
-          <Input
-            className="mt-4"
-            variant="bordered"
-            defaultValue={company.line_token ?? ""}
-          />
+          <Input className="mt-4" variant="bordered" defaultValue={lineToken} />
         </div>
 
         <Divider className="" />
         <Button className="m-4 w-24" variant="flat" color="primary">
           บันทึก
         </Button>
+      </Card>
+      <Card className="mt-4 ">
+        <form>
+          <div className="m-4">
+            <p className="text-lg font-bold">รหัสผ่านแดชบอร์ด</p>
+            <p className="text-sm text-foreground/50">
+              ใช้ในการเข้าแอปพลิเคชั่น
+            </p>
+            <Input
+              className="mt-4"
+              variant="bordered"
+              type="password"
+              label="รหัสผ่านเก่า"
+              name="password"
+            />
+
+            <Input
+              className="mt-4"
+              variant="bordered"
+              type="password"
+              label="รหัสผ่านใหม่"
+              name="new_password"
+            />
+            <Input
+              className="mt-4"
+              variant="bordered"
+              type="password"
+              label="ยืนยันรหัสผ่านใหม่"
+              name="confirm_password"
+            />
+          </div>
+
+          <Divider className="" />
+          <Button
+            type="submit"
+            className="m-4 w-24"
+            variant="flat"
+            color="primary"
+          >
+            บันทึก
+          </Button>
+        </form>
       </Card>
       <Card className="mt-4 ">
         <div className="m-4">
