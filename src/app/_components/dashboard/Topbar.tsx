@@ -45,13 +45,13 @@ export default function Topbar({ company, title }: Props) {
     if (pathname == "/dashboard/calculate") return "คำนวนเงินเดือน";
     if (pathname == "/dashboard/leave") return "คำขอลางาน";
     if (pathname == "/dashboard/overtime") return "คำขอเพิ่มเวลาทำงาน";
-    if (pathname == "/dashboard/status") return "สถานะ";
+    if (pathname == "/dashboard/subscription") return "แพ็คเกจของฉัน";
     if (pathname == "/dashboard/settings") return "ตั้งค่า";
   };
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="w-full">
+    <div className="sticky top-4 z-20 w-full">
       <Card className="">
         <Navbar maxWidth="full" className="rounded-sm bg-content1 ">
           <NavbarMenuToggle

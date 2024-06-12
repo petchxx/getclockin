@@ -16,7 +16,7 @@ export default function SettingsPage({ company }: Props) {
     <div className="py-4">
       <Card className="">
         <div className="m-4">
-          <p className="text-lg font-bold">อีเมล์</p>
+          <p className="text  font-bold">อีเมล์</p>
           <p className="text-sm text-foreground/50">ใช้ในการเข้าแดชบอร์ด</p>
           <Input
             className="mt-4"
@@ -33,7 +33,7 @@ export default function SettingsPage({ company }: Props) {
       </Card>
       <Card className="mt-4 ">
         <div className="m-4">
-          <p className="text-lg font-bold">ชื่อบริษัท</p>
+          <p className="text font-bold">ชื่อบริษัท</p>
           <p className="text-sm text-foreground/50">ใช้ในการเข้าแอปพลิเคชั่น</p>
           <Input className="mt-4" variant="bordered" defaultValue={name} />
         </div>
@@ -45,7 +45,7 @@ export default function SettingsPage({ company }: Props) {
       </Card>
       <Card className="mt-4 ">
         <div className="m-4">
-          <p className="text-lg font-bold">Line Notify Key</p>
+          <p className=" font-bold">Line Notify Key</p>
           <p className="text-sm text-foreground/50">
             ใช้ในการแจ้งเตือนผ่านไลน์
           </p>
@@ -60,7 +60,7 @@ export default function SettingsPage({ company }: Props) {
       <Card className="mt-4 ">
         <form>
           <div className="m-4">
-            <p className="text-lg font-bold">รหัสผ่านแดชบอร์ด</p>
+            <p className="font-bold">รหัสผ่านแดชบอร์ด</p>
             <p className="text-sm text-foreground/50">
               ใช้ในการเข้าแอปพลิเคชั่น
             </p>
@@ -101,7 +101,7 @@ export default function SettingsPage({ company }: Props) {
       </Card>
       <Card className="mt-4 ">
         <div className="m-4">
-          <p className="text-lg font-bold">รหัสผ่านแอปพลิเคชั่น</p>
+          <p className="font-bold">รหัสผ่านแอปพลิเคชั่น</p>
           <p className="text-sm text-foreground/50">ใช้ในการเข้าแอปพลิเคชั่น</p>
           <Input
             className="mt-4"

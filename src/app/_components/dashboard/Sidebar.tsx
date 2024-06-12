@@ -55,7 +55,7 @@ export default function Sidebar({ company }: Props) {
         />
         <p className="mt-2 text-sm">บัญชี</p>
         <SidebarItem
-          path="/dashboard/plan"
+          path="/dashboard/subscription"
           icon={<Icon icon="ion:card-outline" fontSize={24} />}
           title="แพ็คเกจของฉัน"
         />
