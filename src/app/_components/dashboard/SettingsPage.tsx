@@ -1,4 +1,5 @@
 "use client";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button, Card, Divider, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -14,6 +15,8 @@ export default function SettingsPage({ company }: Props) {
   const [email, setEmail] = useState(company.email ?? "");
   const [lineToken, setLineToken] = useState(company.line_token ?? "");
   const [appPassword, setAppPassword] = useState(company.app_password ?? "");
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const updateCompany = api.company.update.useMutation({
     async onSuccess() {
@@ -146,7 +149,7 @@ export default function SettingsPage({ company }: Props) {
             className="m-4 w-24"
             variant="flat"
             color="primary"
-            onClick={async (e) => {
+            onClick={async () => {
               await handleSubmit();
             }}
           >
@@ -161,11 +164,20 @@ export default function SettingsPage({ company }: Props) {
           <Input
             className="mt-4"
             variant="bordered"
-            type="password"
+            type={isPasswordVisible ? "text" : "password"}
             defaultValue={company.app_password ?? ""}
             onChange={(e) => {
               setAppPassword(e.target.value);
             }}
+            endContent={
+              <Icon
+                icon={isPasswordVisible ? "bi:eye-slash" : "bi:eye"}
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsPasswordVisible(!isPasswordVisible);
+                }}
+              />
+            }
           />
         </div>
 
