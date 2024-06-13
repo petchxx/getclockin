@@ -153,7 +153,7 @@ export const companyRouter = createTRPCRouter({
         email: z.string().email({ message: "อีเมลไม่ถูกต้อง" }),
         name: z.string(),
         line_token: z.string(),
-        app_pawword: z.string(),
+        app_password: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -164,7 +164,7 @@ export const companyRouter = createTRPCRouter({
           email: input.email,
           name: input.name,
           line_token: input.line_token,
-          app_password: input.app_pawword,
+          app_password: input.app_password,
         })
         .where(sql`${companies.id} = ${ctx.session.user.id}`);
     }),
