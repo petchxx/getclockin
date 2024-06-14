@@ -266,7 +266,7 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 //   email: string;
 // };
 //
-export default function CalculatePage() {
+export default function HistoryPage() {
   const [filterValue, setFilterValue] = React.useState("");
   const [employees, setEmployees] = React.useState<Employee[]>([]);
   const getEmployees = api.employee.getAll.useQuery();

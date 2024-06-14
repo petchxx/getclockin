@@ -172,10 +172,10 @@ export default function Topbar({ company, title }: Props) {
               </Link>
               <Link
                 color={`${
-                  pathname == "/dashboard/calculate" ? "primary" : "foreground"
+                  pathname == "/dashboard/history" ? "primary" : "foreground"
                 }`}
                 className="w-full"
-                href="/dashboard/calculate"
+                href="/dashboard/history"
                 size="lg"
               >
                 คำนวนเงินเดือน

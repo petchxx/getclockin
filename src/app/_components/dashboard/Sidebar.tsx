@@ -35,9 +35,9 @@ export default function Sidebar({ company }: Props) {
         />
 
         <SidebarItem
-          path="/dashboard/calculate"
-          icon={<Icon icon="ion:cash-outline" fontSize={24} />}
-          title="คำนวนเงินเดือน"
+          path="/dashboard/history"
+          icon={<Icon icon="ion:time-outline" fontSize={24} />}
+          title="ประวัติการทำงาน"
         />
 
         <p className="mt-2 text-sm">คำขอ</p>
