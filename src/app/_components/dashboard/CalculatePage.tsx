@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 const columns = [
   { name: "ID", uid: "id", sortable: true },
   { name: "NAME", uid: "name", sortable: true },
@@ -17,7 +17,7 @@ const statusOptions = [
   { name: "Vacation", uid: "vacation" },
 ];
 
-const users = [
+const usersTest = [
   {
     id: 1,
     name: "Tony Reichert",
@@ -240,8 +240,12 @@ import {
   type ChipProps,
   type SortDescriptor,
   Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { type Clock } from "~/lib/interface/clock";
+import { type Employee } from "~/lib/interface/employee";
+import GravatarImage from "../GravatarImage";
+import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -251,10 +255,27 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-type User = (typeof users)[0];
-
+// type User = {
+//   id: number;
+//   name: string;
+//   role: string;
+//   team: string;
+//   status: string;
+//   age: string;
+//   avatar: string;
+//   email: string;
+// };
+//
 export default function CalculatePage() {
   const [filterValue, setFilterValue] = React.useState("");
+  const [employees, setEmployees] = React.useState<Employee[]>([]);
+  const getEmployees = api.employee.getAll.useQuery();
+  useEffect(() => {
+    if (getEmployees.data) {
+      setEmployees(getEmployees.data as Employee[]);
+    }
+  }, [getEmployees.data]);
+
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([]),
   );
@@ -281,11 +302,11 @@ export default function CalculatePage() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredUsers = [...employees];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredUsers = filteredUsers.filter((employee) =>
+        employee.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (
@@ -298,7 +319,7 @@ export default function CalculatePage() {
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [employees, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -310,70 +331,76 @@ export default function CalculatePage() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
+    return [...items].sort((a: Employee, b: Employee) => {
+      const first = a[sortDescriptor.column as keyof Employee] as number;
+      const second = b[sortDescriptor.column as keyof Employee] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User];
+  const renderCell = React.useCallback(
+    (employee: Employee, columnKey: React.Key) => {
+      // const cellValue = user[columnKey as keyof Employee];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center justify-end gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  {/* <VerticalDotsIcon className="text-default-300" /> */}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "name":
+          return (
+            <User
+              avatarProps={{
+                radius: "lg",
+                src: GravatarImage({ email: employee.email }),
+              }}
+              description={employee.email}
+              name={employee.name}
+            >
+              {employee.email}
+            </User>
+          );
+        case "role":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{employee.role}</p>
+              <p className="text-bold text-tiny capitalize text-default-400">
+                {employee.role}
+              </p>
+            </div>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[employee.status]}
+              size="sm"
+              variant="flat"
+            >
+              {employee.status}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex items-center justify-end gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    {/* <VerticalDotsIcon className="text-default-300" /> */}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem>View</DropdownItem>
+                  <DropdownItem>Edit</DropdownItem>
+                  <DropdownItem>Delete</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        default:
+          return employee[columnKey as keyof Employee];
+      }
+    },
+    [],
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -480,7 +507,7 @@ export default function CalculatePage() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {users.length} users
+            Total {employees.length} users
           </span>
           <label className="flex items-center text-small text-default-400">
             Rows per page:
@@ -502,7 +529,7 @@ export default function CalculatePage() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    users.length,
+    employees.length,
     hasSearchFilter,
   ]);
 
@@ -548,27 +575,26 @@ export default function CalculatePage() {
   return (
     <div className="mt-4 ">
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        {/* <Select */}
-        {/*   label="พนักงาน" */}
-        {/*   placeholder="เลือกพนักงาน" */}
-        {/*   className="max-w-xs rounded-xl bg-white " */}
-        {/*   variant="bordered" */}
-        {/*   onChange={(e) => { */}
-        {/*     setSelectedEmployee( */}
-        {/*       employees.find((employee: any) => employee.id == e.target.value), */}
-        {/*     ); */}
-        {/*     setShowCalculate(false); */}
-        {/*   }} */}
-        {/* > */}
-        {/*   {employees.map((employee: any) => ( */}
-        {/*     <SelectItem key={employee.id} value={employee.id}> */}
-        {/*       {employee.name} */}
-        {/*     </SelectItem> */}
-        {/*   ))} */}
-        {/* </Select> */}
+        <Select
+          label="พนักงาน"
+          placeholder="เลือกพนักงาน"
+          className="max-w-xs rounded-xl "
+          variant="bordered"
+          onChange={(e) => {
+            // setSelectedEmployee();
+            // employees.find((employee: any) => employee.id == e.target.value),
+            // setShowCalculate(false);
+          }}
+        >
+          {employees.map((employee: Employee) => (
+            <SelectItem key={employee.id} value={employee.id}>
+              {employee.name}
+            </SelectItem>
+          ))}
+        </Select>
         <div className="flex gap-2">
           <Input
-            className="w-40 rounded-xl bg-white"
+            className="w-40 rounded-xl "
             type="date"
             variant="bordered"
             label="จาก"
@@ -578,7 +604,7 @@ export default function CalculatePage() {
             }}
           />
           <Input
-            className="w-40 rounded-xl bg-white"
+            className="w-40 rounded-xl "
             type="date"
             // value={to}
             label="ถึง"
