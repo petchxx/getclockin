@@ -44,7 +44,7 @@ export default function Topbar({ company, title }: Props) {
     if (pathname == "/dashboard/employee") return "พนักงาน";
     if (pathname == "/dashboard/history") return "ประัวัติการทำงาน";
     if (pathname == "/dashboard/leave") return "คำขอลางาน";
-    if (pathname == "/dashboard/overtime") return "คำขอเพิ่มเวลาทำงาน";
+    if (pathname == "/dashboard/overtime") return "ขอทำงานล่วงเวลา";
     if (pathname == "/dashboard/subscription") return "แพ็คเกจของฉัน";
     if (pathname == "/dashboard/settings") return "ตั้งค่า";
   };
@@ -178,7 +178,7 @@ export default function Topbar({ company, title }: Props) {
                 href="/dashboard/history"
                 size="lg"
               >
-                คำนวนเงินเดือน
+                ประวัติการทำงาน
               </Link>
               <Link
                 color={`${pathname == "/dashboard/leave" ? "primary" : "foreground"}`}
@@ -186,7 +186,7 @@ export default function Topbar({ company, title }: Props) {
                 href="/dashboard/leave"
                 size="lg"
               >
-                ลางาน
+                ขอลางาน
               </Link>
               <Link
                 color={`${
@@ -196,7 +196,7 @@ export default function Topbar({ company, title }: Props) {
                 href="/dashboard/overtime"
                 size="lg"
               >
-                เพิ่มเวลาทำงาน
+                ขอทำงานล่วงเวลา
               </Link>
               <Link
                 color={`${

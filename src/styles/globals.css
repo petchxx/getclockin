@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.screen-with-sidebar {
+  width: 100% - 320px;
+}

@@ -28,6 +28,7 @@ import { type Employee } from "~/lib/interface/employee";
 import GravatarImage from "../GravatarImage";
 import { api } from "~/trpc/react";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 // type User = {
 //   id: number;
@@ -41,6 +42,7 @@ import moment from "moment";
 // };
 //
 export default function HistoryPage() {
+  const router = useRouter();
   const statusColorMap: Record<string, ChipProps["color"]> = {
     present: "success",
     absent: "danger",
@@ -51,13 +53,13 @@ export default function HistoryPage() {
   const columns = [
     { name: "ชื่อ", uid: "name", sortable: true },
     { name: "วันที่", uid: "date", sortable: true },
-    { name: "เข้างาน", uid: "in_date_time" },
+    { name: "เข้างาน", uid: "in" },
     { name: "ออกงาน", uid: "out" },
-    { name: "สถานะ", uid: "status" },
     { name: "หมายเหตุเข้างาน", uid: "in_note" },
     { name: "หมายเหตุออกงาน", uid: "out_note" },
     { name: "สถานที่เข้างาน", uid: "in_location" },
     { name: "สถานที่ออกงาน", uid: "out_location" },
+    { name: "สถานะ", uid: "status" },
   ];
 
   const statusOptions = [
@@ -127,12 +129,12 @@ export default function HistoryPage() {
       );
       mixedData.push({
         employee_id: selectedEmployee?.id ?? "",
-        status: selectedEmployee?.off_days.includes(
-          moment(date, "DD/MM/YYYY").format("dddd"),
-        )
-          ? "offday"
-          : entry
-            ? "present"
+        status: entry
+          ? "present"
+          : selectedEmployee?.off_days.includes(
+                moment(date, "DD/MM/YYYY").format("dddd"),
+              )
+            ? "offday"
             : "absent",
         date: date,
         in_date_time: entry?.date_time ?? null,
@@ -155,7 +157,7 @@ export default function HistoryPage() {
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "date",
     direction: "descending",
@@ -230,6 +232,28 @@ export default function HistoryPage() {
               {selectedEmployee?.email}
             </User>
           );
+        case "date":
+          return (
+            <p className="text-bold text-small capitalize">
+              {moment(item.date).format("DD / MM / YYYY")}
+            </p>
+          );
+        case "in":
+          return item.in_date_time ? (
+            <p className="text-bold text-small capitalize">
+              {moment(item.in_date_time).format("HH:mm")}
+            </p>
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
+          );
+        case "out":
+          return item.out_date_time ? (
+            <p className="text-bold text-small capitalize">
+              {moment(item.out_date_time).format("HH:mm")}
+            </p>
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
+          );
         case "role":
           return (
             <div className="flex flex-col">
@@ -241,6 +265,33 @@ export default function HistoryPage() {
               </p>
             </div>
           );
+        case "in_location":
+          return item.in_location ? (
+            <p
+              onClick={() => {
+                router.push(`${item.in_location}`);
+              }}
+              className="text-bold text-small capitalize text-primary underline"
+            >
+              Location
+            </p>
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
+          );
+        case "out_location":
+          return item.out_location ? (
+            <p
+              onClick={() => {
+                router.push(`${item.out_location}`);
+              }}
+              className="text-bold text-small capitalize text-primary underline"
+            >
+              Location
+            </p>
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
+          );
+
         case "status":
           return (
             <Chip
@@ -251,6 +302,12 @@ export default function HistoryPage() {
             >
               {item.status}
             </Chip>
+          );
+        case "in_note":
+          return item.in_note ? (
+            <p className="text-bold text-small capitalize">{item.in_note}</p>
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
           );
         case "actions":
           return (
@@ -272,6 +329,9 @@ export default function HistoryPage() {
         default:
           if (cellValue instanceof Date) {
             return moment(cellValue).format("YYYY-MM-DD HH:mm");
+          }
+          if (cellValue === null) {
+            return <p className="text-zinc-400">[ ว่าง ]</p>;
           }
           return cellValue;
       }
@@ -392,9 +452,9 @@ export default function HistoryPage() {
               className="bg-transparent text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
             >
-              <option value="5">5</option>
               <option value="10">10</option>
-              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
             </select>
           </label>
         </div>
@@ -619,7 +679,7 @@ export default function HistoryPage() {
           >
             {statusOptions.map((status) => (
               <DropdownItem key={status.uid} className="capitalize">
-                {/* {capitalize(status.name)} */}
+                {status.name}
               </DropdownItem>
             ))}
           </DropdownMenu>
@@ -640,7 +700,7 @@ export default function HistoryPage() {
           >
             {columns.map((column) => (
               <DropdownItem key={column.uid} className="capitalize">
-                {/* {capitalize(column.name)} */}
+                {column.name}
               </DropdownItem>
             ))}
           </DropdownMenu>
@@ -653,7 +713,7 @@ export default function HistoryPage() {
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
         classNames={{
-          wrapper: "max-h-[382px]",
+          wrapper: "max-h-[382px] overflow-y-auto",
         }}
         sortDescriptor={sortDescriptor}
         topContent={topContent}
