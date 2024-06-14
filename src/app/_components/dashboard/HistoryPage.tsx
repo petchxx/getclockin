@@ -285,10 +285,21 @@ export default function HistoryPage() {
     }
   }, [getEmployees.data]);
 
+  const getHistory = api.company.getHistory.useMutation({
+    async onSuccess(data) {
+      console.log(data);
+    },
+  });
+
   async function getData() {
     console.log(selectedEmployee);
     console.log(from);
     console.log(to);
+    getHistory.mutate({
+      id: selectedEmployee?.id ?? "",
+      from: from,
+      to: to,
+    });
   }
 
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
