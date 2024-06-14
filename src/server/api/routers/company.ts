@@ -7,7 +7,13 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { companies, employees, leaves, overtimes } from "~/server/db/schema";
+import {
+  clocks,
+  companies,
+  employees,
+  leaves,
+  overtimes,
+} from "~/server/db/schema";
 export const companyRouter = createTRPCRouter({
   create: publicProcedure
     .input(
@@ -168,6 +174,25 @@ export const companyRouter = createTRPCRouter({
         })
         .where(sql`${companies.id} = ${ctx.session.user.id}`);
     }),
+
+  getHistory: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        from: z.date(),
+        to: z.date(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db
+        .select()
+        .from(clocks)
+        .where(
+          sql`${clocks.date_time} <= ${input.to} AND ${clocks.date_time} >= ${input.from} AND ${clocks.employee_id} = ${input.id}`,
+        );
+      return result;
+    }),
+
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),

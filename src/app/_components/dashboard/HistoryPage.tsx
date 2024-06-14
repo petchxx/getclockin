@@ -246,6 +246,7 @@ import { type Clock } from "~/lib/interface/clock";
 import { type Employee } from "~/lib/interface/employee";
 import GravatarImage from "../GravatarImage";
 import { api } from "~/trpc/react";
+import moment from "moment";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -269,12 +270,26 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 export default function HistoryPage() {
   const [filterValue, setFilterValue] = React.useState("");
   const [employees, setEmployees] = React.useState<Employee[]>([]);
+  const [selectedEmployee, setSelectedEmployee] =
+    React.useState<Employee | null>();
+  const [from, setFrom] = React.useState(
+    moment().startOf("month").format("YYYY-MM-DD"),
+  );
+  const [to, setTo] = React.useState(moment().format("YYYY-MM-DD"));
+
   const getEmployees = api.employee.getAll.useQuery();
+
   useEffect(() => {
     if (getEmployees.data) {
       setEmployees(getEmployees.data as Employee[]);
     }
   }, [getEmployees.data]);
+
+  async function getData() {
+    console.log(selectedEmployee);
+    console.log(from);
+    console.log(to);
+  }
 
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([]),
@@ -581,7 +596,9 @@ export default function HistoryPage() {
           className="max-w-xs rounded-xl "
           variant="bordered"
           onChange={(e) => {
-            // setSelectedEmployee();
+            setSelectedEmployee(
+              employees.find((employee) => employee.id == e.target.value),
+            );
             // employees.find((employee: any) => employee.id == e.target.value),
             // setShowCalculate(false);
           }}
@@ -598,19 +615,19 @@ export default function HistoryPage() {
             type="date"
             variant="bordered"
             label="จาก"
-            // value={from}
+            value={from}
             onChange={(e) => {
-              // setFrom(e.target.value);
+              setFrom(e.target.value);
             }}
           />
           <Input
             className="w-40 rounded-xl "
             type="date"
-            // value={to}
+            value={to}
             label="ถึง"
             variant="bordered"
             onChange={(e) => {
-              // setTo(e.target.value);
+              setTo(e.target.value);
             }}
           />
         </div>
@@ -619,8 +636,8 @@ export default function HistoryPage() {
           color="primary"
           className="w-40"
           size="lg"
-          onClick={() => {
-            // getData();
+          onClick={async () => {
+            await getData();
           }}
         >
           ค้นหา

@@ -42,7 +42,7 @@ export default function Topbar({ company, title }: Props) {
     if (title) return title;
     if (pathname == "/dashboard") return "แดชบอร์ด";
     if (pathname == "/dashboard/employee") return "พนักงาน";
-    if (pathname == "/dashboard/calculate") return "คำนวนเงินเดือน";
+    if (pathname == "/dashboard/history") return "ประัวัติการทำงาน";
     if (pathname == "/dashboard/leave") return "คำขอลางาน";
     if (pathname == "/dashboard/overtime") return "คำขอเพิ่มเวลาทำงาน";
     if (pathname == "/dashboard/subscription") return "แพ็คเกจของฉัน";
