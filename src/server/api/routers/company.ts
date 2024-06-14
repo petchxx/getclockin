@@ -179,18 +179,19 @@ export const companyRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        from: z.date(),
-        to: z.date(),
+        from: z.string(),
+        to: z.string(),
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const result = await ctx.db
+    .mutation(async ({ ctx, input }) => {
+      const clocksData = await ctx.db
         .select()
         .from(clocks)
         .where(
           sql`${clocks.date_time} <= ${input.to} AND ${clocks.date_time} >= ${input.from} AND ${clocks.employee_id} = ${input.id}`,
         );
-      return result;
+
+      return clocksData;
     }),
 
   getSecretMessage: protectedProcedure.query(() => {
