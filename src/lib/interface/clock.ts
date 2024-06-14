@@ -8,14 +8,14 @@ export interface Clock {
 }
 
 export interface History {
-  in_id: string | null;
-  in_date_time: Date | null;
   employee_id: string;
-  in_note: string | null;
-  in_location: string | null;
-  out_id: string | null;
+  status: "present" | "absent" | "offday";
+  date: Date;
+  in_date_time: Date | null;
   out_date_time: Date | null;
+  in_note: string | null;
   out_note: string | null;
+  in_location: string | null;
   out_location: string | null;
 }
 

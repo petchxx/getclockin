@@ -1,224 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-const columns = [
-  { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "name", sortable: true },
-  { name: "AGE", uid: "age", sortable: true },
-  { name: "ROLE", uid: "role", sortable: true },
-  { name: "TEAM", uid: "team" },
-  { name: "EMAIL", uid: "email" },
-  { name: "STATUS", uid: "status", sortable: true },
-  { name: "ACTIONS", uid: "actions" },
-];
-
-const statusOptions = [
-  { name: "Active", uid: "active" },
-  { name: "Paused", uid: "paused" },
-  { name: "Vacation", uid: "vacation" },
-];
-
-const usersTest = [
-  {
-    id: 1,
-    name: "Tony Reichert",
-    role: "CEO",
-    team: "Management",
-    status: "active",
-    age: "29",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    email: "tony.reichert@example.com",
-  },
-  {
-    id: 2,
-    name: "Zoey Lang",
-    role: "Tech Lead",
-    team: "Development",
-    status: "paused",
-    age: "25",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-    email: "zoey.lang@example.com",
-  },
-  {
-    id: 3,
-    name: "Jane Fisher",
-    role: "Sr. Dev",
-    team: "Development",
-    status: "active",
-    age: "22",
-    avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-    email: "jane.fisher@example.com",
-  },
-  {
-    id: 4,
-    name: "William Howard",
-    role: "C.M.",
-    team: "Marketing",
-    status: "vacation",
-    age: "28",
-    avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-    email: "william.howard@example.com",
-  },
-  {
-    id: 5,
-    name: "Kristen Copper",
-    role: "S. Manager",
-    team: "Sales",
-    status: "active",
-    age: "24",
-    avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-    email: "kristen.cooper@example.com",
-  },
-  {
-    id: 6,
-    name: "Brian Kim",
-    role: "P. Manager",
-    team: "Management",
-    age: "29",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    email: "brian.kim@example.com",
-    status: "Active",
-  },
-  {
-    id: 7,
-    name: "Michael Hunt",
-    role: "Designer",
-    team: "Design",
-    status: "paused",
-    age: "27",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29027007d",
-    email: "michael.hunt@example.com",
-  },
-  {
-    id: 8,
-    name: "Samantha Brooks",
-    role: "HR Manager",
-    team: "HR",
-    status: "active",
-    age: "31",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e27027008d",
-    email: "samantha.brooks@example.com",
-  },
-  {
-    id: 9,
-    name: "Frank Harrison",
-    role: "F. Manager",
-    team: "Finance",
-    status: "vacation",
-    age: "33",
-    avatar: "https://i.pravatar.cc/150?img=4",
-    email: "frank.harrison@example.com",
-  },
-  {
-    id: 10,
-    name: "Emma Adams",
-    role: "Ops Manager",
-    team: "Operations",
-    status: "active",
-    age: "35",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    email: "emma.adams@example.com",
-  },
-  {
-    id: 11,
-    name: "Brandon Stevens",
-    role: "Jr. Dev",
-    team: "Development",
-    status: "active",
-    age: "22",
-    avatar: "https://i.pravatar.cc/150?img=8",
-    email: "brandon.stevens@example.com",
-  },
-  {
-    id: 12,
-    name: "Megan Richards",
-    role: "P. Manager",
-    team: "Product",
-    status: "paused",
-    age: "28",
-    avatar: "https://i.pravatar.cc/150?img=10",
-    email: "megan.richards@example.com",
-  },
-  {
-    id: 13,
-    name: "Oliver Scott",
-    role: "S. Manager",
-    team: "Security",
-    status: "active",
-    age: "37",
-    avatar: "https://i.pravatar.cc/150?img=12",
-    email: "oliver.scott@example.com",
-  },
-  {
-    id: 14,
-    name: "Grace Allen",
-    role: "M. Specialist",
-    team: "Marketing",
-    status: "active",
-    age: "30",
-    avatar: "https://i.pravatar.cc/150?img=16",
-    email: "grace.allen@example.com",
-  },
-  {
-    id: 15,
-    name: "Noah Carter",
-    role: "IT Specialist",
-    team: "I. Technology",
-    status: "paused",
-    age: "31",
-    avatar: "https://i.pravatar.cc/150?img=15",
-    email: "noah.carter@example.com",
-  },
-  {
-    id: 16,
-    name: "Ava Perez",
-    role: "Manager",
-    team: "Sales",
-    status: "active",
-    age: "29",
-    avatar: "https://i.pravatar.cc/150?img=20",
-    email: "ava.perez@example.com",
-  },
-  {
-    id: 17,
-    name: "Liam Johnson",
-    role: "Data Analyst",
-    team: "Analysis",
-    status: "active",
-    age: "28",
-    avatar: "https://i.pravatar.cc/150?img=33",
-    email: "liam.johnson@example.com",
-  },
-  {
-    id: 18,
-    name: "Sophia Taylor",
-    role: "QA Analyst",
-    team: "Testing",
-    status: "active",
-    age: "27",
-    avatar: "https://i.pravatar.cc/150?img=29",
-    email: "sophia.taylor@example.com",
-  },
-  {
-    id: 19,
-    name: "Lucas Harris",
-    role: "Administrator",
-    team: "Information Technology",
-    status: "paused",
-    age: "32",
-    avatar: "https://i.pravatar.cc/150?img=50",
-    email: "lucas.harris@example.com",
-  },
-  {
-    id: 20,
-    name: "Mia Robinson",
-    role: "Coordinator",
-    team: "Operations",
-    status: "active",
-    age: "26",
-    avatar: "https://i.pravatar.cc/150?img=45",
-    email: "mia.robinson@example.com",
-  },
-];
 
 import {
   Table,
@@ -242,19 +23,11 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { type Clock } from "~/lib/interface/clock";
+import { type History, type Clock } from "~/lib/interface/clock";
 import { type Employee } from "~/lib/interface/employee";
 import GravatarImage from "../GravatarImage";
 import { api } from "~/trpc/react";
 import moment from "moment";
-
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
 // type User = {
 //   id: number;
@@ -268,6 +41,30 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 // };
 //
 export default function HistoryPage() {
+  const statusColorMap: Record<string, ChipProps["color"]> = {
+    present: "success",
+    absent: "danger",
+  };
+
+  const INITIAL_VISIBLE_COLUMNS = ["name", "date", "in", "out", "status"];
+
+  const columns = [
+    { name: "ชื่อ", uid: "name", sortable: true },
+    { name: "วันที่", uid: "date", sortable: true },
+    { name: "เข้างาน", uid: "in_date_time" },
+    { name: "ออกงาน", uid: "out" },
+    { name: "สถานะ", uid: "status" },
+    { name: "หมายเหตุเข้างาน", uid: "in_note" },
+    { name: "หมายเหตุออกงาน", uid: "out_note" },
+    { name: "สถานที่เข้างาน", uid: "in_location" },
+    { name: "สถานที่ออกงาน", uid: "out_location" },
+  ];
+
+  const statusOptions = [
+    { name: "เข้างาน", uid: "present" },
+    { name: "ขาดงาน", uid: "absent" },
+    { name: "วันหยุด", uid: "offday" },
+  ];
   const [filterValue, setFilterValue] = React.useState("");
   const [employees, setEmployees] = React.useState<Employee[]>([]);
   const [selectedEmployee, setSelectedEmployee] =
@@ -276,6 +73,7 @@ export default function HistoryPage() {
     moment().startOf("month").format("YYYY-MM-DD"),
   );
   const [to, setTo] = React.useState(moment().format("YYYY-MM-DD"));
+  const [history, setHistory] = React.useState<History[]>([]);
 
   const getEmployees = api.employee.getAll.useQuery();
 
@@ -285,9 +83,9 @@ export default function HistoryPage() {
     }
   }, [getEmployees.data]);
 
-  const getHistory = api.company.getHistory.useMutation({
+  const getClocks = api.company.getHistory.useMutation({
     async onSuccess(data) {
-      console.log(data);
+      await generateHistory(data);
     },
   });
 
@@ -295,11 +93,59 @@ export default function HistoryPage() {
     console.log(selectedEmployee);
     console.log(from);
     console.log(to);
-    getHistory.mutate({
+    getClocks.mutate({
       id: selectedEmployee?.id ?? "",
       from: from,
       to: to,
     });
+  }
+
+  async function generateHistory(clock: Clock[]) {
+    const dateArray: Date[] = [];
+    const currentDate = new Date(from);
+    const endDateObj = new Date(to);
+
+    while (currentDate <= endDateObj) {
+      dateArray.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    console.log(dateArray);
+    const mixedData: History[] = [];
+    dateArray.forEach((date) => {
+      const entry = clock.find(
+        (c) =>
+          new Date(c.date_time).getDate() == date.getDate() &&
+          new Date(c.date_time).getMonth() == date.getMonth() &&
+          new Date(c.date_time).getFullYear() == date.getFullYear(),
+      );
+      const outEntry = clock.find(
+        (c) =>
+          new Date(c.date_time).getDate() == date.getDate() &&
+          new Date(c.date_time).getMonth() == date.getMonth() &&
+          new Date(c.date_time).getFullYear() == date.getFullYear() &&
+          c.status == "out",
+      );
+      mixedData.push({
+        employee_id: selectedEmployee?.id ?? "",
+        status: selectedEmployee?.off_days.includes(
+          moment(date, "DD/MM/YYYY").format("dddd"),
+        )
+          ? "offday"
+          : entry
+            ? "present"
+            : "absent",
+        date: date,
+        in_date_time: entry?.date_time ?? null,
+        in_note: entry?.note ?? null,
+        in_location: entry?.location ?? null,
+        out_date_time: outEntry?.date_time ?? null,
+        out_note: outEntry?.note ?? null,
+        out_location: outEntry?.location ?? null,
+      });
+    });
+    setHistory(mixedData);
+    //TODO
+    console.log(mixedData);
   }
 
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -311,8 +157,8 @@ export default function HistoryPage() {
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-    column: "age",
-    direction: "ascending",
+    column: "date",
+    direction: "descending",
   });
 
   const [page, setPage] = React.useState(1);
@@ -328,24 +174,24 @@ export default function HistoryPage() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...employees];
+    let filteredUsers = [...history].reverse();
 
-    if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((employee) =>
-        employee.name.toLowerCase().includes(filterValue.toLowerCase()),
-      );
-    }
+    // if (hasSearchFilter) {
+    //   filteredUsers = filteredUsers.filter((employee) =>
+    //     employee.name.toLowerCase().includes(filterValue.toLowerCase()),
+    //   );
+    // }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status),
+      filteredUsers = filteredUsers.filter((history: History) =>
+        Array.from(statusFilter).includes(history.status),
       );
     }
 
     return filteredUsers;
-  }, [employees, filterValue, statusFilter]);
+  }, [history, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -357,9 +203,9 @@ export default function HistoryPage() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Employee, b: Employee) => {
-      const first = a[sortDescriptor.column as keyof Employee] as number;
-      const second = b[sortDescriptor.column as keyof Employee] as number;
+    return [...items].sort((a: History, b: History) => {
+      const first = a[sortDescriptor.column as keyof History] as number | Date;
+      const second = b[sortDescriptor.column as keyof History] as number | Date;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -367,8 +213,8 @@ export default function HistoryPage() {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (employee: Employee, columnKey: React.Key) => {
-      // const cellValue = user[columnKey as keyof Employee];
+    (item: History, columnKey: React.Key, selectedEmployee: Employee) => {
+      const cellValue = item[columnKey as keyof History];
 
       switch (columnKey) {
         case "name":
@@ -376,20 +222,22 @@ export default function HistoryPage() {
             <User
               avatarProps={{
                 radius: "lg",
-                src: GravatarImage({ email: employee.email }),
+                src: GravatarImage({ email: selectedEmployee?.email }),
               }}
-              description={employee.email}
-              name={employee.name}
+              description={selectedEmployee?.email}
+              name={selectedEmployee?.name}
             >
-              {employee.email}
+              {selectedEmployee?.email}
             </User>
           );
         case "role":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{employee.role}</p>
+              <p className="text-bold text-small capitalize">
+                {selectedEmployee?.role}
+              </p>
               <p className="text-bold text-tiny capitalize text-default-400">
-                {employee.role}
+                {selectedEmployee?.role}
               </p>
             </div>
           );
@@ -397,11 +245,11 @@ export default function HistoryPage() {
           return (
             <Chip
               className="capitalize"
-              color={statusColorMap[employee.status]}
+              color={statusColorMap[item.status]}
               size="sm"
               variant="flat"
             >
-              {employee.status}
+              {item.status}
             </Chip>
           );
         case "actions":
@@ -422,7 +270,10 @@ export default function HistoryPage() {
             </div>
           );
         default:
-          return employee[columnKey as keyof Employee];
+          if (cellValue instanceof Date) {
+            return moment(cellValue).format("YYYY-MM-DD HH:mm");
+          }
+          return cellValue;
       }
     },
     [],
@@ -533,7 +384,7 @@ export default function HistoryPage() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {employees.length} users
+            Total {history.length} users
           </span>
           <label className="flex items-center text-small text-default-400">
             Rows per page:
@@ -555,7 +406,7 @@ export default function HistoryPage() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    employees.length,
+    history.length,
     hasSearchFilter,
   ]);
 
@@ -814,16 +665,19 @@ export default function HistoryPage() {
             <TableColumn
               key={column.uid}
               align={column.uid === "actions" ? "center" : "start"}
+              allowsSorting={column.sortable}
             >
               {column.name}
             </TableColumn>
           )}
         </TableHeader>
         <TableBody emptyContent={"ไม่พบประวัติ"} items={sortedItems}>
-          {(item) => (
-            <TableRow key={item.id}>
+          {(item: History) => (
+            <TableRow key={item.date.toString()}>
               {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
+                <TableCell>
+                  {renderCell(item, columnKey, selectedEmployee!)}
+                </TableCell>
               )}
             </TableRow>
           )}
