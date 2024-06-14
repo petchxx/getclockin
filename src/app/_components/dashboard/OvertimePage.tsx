@@ -185,7 +185,11 @@ export default function OvertimePage({ overtimes }: Props) {
         case "to":
           return overtime.to.split(":")[0] + ":" + overtime.to.split(":")[1];
         case "note":
-          return overtime.note;
+          return overtime.note ? (
+            overtime.note
+          ) : (
+            <p className="text-zinc-400">[ ว่าง ]</p>
+          );
 
         case "status":
           return (

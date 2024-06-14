@@ -183,7 +183,11 @@ export default function LeavePage({ leaves }: Props) {
       case "to":
         return moment(leave.to).format("DD/MM/YYYY");
       case "note":
-        return leave.note;
+        return leave.note ? (
+          leave.note
+        ) : (
+          <p className="text-zinc-400">[ ว่าง ]</p>
+        );
 
       case "status":
         return (

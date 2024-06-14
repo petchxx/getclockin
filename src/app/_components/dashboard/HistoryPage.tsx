@@ -29,6 +29,7 @@ import GravatarImage from "../GravatarImage";
 import { api } from "~/trpc/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // type User = {
 //   id: number;
@@ -95,6 +96,9 @@ export default function HistoryPage() {
     console.log(selectedEmployee);
     console.log(from);
     console.log(to);
+    if (!selectedEmployee) {
+      return toast.error("กรุณาเลือกพนักงาน");
+    }
     getClocks.mutate({
       id: selectedEmployee?.id ?? "",
       from: from,
@@ -271,7 +275,7 @@ export default function HistoryPage() {
               onClick={() => {
                 router.push(`${item.in_location}`);
               }}
-              className="text-bold text-small capitalize text-primary underline"
+              className="text-bold cursor-pointer text-small capitalize text-primary underline"
             >
               Location
             </p>
@@ -284,7 +288,7 @@ export default function HistoryPage() {
               onClick={() => {
                 router.push(`${item.out_location}`);
               }}
-              className="text-bold text-small capitalize text-primary underline"
+              className="text-bold cursor-pointer text-small capitalize text-primary underline"
             >
               Location
             </p>
@@ -687,7 +691,7 @@ export default function HistoryPage() {
         <Dropdown>
           <DropdownTrigger className="hidden sm:flex">
             <Button endContent={"V"} variant="flat">
-              ข้อมูล
+              เพิ่มเติม
             </Button>
           </DropdownTrigger>
           <DropdownMenu
