@@ -258,7 +258,7 @@ export default function HomePage({ employee }: Props) {
                       className="transition-colors duration-300 ease-in-out group-hover:text-primary"
                       fontSize={64}
                     />
-                    <p className="mt-2 transition-colors duration-300 ease-in-out group-hover:text-primary">
+                    <p className="mt-4 transition-colors duration-300 ease-in-out group-hover:text-primary">
                       กดเข้างานได้เลย!
                     </p>
                   </div>

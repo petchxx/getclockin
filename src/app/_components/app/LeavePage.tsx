@@ -28,6 +28,7 @@ import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 export default function LeavePage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -136,7 +137,23 @@ export default function LeavePage() {
                 </Card>
               ))
             ) : (
-              <p>ไม่มีข้อมูล</p>
+              <div className="group flex h-[280px] w-full items-center justify-center gap-2 text-foreground/50">
+                <div
+                  onClick={async () => {
+                    onOpen();
+                  }}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <Icon
+                    icon="ion:calendar-clear-outline"
+                    className="transition-colors duration-300 ease-in-out group-hover:text-primary"
+                    fontSize={64}
+                  />
+                  <p className="mt-4 transition-colors duration-300 ease-in-out group-hover:text-primary">
+                    ขอลางานได้เลย!
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>
