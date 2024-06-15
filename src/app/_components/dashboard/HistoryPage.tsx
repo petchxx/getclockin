@@ -245,7 +245,15 @@ export default function HistoryPage() {
         case "in":
           return item.in_date_time ? (
             <p className="text-bold text-small capitalize">
-              {moment(item.in_date_time).format("HH:mm")}
+              {moment(item.in_date_time).format("HH:mm")}{" "}
+              <p className="text-xs">
+                {calculateEarlyLate(
+                  selectedEmployee?.start_time,
+                  selectedEmployee?.stop_time,
+                  "in",
+                  item.in_date_time,
+                )}
+              </p>
             </p>
           ) : (
             <p className="text-zinc-400">[ ว่าง ]</p>
@@ -253,7 +261,15 @@ export default function HistoryPage() {
         case "out":
           return item.out_date_time ? (
             <p className="text-bold text-small capitalize">
-              {moment(item.out_date_time).format("HH:mm")}
+              {moment(item.out_date_time).format("HH:mm")}{" "}
+              <p className="text-xs">
+                {calculateEarlyLate(
+                  selectedEmployee?.start_time,
+                  selectedEmployee?.stop_time,
+                  "out",
+                  item.out_date_time,
+                )}
+              </p>
             </p>
           ) : (
             <p className="text-zinc-400">[ ว่าง ]</p>
@@ -376,6 +392,78 @@ export default function HistoryPage() {
     setFilterValue("");
     setPage(1);
   }, []);
+
+  const calculateEarlyLate = (
+    start: string,
+    stop: string,
+    status: string,
+    clock_date_time: Date,
+  ) => {
+    const today = moment().startOf("day"); // Get the start of the current day
+
+    // Set the date part of each time to today
+    const start_time = moment(start, "HH:mm:ss").set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
+
+    const stop_time = moment(stop, "HH:mm:ss").set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
+
+    const clock_time = moment(clock_date_time).set({
+      year: today.year(),
+      month: today.month(),
+      date: today.date(),
+    });
+
+    if (status === "in") {
+      const difference = clock_time.diff(start_time, "minutes");
+
+      if (difference < 0) {
+        const earlyBy = Math.abs(difference - 1);
+        return (
+          <p className="text-foreground/50">
+            ก่อน {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+          </p>
+        );
+      } else if (difference === 0) {
+        return <p className="text-foreground/50">ตรงเวลา</p>;
+      } else {
+        const lateBy = Math.abs(difference);
+        return (
+          <p className="text-red-500">
+            สาย {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+          </p>
+        );
+      }
+    }
+
+    if (status === "out") {
+      const difference = clock_time.diff(stop_time, "minutes");
+
+      if (difference < 0) {
+        const earlyBy = Math.abs(difference - 1);
+        return (
+          <p className="text-red-500">
+            ก่อน {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
+          </p>
+        );
+      } else if (difference === 0) {
+        return <p className="text-foreground/50">ตรงเวลา</p>;
+      } else {
+        const lateBy = Math.abs(difference);
+        return (
+          <p className="text-foreground/50">
+            เกิน {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
+          </p>
+        );
+      }
+    }
+  };
 
   const topContent = React.useMemo(() => {
     return (
