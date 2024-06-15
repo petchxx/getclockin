@@ -92,7 +92,7 @@ export default function HistoryPage() {
     },
   });
 
-  async function getData() {
+  async function getData(selectedEmployee: Employee | null = null) {
     console.log(selectedEmployee);
     console.log(from);
     console.log(to);
@@ -521,10 +521,12 @@ export default function HistoryPage() {
           placeholder="เลือกพนักงาน"
           className="max-w-xs rounded-xl "
           variant="bordered"
-          onChange={(e) => {
-            setSelectedEmployee(
-              employees.find((employee) => employee.id == e.target.value),
+          onChange={async (e) => {
+            const selected = employees.find(
+              (employee) => employee.id == e.target.value,
             );
+            setSelectedEmployee(selected);
+            await getData(selected);
             // employees.find((employee: any) => employee.id == e.target.value),
             // setShowCalculate(false);
           }}
@@ -542,8 +544,9 @@ export default function HistoryPage() {
             variant="bordered"
             label="จาก"
             value={from}
-            onChange={(e) => {
+            onChange={async (e) => {
               setFrom(e.target.value);
+              await getData(selectedEmployee);
             }}
           />
           <Input
@@ -552,22 +555,65 @@ export default function HistoryPage() {
             value={to}
             label="ถึง"
             variant="bordered"
-            onChange={(e) => {
+            onChange={async (e) => {
               setTo(e.target.value);
+              await getData(selectedEmployee);
             }}
           />
+          <Dropdown>
+            <DropdownTrigger className="hidden sm:flex">
+              <Button endContent={"V"} variant="flat" className="h-14">
+                สถานะ
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={statusFilter}
+              selectionMode="multiple"
+              onSelectionChange={setStatusFilter}
+            >
+              {statusOptions.map((status) => (
+                <DropdownItem key={status.uid} className="capitalize">
+                  {status.name}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown>
+            <DropdownTrigger className="hidden sm:flex">
+              <Button endContent={"V"} variant="flat" className="h-14">
+                เพิ่มเติม
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={visibleColumns}
+              selectionMode="multiple"
+              onSelectionChange={setVisibleColumns}
+            >
+              {columns.map((column) => (
+                <DropdownItem key={column.uid} className="capitalize">
+                  {column.name}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
         </div>
 
-        <Button
-          color="primary"
-          className="w-40"
-          size="lg"
-          onClick={async () => {
-            await getData();
-          }}
-        >
-          ค้นหา
-        </Button>
+        {/* <Button */}
+        {/*   color="primary" */}
+        {/*   className="w-40" */}
+        {/*   size="lg" */}
+        {/*   onClick={async () => { */}
+        {/*     await getData(); */}
+        {/*   }} */}
+        {/* > */}
+        {/*   ค้นหา */}
+        {/* </Button> */}
         {/* {showCalculateButton && ( */}
         {/*   <Button */}
         {/*     color="primary" */}
@@ -666,50 +712,6 @@ export default function HistoryPage() {
       {/*   </Card> */}
       {/* )} */}
 
-      <div className="mt-4 flex gap-3">
-        <Dropdown>
-          <DropdownTrigger className="hidden sm:flex">
-            <Button endContent={"V"} variant="flat">
-              สถานะ
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            disallowEmptySelection
-            aria-label="Table Columns"
-            closeOnSelect={false}
-            selectedKeys={statusFilter}
-            selectionMode="multiple"
-            onSelectionChange={setStatusFilter}
-          >
-            {statusOptions.map((status) => (
-              <DropdownItem key={status.uid} className="capitalize">
-                {status.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <DropdownTrigger className="hidden sm:flex">
-            <Button endContent={"V"} variant="flat">
-              เพิ่มเติม
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            disallowEmptySelection
-            aria-label="Table Columns"
-            closeOnSelect={false}
-            selectedKeys={visibleColumns}
-            selectionMode="multiple"
-            onSelectionChange={setVisibleColumns}
-          >
-            {columns.map((column) => (
-              <DropdownItem key={column.uid} className="capitalize">
-                {column.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
       <Table
         className="mt-4 "
         aria-label="Example table with custom cells, pagination and sorting"

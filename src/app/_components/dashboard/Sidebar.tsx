@@ -16,7 +16,7 @@ type Props = {
 export default function Sidebar({ company }: Props) {
   return (
     <Card
-      className={`sticky top-0 hidden h-screen w-80 rounded-l-none rounded-r-xl p-4 lg:block`}
+      className={`sticky top-0 hidden h-screen w-80 rounded-l-none rounded-r-xl p-4 xl:block`}
     >
       <h1 className="flex text-4xl font-bold text-primary ">ClockIn</h1>
       <div className="mt-6">

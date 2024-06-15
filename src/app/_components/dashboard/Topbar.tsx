@@ -42,7 +42,7 @@ export default function Topbar({ company, title }: Props) {
     if (title) return title;
     if (pathname == "/dashboard") return "แดชบอร์ด";
     if (pathname == "/dashboard/employee") return "พนักงาน";
-    if (pathname == "/dashboard/history") return "ประัวัติการทำงาน";
+    if (pathname == "/dashboard/history") return "ประวัติการทำงาน";
     if (pathname == "/dashboard/leave") return "คำขอลางาน";
     if (pathname == "/dashboard/overtime") return "ขอทำงานล่วงเวลา";
     if (pathname == "/dashboard/subscription") return "แพ็คเกจของฉัน";
@@ -56,7 +56,7 @@ export default function Topbar({ company, title }: Props) {
         <Navbar maxWidth="full" className="rounded-sm bg-content1 ">
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden"
+            className="xl:hidden"
           />
           <NavbarContent className="flex gap-4 font-bold">
             <NavbarItem>
@@ -150,7 +150,7 @@ export default function Topbar({ company, title }: Props) {
               </DropdownMenu>
             </Dropdown>
           </div>
-          <NavbarMenu className="bg-background">
+          <NavbarMenu className="mt-6 bg-background">
             <NavbarMenuItem className="mt-6 flex flex-col gap-2">
               <Link
                 color={`${pathname == "/dashboard" ? "primary" : "foreground"}`}
