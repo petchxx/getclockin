@@ -320,7 +320,13 @@ export default function HistoryPage() {
               size="sm"
               variant="flat"
             >
-              {item.status}
+              {item.status === "present"
+                ? "เข้างาน"
+                : item.status === "absent"
+                  ? "ขาดงาน"
+                  : item.status === "offday"
+                    ? "วันหยุด"
+                    : "ไม่ทราบ"}
             </Chip>
           );
         case "in_note":
