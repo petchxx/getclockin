@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { getServerAuthSession } from "~/server/auth";
 import SignInPage from "../_components/app/SignInPage";
 import BottomBar from "../_components/app/BottomBar";
@@ -26,7 +26,6 @@ export default async function layout({ children }: Props) {
     <div>
       {/* <TopBar /> */}
       <div className="">{children}</div>
-      <BottomBar />
     </div>
   );
 }
