@@ -89,19 +89,22 @@ export default function HistoryPage() {
   const getClocks = api.company.getHistory.useMutation({
     async onSuccess(data) {
       await generateHistory(data);
+      console.log("data");
+      console.log(data);
     },
   });
 
   async function getData(selectedEmployee: Employee | null = null) {
     console.log(selectedEmployee);
-    console.log(from);
+    console.log(from); // 2022-10-01;
     console.log(to);
     if (!selectedEmployee) {
       return toast.error("กรุณาเลือกพนักงาน");
     }
+
     getClocks.mutate({
       id: selectedEmployee?.id ?? "",
-      from: from,
+      from: from, // moment(from).toDate(
       to: to,
     });
   }
@@ -115,6 +118,7 @@ export default function HistoryPage() {
       dateArray.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
+    console.log("dateArray");
     console.log(dateArray);
     const mixedData: History[] = [];
     dateArray.forEach((date) => {
@@ -122,7 +126,8 @@ export default function HistoryPage() {
         (c) =>
           new Date(c.date_time).getDate() == date.getDate() &&
           new Date(c.date_time).getMonth() == date.getMonth() &&
-          new Date(c.date_time).getFullYear() == date.getFullYear(),
+          new Date(c.date_time).getFullYear() == date.getFullYear() &&
+          c.status == "in",
       );
       const outEntry = clock.find(
         (c) =>

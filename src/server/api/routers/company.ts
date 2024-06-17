@@ -188,9 +188,14 @@ export const companyRouter = createTRPCRouter({
         .select()
         .from(clocks)
         .where(
-          sql`${clocks.date_time} <= ${input.to} AND ${clocks.date_time} >= ${input.from} AND ${clocks.employee_id} = ${input.id}`,
+          sql`${clocks.employee_id} = ${input.id} AND ${clocks.date_time} >= ${input.from} AND ${clocks.date_time} <= ${input.to}`,
         );
 
+      console.log(input.id);
+      console.log(input.from);
+      console.log(input.to);
+      console.log("Clock Data");
+      console.log(clocksData);
       return clocksData;
     }),
 
