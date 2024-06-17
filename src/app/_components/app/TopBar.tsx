@@ -33,7 +33,7 @@ export default function TopBar({ title }: Props) {
             <Skeleton isLoaded={employee != null} className="h-4 rounded-2xl">
               <div>
                 <p className="line-clamp-1 w-full font-medium">
-                  {employee?.name} My name is too long
+                  {employee?.name}
                 </p>
               </div>
             </Skeleton>
