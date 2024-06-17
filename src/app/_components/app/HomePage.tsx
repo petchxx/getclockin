@@ -175,7 +175,7 @@ export default function HomePage({ employee }: Props) {
           <div className="flex flex-col items-center gap-2">
             <LiveClock />
           </div>
-          <div className="w-80 ">
+          <div className="w-80">
             <div className="mt-6 flex justify-between">
               <p>การเข้างาน</p>
               <p className="text-primary">เพิ่มเติม</p>

@@ -31,10 +31,16 @@ export default function TopBar({ title }: Props) {
           </Skeleton>
           <div className="flex flex-col justify-center gap-2">
             <Skeleton isLoaded={employee != null} className="h-4 rounded-2xl">
-              <p className="font-medium">{employee?.name}</p>
+              <div>
+                <p className="line-clamp-1 w-full font-medium">
+                  {employee?.name} My name is too long
+                </p>
+              </div>
             </Skeleton>
             <Skeleton isLoaded={employee != null} className="h-4 rounded-2xl">
-              <p className="text-sm text-foreground/50">{employee?.role}</p>
+              <p className="line-clamp-1 text-sm text-foreground/50">
+                {employee?.role}
+              </p>
             </Skeleton>
           </div>
         </div>

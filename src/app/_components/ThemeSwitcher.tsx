@@ -49,7 +49,7 @@ export function ThemeSwitcher({ size, isSwitch }: Props) {
           variant="light"
           onClick={() => setTheme("light")}
         >
-          <Icon icon="line-md:sun-rising-loop" fontSize={24} />)
+          <Icon icon="line-md:sun-rising-loop" fontSize={24} />
         </Button>
       )}
     </div>
