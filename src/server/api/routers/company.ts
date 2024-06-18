@@ -199,6 +199,31 @@ export const companyRouter = createTRPCRouter({
       return clocksData;
     }),
 
+  updatePassword: protectedProcedure
+    .input(
+      z.object({
+        oldPassword: z.string(),
+        newPassword: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const company = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.id} = ${ctx.session.user.id}`);
+      if (!company[0]) throw new Error("บริษัทไม่มีอยู่ในระบบ");
+      const comparePassword = await bcrypt.compare(
+        input.oldPassword,
+        company[0].password,
+      );
+      if (!comparePassword) throw new Error("รหัสผ่านเดิมไม่ถูกต้อง");
+      const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+      return await ctx.db
+        .update(companies)
+        .set({ password: hashedPassword })
+        .where(sql`${companies.id} = ${ctx.session.user.id}`);
+    }),
+
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),

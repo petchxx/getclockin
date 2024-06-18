@@ -1,6 +1,7 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button, Card, Divider, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { type Company } from "~/lib/interface/company";
@@ -15,11 +16,16 @@ export default function SettingsPage({ company }: Props) {
   const [email, setEmail] = useState(company.email ?? "");
   const [lineToken, setLineToken] = useState(company.line_token ?? "");
   const [appPassword, setAppPassword] = useState(company.app_password ?? "");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const router = useRouter();
 
   const updateCompany = api.company.update.useMutation({
     async onSuccess() {
+      router.refresh();
       toast.success("บันทึกสำเร็จ");
     },
   });
@@ -33,6 +39,29 @@ export default function SettingsPage({ company }: Props) {
     });
   }
 
+  const updatePassword = api.company.updatePassword.useMutation({
+    async onSuccess() {
+      router.refresh();
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+
+      toast.success("เปลี่ยนรหัสผ่านสำเร็");
+    },
+    async onError(error) {
+      toast.error(error.message);
+    },
+  });
+
+  async function handleUpdatePassword() {
+    if (newPassword !== confirmPassword) {
+      return toast.error("รหัสผ่านไม่ตรงกัน");
+    }
+    updatePassword.mutate({
+      oldPassword,
+      newPassword,
+    });
+  }
   return (
     <div className="py-4">
       <Card className="">
@@ -116,15 +145,17 @@ export default function SettingsPage({ company }: Props) {
         <form>
           <div className="m-4">
             <p className="font-bold">รหัสผ่านแดชบอร์ด</p>
-            <p className="text-sm text-foreground/50">
-              ใช้ในการเข้าแอปพลิเคชั่น
-            </p>
+            <p className="text-sm text-foreground/50">ใช้ในการเข้าเว็บ</p>
             <Input
               className="mt-4"
               variant="bordered"
               type="password"
               label="รหัสผ่านเก่า"
               name="password"
+              value={oldPassword}
+              onChange={(e) => {
+                setOldPassword(e.target.value);
+              }}
             />
 
             <Input
@@ -133,6 +164,10 @@ export default function SettingsPage({ company }: Props) {
               type="password"
               label="รหัสผ่านใหม่"
               name="new_password"
+              value={newPassword}
+              onChange={(e) => {
+                setNewPassword(e.target.value);
+              }}
             />
             <Input
               className="mt-4"
@@ -140,17 +175,20 @@ export default function SettingsPage({ company }: Props) {
               type="password"
               label="ยืนยันรหัสผ่านใหม่"
               name="confirm_password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
             />
           </div>
 
           <Divider className="" />
           <Button
-            type="submit"
             className="m-4 w-24"
             variant="flat"
             color="primary"
             onClick={async () => {
-              await handleSubmit();
+              await handleUpdatePassword();
             }}
           >
             บันทึก
