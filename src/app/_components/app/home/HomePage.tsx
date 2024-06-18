@@ -22,14 +22,14 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { type Employee } from "~/lib/interface/employee";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitcher } from "../../ThemeSwitcher";
 import { Icon } from "@iconify/react";
 import { Input } from "postcss";
 import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
-import TopBar from "./TopBar";
+import TopBar from "../TopBar";
 import LiveClock from "./LiveClock";
 import ClockCard from "./ClockCard";
 

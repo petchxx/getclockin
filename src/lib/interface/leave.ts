@@ -10,3 +10,13 @@ export interface Leave {
   employeeEmail: string;
   employeeId: string;
 }
+
+export interface AppLeave {
+  id: string;
+  employee_id: string;
+  leave_type: string;
+  from: Date;
+  to: Date;
+  status: string;
+  note: string | null;
+}
