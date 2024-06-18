@@ -247,7 +247,8 @@ export const employeeRouter = createTRPCRouter({
       .select()
       .from(clocks)
       .where(sql`${clocks.employee_id} = ${ctx.session.user.id}`)
-      .orderBy(sql`${clocks.date_time} DESC`);
+      .orderBy(sql`${clocks.date_time} DESC`)
+      .limit(60);
   }),
 
   // create: protectedProcedure

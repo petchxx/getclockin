@@ -1,19 +1,22 @@
 "use client";
 import React from "react";
 import { ThemeSwitcher } from "../ThemeSwitcher";
-import { Avatar, Card, Skeleton } from "@nextui-org/react";
+import { Avatar, Button, Card, Link, Skeleton } from "@nextui-org/react";
 import { api } from "~/trpc/react";
 import crypto from "crypto";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import GravatarImage from "../GravatarImage";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
   title?: string;
+  isBack?: boolean;
 };
 
-export default function TopBar({ title }: Props) {
+export default function TopBar({ title, isBack }: Props) {
   const employee = api.employee.get.useQuery().data;
   const pathname = usePathname();
+  const router = useRouter();
 
   return pathname === "/app" ? (
     <div className="fixed top-0 z-20 flex w-full justify-center rounded-none bg-background  ">
@@ -50,6 +53,19 @@ export default function TopBar({ title }: Props) {
   ) : (
     <div className="fixed z-20 w-full">
       <Card className="flex h-16 items-center justify-center rounded-none bg-background shadow-none">
+        {isBack && (
+          <Button
+            isIconOnly
+            variant="light"
+            onClick={() => {
+              router.back();
+            }}
+            className="absolute left-0 top-0 ml-4 mt-3"
+          >
+            <Icon icon="ion:chevron-back-outline" fontSize={24} />
+          </Button>
+        )}
+
         <h1 className="text-xl font-medium ">{title}</h1>
       </Card>
     </div>
