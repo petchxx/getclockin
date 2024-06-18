@@ -178,7 +178,14 @@ export default function HomePage({ employee }: Props) {
           <div className="w-80">
             <div className="mt-6 flex justify-between">
               <p>การเข้างาน</p>
-              <p className="text-primary">เพิ่มเติม</p>
+              <p
+                className="cursor-pointer text-primary"
+                onClick={() => {
+                  router.push("/app/clocks");
+                }}
+              >
+                เพิ่มเติม
+              </p>
             </div>
             <div className="mt-4 flex min-h-[280px] flex-col gap-2">
               {/* display skeleton when loading  */}
