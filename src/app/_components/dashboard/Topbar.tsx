@@ -24,10 +24,12 @@ import {
 } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { type Company } from "~/lib/interface/company";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import GravatarImage from "../GravatarImage";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import AppLink from "./AppLink";
 
 type Props = {
   company: Company;
@@ -49,9 +51,71 @@ export default function Topbar({ company, title }: Props) {
     if (pathname == "/dashboard/settings") return "ตั้งค่า";
   };
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [success, setSuccess] = React.useState(false);
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get("success")) {
+      console.log(query.get("session_id"));
+      setSuccess(true);
+      onOpen();
+    }
+
+    if (query.get("canceled")) {
+      onOpen();
+    }
+  }, []);
 
   return (
     <div className="sticky top-4 z-20 w-full">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        hideCloseButton={true}
+      >
+        <ModalContent className="py-6">
+          {(onClose) => (
+            <>
+              {/* <ModalHeader className="flex flex-col items-center gap-1">{isSuccess ? "Payment Completed" : "Payment Failed"}</ModalHeader> */}
+              <ModalBody className="flex-col items-center justify-center">
+                {success ? (
+                  <Icon icon="ion:checkmark-circle" fontSize={150} />
+                ) : (
+                  <Icon icon="ion:close-circle" fontSize={150} />
+                )}
+                <p className="text-center text-lg font-bold">
+                  {success ? "ชำระเงินสำเร็จ" : "ชำระเงินไม่สำเร็จ"}
+                </p>
+                {success ? (
+                  <p className="text-center">
+                    การชำระเงินเสร็จสมบูรณ์ ขอบคุณที่ใช้บริการ
+                  </p>
+                ) : (
+                  <p className="text-center ">
+                    กรุณาลองใหม่อีกครั้งหรือติดต่อเจ้าหน้าที่
+                  </p>
+                )}
+              </ModalBody>
+              <ModalFooter className="justify-center">
+                <Button
+                  color={`${success ? "success" : "danger"}`}
+                  onClick={() => {
+                    onClose();
+                    router.push("/dashboard");
+                  }}
+                  className={`w-full `}
+                  variant="bordered"
+                >
+                  ดำเนินการต่อ
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
       <Card className="">
         <Navbar maxWidth="full" className="rounded-sm bg-content1 ">
           <NavbarMenuToggle
@@ -65,52 +129,7 @@ export default function Topbar({ company, title }: Props) {
           </NavbarContent>
           <div className="flex items-center gap-4"></div>
           <div className="flex items-center gap-4">
-            <Button onPress={onOpen} isIconOnly variant="light">
-              {/* <IoLinkSharp className="" fontSize={20} /> */}
-            </Button>
-            <ThemeSwitcher />
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="auto">
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      เข้าใช้งาน Application
-                    </ModalHeader>
-                    <ModalBody className="">
-                      <p className="text-sm">คัดลอกลิงค์</p>
-
-                      <Snippet
-                        variant="bordered"
-                        symbol={
-                          <div className="flex gap-2">
-                            {/* <IoLinkSharp className="" fontSize={20} /> */}
-                          </div>
-                        }
-                      >
-                        https://getclockin.com/app
-                      </Snippet>
-                      <p className="mt-2 text-sm">หรือแชร์ไปยัง</p>
-
-                      <div className="">
-                        {/* <LineShareButton */}
-                        {/*   url={"https://getclockin.com/app"} */}
-                        {/*   title={ */}
-                        {/*     "next-share is a social share buttons for your next React apps." */}
-                        {/*   } */}
-                        {/* > */}
-                        {/*   <LineIcon className="rounded-full" size={40} /> */}
-                        {/* </LineShareButton> */}
-                      </div>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="primary" onPress={onClose}>
-                        ตกลง
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
+            <AppLink />
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
                 <Avatar

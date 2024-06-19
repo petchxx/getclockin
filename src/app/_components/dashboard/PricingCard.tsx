@@ -36,12 +36,12 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
   const handleCheckout = async (plan: Plan) => {
     if (isAnnual) {
       await createCheckoutSession.mutateAsync({
-        priceId: plan.annualPriceId,
+        priceId: plan.annualPriceId ?? "",
         companyId: company?.id ?? "",
       });
     } else {
       await createCheckoutSession.mutateAsync({
-        priceId: plan.monthlyPriceId,
+        priceId: plan.monthlyPriceId ?? "",
         companyId: company?.id ?? "",
       });
     }
@@ -60,8 +60,8 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
       <p className="mt-4 text-4xl">
         ฿
         {isAnnual
-          ? plan.yearlyPrice.toLocaleString()
-          : plan.monthlyPrice.toLocaleString()}
+          ? plan.yearlyPrice?.toLocaleString()
+          : plan.monthlyPrice?.toLocaleString()}
         <span className="text-sm opacity-60"> / เดือน</span>
       </p>
       <p className="mt-4 text-sm opacity-60">สิทธิ์การเข้าถึง</p>

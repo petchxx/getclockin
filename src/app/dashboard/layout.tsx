@@ -6,8 +6,8 @@ import { api } from "~/trpc/server";
 import RegisterPage from "../_components/dashboard/RegisterPage";
 import Topbar from "../_components/dashboard/Topbar";
 import SubscriptionPage from "../_components/dashboard/SubscriptionPage";
-import Pricing from "../_components/home/Pricing";
-import { Company } from "~/lib/interface/company";
+import Pricing from "../_components/dashboard/Pricing";
+import { type Company } from "~/lib/interface/company";
 
 type Props = {
   children: React.ReactNode;

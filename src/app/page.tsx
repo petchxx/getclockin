@@ -8,7 +8,7 @@ import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Landing from "./_components/home/Landing";
 import Feature from "./_components/home/Feature";
-import Pricing from "./_components/home/Pricing";
+import Pricing from "./_components/dashboard/Pricing";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
