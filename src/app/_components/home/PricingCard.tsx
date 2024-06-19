@@ -10,12 +10,12 @@ import { api } from "~/trpc/react";
 type Plan = {
   name: string;
   features: string[];
-  monthlyPrice: number;
-  yearlyPrice: number;
+  monthlyPrice?: number;
+  yearlyPrice?: number;
   icon: string;
   description: string;
-  monthlyPriceId: string;
-  annualPriceId: string;
+  monthlyPriceId?: string;
+  annualPriceId?: string;
 };
 
 type Props = {
