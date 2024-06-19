@@ -11,10 +11,11 @@ import {
   Select,
   SelectItem,
   Skeleton,
+  Link,
 } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 
-import Topbar from "./TopBar";
+import Topbar from "../TopBar";
 import {
   Button,
   Modal,
@@ -80,7 +81,9 @@ export default function OvertimePage() {
         <div className="my-20 flex w-80 flex-col gap-4">
           <div className="flex justify-between">
             <p>รายการล่าสุด</p>
-            <p className="text-primary">เพิ่มเติม</p>
+            <Link href="/app/overtime/history" className="text-primary">
+              เพิ่มเติม
+            </Link>
           </div>
 
           <div className="flex flex-col gap-2">

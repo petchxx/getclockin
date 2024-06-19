@@ -12,3 +12,13 @@ export interface Overtime {
   employeeEmail: string;
   employeeId: string;
 }
+
+export type AppOvertime = {
+  id: string;
+  employee_id: string;
+  date: Date;
+  from: string;
+  to: string;
+  status: string;
+  note: string | null;
+};
