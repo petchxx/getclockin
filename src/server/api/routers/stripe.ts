@@ -1,10 +1,10 @@
 import { z } from "zod";
+import { env } from "~/env";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { stripe } from "~/server/stripe/client";
 
 export const stripeRouter = createTRPCRouter({
   hello: publicProcedure
@@ -18,7 +18,21 @@ export const stripeRouter = createTRPCRouter({
   createCheckoutSession: protectedProcedure
     .input(z.object({ priceId: z.string(), companyId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const session = await stripe.checkout.sessions.create({
+      console.log(input.priceId);
+
+      const host = ctx.headers.get("host");
+
+      const baseUrl =
+        env.NODE_ENV === "development"
+          ? `http://${host ?? "localhost:3000"}`
+          : `https://${host ?? env.NEXTAUTH_URL}`;
+
+      const session = await ctx.stripe.checkout.sessions.create({
+        metadata: {
+          companyId: ctx.session.user?.id,
+        },
+        customer_email: ctx.session.user?.email ?? "",
+        payment_method_types: ["card"],
         line_items: [
           {
             price: input.priceId,
@@ -26,10 +40,16 @@ export const stripeRouter = createTRPCRouter({
           },
         ],
         mode: "subscription",
-        success_url: "http://localhost:3000/success",
-        cancel_url: "http://localhost:3000/cancel",
+        subscription_data: {
+          // trial_period_days: input.isTrial ? 30 : undefined,
+          metadata: {
+            companyId: ctx.session.user.id,
+          },
+        },
+        success_url: `${baseUrl}/dashboard?success=true`,
+        cancel_url: `${baseUrl}/dashboard?canceled=true`,
       });
-      return session.url;
+      return { url: session.url };
     }),
 
   // create: protectedProcedure

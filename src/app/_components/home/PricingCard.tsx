@@ -1,25 +1,51 @@
+"use client";
 import { Icon } from "@iconify/react";
 
 import { Button, Card } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React from "react";
-import { Company } from "~/lib/interface/company";
+import { type Company } from "~/lib/interface/company";
+import { api } from "~/trpc/react";
+
+type Plan = {
+  name: string;
+  features: string[];
+  monthlyPrice: number;
+  yearlyPrice: number;
+  icon: string;
+  description: string;
+  monthlyPriceId: string;
+  annualPriceId: string;
+};
 
 type Props = {
-  plan: {
-    name: string;
-    features: string[];
-    monthlyPrice: number;
-    yearlyPrice: number;
-    icon: string;
-    description: string;
-    monthlyPriceId: string;
-    yearlyPriceId: string;
-  };
+  plan: Plan;
   isAnnual: boolean;
   company?: Company;
 };
 
 export default function PricingCard({ plan, isAnnual, company }: Props) {
+  const router = useRouter();
+  const createCheckoutSession = api.stripe.createCheckoutSession.useMutation({
+    async onSuccess(data) {
+      console.log(data);
+      router.push(data.url!);
+    },
+  });
+
+  const handleCheckout = async (plan: Plan) => {
+    if (isAnnual) {
+      await createCheckoutSession.mutateAsync({
+        priceId: plan.annualPriceId,
+        companyId: company?.id ?? "",
+      });
+    } else {
+      await createCheckoutSession.mutateAsync({
+        priceId: plan.monthlyPriceId,
+        companyId: company?.id ?? "",
+      });
+    }
+  };
   return (
     <Card className="group w-80 items-start p-4 hover:border-primary">
       <Card className="flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary">
@@ -55,6 +81,7 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
         className="mt-6 w-full group-hover:bg-primary group-hover:text-white"
         variant="bordered"
         color="primary"
+        onClick={() => handleCheckout(plan)}
       >
         {company?.is_trial == false ? "เลือกแพ็คเกจ" : "ทดลองใช้ฟรี 30 วัน!"}
       </Button>

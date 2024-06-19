@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import PricingCard from "./PricingCard";
-import { Company } from "~/lib/interface/company";
+import { type Company } from "~/lib/interface/company";
 
 type Props = {
   company?: Company;
@@ -23,43 +23,39 @@ export default function Pricing({ company }: Props) {
   const plans = [
     {
       name: "Basic Plans",
-      monthlyPrice: 1450,
-      yearlyPrice: 950,
+      monthlyPrice: 950,
+      yearlyPrice: 899,
       icon: "material-symbols-light:lightbulb-outline",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       features: [
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
+        "ระบบบันทึกเวลาเข้างานและออกงาน",
+        "ผู้ใช้งาน 10 คน",
+        "Customer Support",
       ],
-      monthlyPriceId: "price_1PGDylAxJWaaPumFN79FAeXE",
+      monthlyPriceId: "price_1PTLRcHwApzxTyYDohrIHONB",
       yearlyPriceId: "price_1PGE1EAxJWaaPumFqNXbAbxF",
     },
     {
       name: "Business Plans",
-      monthlyPrice: 1250,
-      yearlyPrice: 1600,
+      monthlyPrice: 1350,
+      yearlyPrice: 1299,
       icon: "material-symbols-light:kid-star-outline",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       features: [
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
+        "ระบบลาและทำงานล่วงเวลา",
+        "แจ้งเตือนผ่านไลน์",
+        "ผู้ใช้งาน 20 คน",
       ],
       monthlyPriceId: "",
       yearlyPriceId: "",
     },
     {
       name: "Enterprise Plans",
-      monthlyPrice: 950,
-      yearlyPrice: 2400,
+      monthlyPrice: 1450,
+      yearlyPrice: 1399,
       icon: "material-symbols-light:diamond-outline-rounded",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      features: [
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet",
-      ],
+      features: ["คำนวนเงินเดือน", "ไม่จำกัดจำนวนผู้ใช้", "ClockIn Care"],
       monthlyPriceId: "",
       yearlyPriceId: "",
     },
