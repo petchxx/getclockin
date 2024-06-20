@@ -59,6 +59,7 @@ export const employees = createTable("employee", {
   status: varchar("status", { length: 255 }).notNull(),
   salary: integer("salary").notNull(),
   off_days: jsonb("off_days").notNull(),
+  is_trial: boolean("is_trial").default(true),
   created_at: timestamp("created_at", { withTimezone: true }).default(
     sql`CURRENT_TIMESTAMP`,
   ),

@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { db } from "~/server/db";
 import { sql } from "drizzle-orm/sql";
+import { companies } from "../db/schema";
 
 export async function handle(event: Stripe.Event) {
   console.log(event.type);
@@ -12,20 +13,15 @@ export async function handle(event: Stripe.Event) {
       break;
     case "customer.subscription.created":
       console.log(event.data.object);
-      // await db
-      //   .update(users)
-      //   .set({
-      //     is_trial: false,
-      //   })
-      //   .where(sql`${users.id} = ${event.data.object.metadata.user_id}`);
-      // await db
-      //   .update(branch)
-      //   .set({
-      //     stripe_customer_id: event.data.object.customer as string,
-      //     stripe_subscription_id: event.data.object.id,
-      //     plan_status: "active",
-      //   })
-      //   .where(sql`${branch.id} = ${event.data.object.metadata.branch_id}`);
+      await db
+        .update(companies)
+        .set({
+          is_trial: false,
+          status: "active",
+          stripe_customer_id: event.data.object.customer as string,
+          stripe_subscription_id: event.data.object.id,
+        })
+        .where(sql`${companies.id} = ${event.data.object.metadata.companyId}`);
 
       // Used to provision services as they are added to a subscription.
       break;
