@@ -16,7 +16,13 @@ export const stripeRouter = createTRPCRouter({
     }),
 
   createCheckoutSession: protectedProcedure
-    .input(z.object({ priceId: z.string(), companyId: z.string() }))
+    .input(
+      z.object({
+        priceId: z.string(),
+        companyId: z.string(),
+        isTrial: z.boolean(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       console.log(input.priceId);
 
@@ -41,7 +47,7 @@ export const stripeRouter = createTRPCRouter({
         ],
         mode: "subscription",
         subscription_data: {
-          // trial_period_days: input.isTrial ? 30 : undefined,
+          trial_period_days: input.isTrial ? 30 : undefined,
           metadata: {
             companyId: ctx.session.user.id,
           },

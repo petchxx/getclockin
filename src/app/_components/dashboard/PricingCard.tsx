@@ -35,14 +35,16 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
 
   const handleCheckout = async (plan: Plan) => {
     if (isAnnual) {
-      await createCheckoutSession.mutateAsync({
+      createCheckoutSession.mutate({
         priceId: plan.annualPriceId ?? "",
         companyId: company?.id ?? "",
+        isTrial: company?.is_trial,
       });
     } else {
-      await createCheckoutSession.mutateAsync({
+      createCheckoutSession.mutate({
         priceId: plan.monthlyPriceId ?? "",
         companyId: company?.id ?? "",
+        isTrial: company?.is_trial,
       });
     }
   };
