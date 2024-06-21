@@ -33,7 +33,7 @@ export const admins = createTable("admin", {
 
 export const companies = createTable("company", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
+  name: varchar("name", { length: 255 }).unique(),
   email: varchar("email", { length: 255 }).unique().notNull(),
   password: varchar("password", { length: 255 }).notNull(),
   app_password: varchar("app_password", { length: 255 }),
