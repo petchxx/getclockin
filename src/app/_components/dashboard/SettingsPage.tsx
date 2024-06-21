@@ -28,6 +28,9 @@ export default function SettingsPage({ company }: Props) {
       router.refresh();
       toast.success("บันทึกสำเร็จ");
     },
+    async onError(error) {
+      toast.error(error.message);
+    },
   });
 
   async function handleSubmit() {
