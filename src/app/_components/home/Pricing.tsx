@@ -12,6 +12,7 @@ import {
 import React from "react";
 import PricingCard from "./PricingCard";
 import { type Company } from "~/lib/interface/company";
+import { api } from "~/trpc/react";
 
 type Props = {
   company?: Company;
@@ -19,6 +20,7 @@ type Props = {
 
 export default function Pricing({ company }: Props) {
   const [isAnnual, setIsAnnual] = React.useState(false);
+  const subscription = api.stripe.getSubscription.useQuery().data;
 
   const plans = [
     {
@@ -60,10 +62,20 @@ export default function Pricing({ company }: Props) {
       yearlyPriceId: "",
     },
   ];
+
+  const isCurrentPlan = (id: string) => {
+    return subscription?.items.data[0]?.plan.id;
+  };
   return (
     <div>
       <div className="flex flex-col items-center">
-        <Chip color="primary" className="rounded-full ">
+        <Chip
+          color="primary"
+          className="rounded-full "
+          onClick={() => {
+            console.log(subscription);
+          }}
+        >
           แพ็คเกจ
         </Chip>
         {company?.is_trial == false ? (
@@ -86,6 +98,7 @@ export default function Pricing({ company }: Props) {
                   key={index}
                   plan={plan}
                   isAnnual={false}
+                  subscriptionId={subscription?.items.data[0]?.plan.id}
                 />
               ))}
             </div>
@@ -98,6 +111,7 @@ export default function Pricing({ company }: Props) {
                   key={index}
                   plan={plan}
                   isAnnual={true}
+                  subscriptionId={subscription?.items.data[0]?.plan.id}
                 />
               ))}
             </div>

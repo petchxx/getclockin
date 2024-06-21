@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm/sql";
 import { z } from "zod";
 import { env } from "~/env";
 import {
@@ -5,6 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { companies } from "~/server/db/schema";
 
 export const stripeRouter = createTRPCRouter({
   hello: publicProcedure
@@ -57,6 +59,22 @@ export const stripeRouter = createTRPCRouter({
       });
       return { url: session.url };
     }),
+
+  getSubscription: protectedProcedure.query(async ({ ctx }) => {
+    const companyId = ctx.session.user?.id;
+    const company = await ctx.db
+      .select()
+      .from(companies)
+      .where(sql`${companies.id} = ${companyId}`);
+
+    if (company.length > 0) {
+      const subscription = await ctx.stripe.subscriptions.retrieve(
+        company[0]?.stripe_subscription_id ?? "",
+      );
+      return subscription;
+    }
+    return null;
+  }),
 
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))
