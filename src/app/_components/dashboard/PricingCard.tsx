@@ -38,13 +38,13 @@ export default function PricingCard({ plan, isAnnual, company }: Props) {
       createCheckoutSession.mutate({
         priceId: plan.annualPriceId ?? "",
         companyId: company?.id ?? "",
-        isTrial: company?.is_trial,
+        isTrial: company?.is_trial ?? false,
       });
     } else {
       createCheckoutSession.mutate({
         priceId: plan.monthlyPriceId ?? "",
         companyId: company?.id ?? "",
-        isTrial: company?.is_trial,
+        isTrial: company?.is_trial ?? false,
       });
     }
   };
