@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React from "react";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitcher } from "../../ThemeSwitcher";
 
 export default function AppLink() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

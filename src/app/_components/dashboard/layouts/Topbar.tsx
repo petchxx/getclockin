@@ -26,8 +26,8 @@ import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { type Company } from "~/lib/interface/company";
-import { ThemeSwitcher } from "../ThemeSwitcher";
-import GravatarImage from "../GravatarImage";
+import { ThemeSwitcher } from "../../ThemeSwitcher";
+import GravatarImage from "../../GravatarImage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import AppLink from "./AppLink";
 
