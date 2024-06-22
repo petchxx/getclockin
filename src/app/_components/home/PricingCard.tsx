@@ -1,8 +1,19 @@
 "use client";
 import { Icon } from "@iconify/react";
 
-import { Button, Card } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import moment from "moment";
 import { useRouter } from "next/navigation";
+import { type Router } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 import { type Company } from "~/lib/interface/company";
@@ -33,6 +44,8 @@ export default function PricingCard({
   subscriptionId,
 }: Props) {
   const router = useRouter();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const createCheckoutSession = api.stripe.createCheckoutSession.useMutation({
     async onSuccess(data) {
       console.log(data);
@@ -44,7 +57,7 @@ export default function PricingCard({
     if (!company) {
       return router.push("/signup");
     }
-    if (subscriptionId) {
+    if (subscriptionId && company?.status == "active") {
       return toast.error("คุณมีแพ็คเกจอยู่แล้ว");
     }
     if (isAnnual) {
@@ -62,13 +75,35 @@ export default function PricingCard({
     }
   };
 
+  const cancelSubscription = api.stripe.cancelSubscription.useMutation({
+    async onSuccess(data) {
+      if (data?.cancel_at_period_end) {
+        router.refresh();
+        return toast.success(
+          "ยกเลิกแพ็คเกจสำเร็จ คุณจะสามารถใช้งานได้ถึงวันที่ " +
+            moment(data.current_period_end * 1000).format("DD/MM/YYYY"),
+          {
+            autoClose: 5000,
+          },
+        );
+      }
+    },
+  });
+
   const handleCacelSubscription = async (plan: Plan) => {
-    console.log(plan);
+    if (!company) {
+      return router.push("/signup");
+    }
+    if (!subscriptionId) {
+      return toast.error("คุณไม่มีแพ็คเกจอยู่");
+    }
+    onOpen();
   };
 
-  const isCurrentPlan = subscriptionId
-    ? subscriptionId == (isAnnual ? plan.annualPriceId : plan.monthlyPriceId)
-    : "";
+  const isCurrentPlan =
+    subscriptionId && company?.status == "active"
+      ? subscriptionId == (isAnnual ? plan.annualPriceId : plan.monthlyPriceId)
+      : "";
   return (
     <Card
       className={`group w-80 items-start p-4 hover:border-primary ${isCurrentPlan && "bg-primary text-background"}`}
@@ -123,6 +158,40 @@ export default function PricingCard({
           {company?.is_trial == false ? "เลือกแพ็คเกจ" : "ทดลองใช้ฟรี 30 วัน!"}
         </Button>
       )}
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                <p className="text-2xl">ยืนยันการยกเลิกแพ็คเกจ</p>
+                <p className="text-sm opacity-60">
+                  คุณต้องการยกเลิกแพ็คเกจหรือไม่
+                </p>
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-sm opacity-60">
+                  หากยกเลิกแพ็คเกจ คุณจะสามารถใช้งานได้ถึงวันสิ้นสุดรอบ
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" variant="light" onPress={onClose}>
+                  ปิด
+                </Button>
+                <Button
+                  color="danger"
+                  variant="flat"
+                  onPress={onClose}
+                  onClick={() => {
+                    cancelSubscription.mutate();
+                  }}
+                >
+                  ยืนยัน
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </Card>
   );
 }

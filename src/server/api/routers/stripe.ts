@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm/sql";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { env } from "~/env";
 import {
@@ -74,6 +75,31 @@ export const stripeRouter = createTRPCRouter({
       return subscription;
     }
     return null;
+  }),
+
+  cancelSubscription: protectedProcedure.mutation(async ({ ctx }) => {
+    const companyId = ctx.session.user?.id;
+    const company = await ctx.db
+      .select()
+      .from(companies)
+      .where(sql`${companies.id} = ${companyId}`);
+
+    if (company.length > 0) {
+      const cancel = await ctx.stripe.subscriptions.update(
+        company[0]?.stripe_subscription_id ?? "",
+        {
+          cancel_at_period_end: true,
+        },
+      );
+      await ctx.db
+        .update(companies)
+        .set({
+          status: "canceled",
+        })
+        .where(sql`${companies.id} = ${companyId}`);
+      revalidatePath("/");
+      return cancel;
+    }
   }),
 
   // create: protectedProcedure

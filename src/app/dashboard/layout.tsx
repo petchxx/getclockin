@@ -30,7 +30,7 @@ export default async function layout({ children }: Props) {
     );
   }
 
-  if (company.status != "active") {
+  if (company.status != "active" && company.status != "canceled") {
     return (
       <div className="w-full p-4">
         <Topbar company={company as Company} title={"เลือกแพ็คเกจ"} />
