@@ -102,6 +102,37 @@ export const stripeRouter = createTRPCRouter({
     }
   }),
 
+  updateSubscription: protectedProcedure
+    .input(
+      z.object({
+        priceId: z.string(),
+        subscriptionId: z.string(),
+        subscriptionItemId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const companyId = ctx.session.user?.id;
+      const company = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.id} = ${companyId}`);
+
+      if (company.length > 0) {
+        const update = await ctx.stripe.subscriptions.update(
+          input.subscriptionId,
+          {
+            items: [
+              {
+                id: input.subscriptionItemId,
+                price: input.priceId,
+              },
+            ],
+          },
+        );
+        return update;
+      }
+    }),
+
   // create: protectedProcedure
   //   .input(z.object({ name: z.string().min(1) }))
   //   .mutation(async ({ ctx, input }) => {

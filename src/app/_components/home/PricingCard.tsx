@@ -34,6 +34,8 @@ type Props = {
   plan: Plan;
   isAnnual: boolean;
   company?: Company;
+  subscriptionPricingId?: string;
+  subscriptionItemId?: string;
   subscriptionId?: string;
 };
 
@@ -41,6 +43,8 @@ export default function PricingCard({
   plan,
   isAnnual,
   company,
+  subscriptionPricingId,
+  subscriptionItemId,
   subscriptionId,
 }: Props) {
   const router = useRouter();
@@ -53,12 +57,34 @@ export default function PricingCard({
     },
   });
 
+  const updateSubscription = api.stripe.updateSubscription.useMutation({
+    async onSuccess(data) {
+      if (data?.status == "active") {
+        router.refresh();
+        return toast.success("อัปเดตแพ็คเกจสำเร็จ");
+      }
+    },
+  });
+
   const handleCheckout = async (plan: Plan) => {
     if (!company) {
       return router.push("/signup");
     }
-    if (subscriptionId && company?.status == "active") {
-      return toast.error("คุณมีแพ็คเกจอยู่แล้ว");
+    if (subscriptionPricingId && company?.status == "active") {
+      if (isAnnual) {
+        updateSubscription.mutate({
+          priceId: plan.annualPriceId ?? "",
+          subscriptionId: subscriptionId ?? "",
+          subscriptionItemId: subscriptionItemId ?? "",
+        });
+      } else {
+        updateSubscription.mutate({
+          priceId: plan.monthlyPriceId ?? "",
+          subscriptionId: subscriptionId ?? "",
+          subscriptionItemId: subscriptionItemId ?? "",
+        });
+      }
+      return;
     }
     if (isAnnual) {
       createCheckoutSession.mutate({
@@ -94,15 +120,16 @@ export default function PricingCard({
     if (!company) {
       return router.push("/signup");
     }
-    if (!subscriptionId) {
+    if (!subscriptionPricingId) {
       return toast.error("คุณไม่มีแพ็คเกจอยู่");
     }
     onOpen();
   };
 
   const isCurrentPlan =
-    subscriptionId && company?.status == "active"
-      ? subscriptionId == (isAnnual ? plan.annualPriceId : plan.monthlyPriceId)
+    subscriptionPricingId && company?.status == "active"
+      ? subscriptionPricingId ==
+        (isAnnual ? plan.annualPriceId : plan.monthlyPriceId)
       : "";
   return (
     <Card

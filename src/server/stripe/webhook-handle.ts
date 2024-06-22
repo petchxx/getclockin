@@ -27,6 +27,7 @@ export async function handle(event: Stripe.Event) {
       break;
     case "customer.subscription.updated":
       console.log(event.data.object);
+
       // Used to provision services as they are updated.
       break;
     case "invoice.payment_failed":

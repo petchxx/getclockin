@@ -53,7 +53,7 @@ export default function Pricing({
         "แจ้งเตือนผ่านไลน์",
         "ผู้ใช้งาน 20 คน",
       ],
-      monthlyPriceId: "",
+      monthlyPriceId: "price_1PUMrdHwApzxTyYDwlPxCZPM",
       yearlyPriceId: "",
     },
     {
@@ -108,11 +108,9 @@ export default function Pricing({
                   key={index}
                   plan={plan}
                   isAnnual={false}
-                  subscriptionId={
-                    isShowSubscription
-                      ? subscription?.items.data[0]?.plan.id
-                      : ""
-                  }
+                  subscriptionPricingId={subscription?.items.data[0]?.plan.id}
+                  subscriptionItemId={subscription?.items.data[0]?.id ?? ""}
+                  subscriptionId={subscription?.id}
                 />
               ))}
             </div>
@@ -125,11 +123,9 @@ export default function Pricing({
                   key={index}
                   plan={plan}
                   isAnnual={true}
-                  subscriptionId={
-                    isShowSubscription
-                      ? subscription?.items.data[0]?.plan.id
-                      : ""
-                  }
+                  subscriptionPricingId={subscription?.items.data[0]?.plan.id}
+                  subscriptionItemId={subscription?.items.data[0]?.id ?? ""}
+                  subscriptionId={subscription?.id}
                 />
               ))}
             </div>
