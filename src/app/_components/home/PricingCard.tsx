@@ -60,8 +60,23 @@ export default function PricingCard({
   const updateSubscription = api.stripe.updateSubscription.useMutation({
     async onSuccess(data) {
       if (data?.status == "active") {
+        return window.location.reload();
+        // return toast.success("อัปเดตแพ็คเกจสำเร็จ");
+      }
+    },
+  });
+
+  const cancelSubscription = api.stripe.cancelSubscription.useMutation({
+    async onSuccess(data) {
+      if (data?.cancel_at_period_end) {
         router.refresh();
-        return toast.success("อัปเดตแพ็คเกจสำเร็จ");
+        return toast.success(
+          "ยกเลิกแพ็คเกจสำเร็จ คุณจะสามารถใช้งานได้ถึงวันที่ " +
+            moment(data.current_period_end * 1000).format("DD/MM/YYYY"),
+          {
+            autoClose: 5000,
+          },
+        );
       }
     },
   });
@@ -71,6 +86,7 @@ export default function PricingCard({
       return router.push("/signup");
     }
     if (subscriptionPricingId && company?.status == "active") {
+      //update
       if (isAnnual) {
         updateSubscription.mutate({
           priceId: plan.annualPriceId ?? "",
@@ -100,21 +116,6 @@ export default function PricingCard({
       });
     }
   };
-
-  const cancelSubscription = api.stripe.cancelSubscription.useMutation({
-    async onSuccess(data) {
-      if (data?.cancel_at_period_end) {
-        router.refresh();
-        return toast.success(
-          "ยกเลิกแพ็คเกจสำเร็จ คุณจะสามารถใช้งานได้ถึงวันที่ " +
-            moment(data.current_period_end * 1000).format("DD/MM/YYYY"),
-          {
-            autoClose: 5000,
-          },
-        );
-      }
-    },
-  });
 
   const handleCacelSubscription = async (plan: Plan) => {
     if (!company) {
@@ -171,7 +172,7 @@ export default function PricingCard({
           className="group-hover:text-back mt-6 w-full text-background"
           variant="bordered"
           color="default"
-          onClick={() => handleCacelSubscription(plan)}
+          onClick={async () => await handleCacelSubscription(plan)}
         >
           ยกเลิกแพ็คเกจ
         </Button>
@@ -180,7 +181,7 @@ export default function PricingCard({
           className="mt-6 w-full group-hover:bg-primary group-hover:text-white"
           variant="bordered"
           color="default"
-          onClick={() => handleCheckout(plan)}
+          onClick={async () => await handleCheckout(plan)}
         >
           {company?.is_trial == false ? "เลือกแพ็คเกจ" : "ทดลองใช้ฟรี 30 วัน!"}
         </Button>
