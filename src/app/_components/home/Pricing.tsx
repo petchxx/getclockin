@@ -91,14 +91,23 @@ export default function Pricing({
           <br />
           หากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม กรุณาติดต่อเรา
         </p>
-        {subscription && (
+        {subscription && company?.status == "active" && (
           <p className="mt-2 text-primary">
-            ใช้งานได้ถึงวันที่{" "}
+            ต่ออายุ{" "}
             {moment(subscription?.current_period_end * 1000).format(
               "DD/MM/YYYY",
             )}
           </p>
         )}
+        {subscription && company?.status == "canceled" && (
+          <p className="mt-2 text-primary">
+            ใช้งานได้ถึง{" "}
+            {moment(subscription?.current_period_end * 1000).format(
+              "DD/MM/YYYY",
+            )}
+          </p>
+        )}
+
         <Tabs aria-label="Options" className="mt-4">
           <Tab key="monthly" title="รายเดือน">
             <div className="mt-10 flex flex-wrap justify-center gap-4">
