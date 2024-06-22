@@ -114,7 +114,7 @@ export default function PricingCard({
         <Icon
           icon={plan.icon ?? ""}
           height={20}
-          className={`  ${isCurrentPlan == true ? "group-hover:text-primary" : "group-hover:text-white"} `}
+          className={`  ${isCurrentPlan == true ? "group-hover:text-foreground" : "group-hover:text-white"} `}
         />
       </Card>
       <p className="mt-2">{plan.name}</p>
