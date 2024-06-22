@@ -32,6 +32,14 @@ export async function handle(event: Stripe.Event) {
       break;
     case "invoice.payment_failed":
       console.log(event.data.object);
+      await db
+        .update(companies)
+        .set({
+          status: "pause",
+        })
+        .where(
+          sql`${companies.stripe_customer_id} = ${event.data.object.customer}`,
+        );
       // If the payment fails or the customer does not have a valid payment method,
       //  an invoice.payment_failed event is sent, the subscription becomes past_due.
       // Use this webhook to notify your user that their payment has
