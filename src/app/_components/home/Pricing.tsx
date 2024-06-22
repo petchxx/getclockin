@@ -16,9 +16,13 @@ import { api } from "~/trpc/react";
 
 type Props = {
   company?: Company;
+  isShowSubscription?: boolean;
 };
 
-export default function Pricing({ company }: Props) {
+export default function Pricing({
+  company,
+  isShowSubscription = false,
+}: Props) {
   const [isAnnual, setIsAnnual] = React.useState(false);
   const subscription = api.stripe.getSubscription.useQuery().data;
 
@@ -63,9 +67,6 @@ export default function Pricing({ company }: Props) {
     },
   ];
 
-  const isCurrentPlan = (id: string) => {
-    return subscription?.items.data[0]?.plan.id;
-  };
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -98,7 +99,11 @@ export default function Pricing({ company }: Props) {
                   key={index}
                   plan={plan}
                   isAnnual={false}
-                  subscriptionId={subscription?.items.data[0]?.plan.id}
+                  subscriptionId={
+                    isShowSubscription
+                      ? subscription?.items.data[0]?.plan.id
+                      : ""
+                  }
                 />
               ))}
             </div>
@@ -111,7 +116,11 @@ export default function Pricing({ company }: Props) {
                   key={index}
                   plan={plan}
                   isAnnual={true}
-                  subscriptionId={subscription?.items.data[0]?.plan.id}
+                  subscriptionId={
+                    isShowSubscription
+                      ? subscription?.items.data[0]?.plan.id
+                      : ""
+                  }
                 />
               ))}
             </div>

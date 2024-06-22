@@ -66,13 +66,15 @@ export default function PricingCard({
     console.log(plan);
   };
 
-  const isCurrentPlan = subscriptionId == plan.monthlyPriceId;
+  const isCurrentPlan = subscriptionId
+    ? subscriptionId == (isAnnual ? plan.annualPriceId : plan.monthlyPriceId)
+    : "";
   return (
     <Card
       className={`group w-80 items-start p-4 hover:border-primary ${isCurrentPlan && "bg-primary text-background"}`}
     >
       <Card
-        className={`flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary ${isCurrentPlan && "group-hover:bg-white"}`}
+        className={`flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary ${isCurrentPlan && "group-hover:bg-background"}`}
       >
         <Icon
           icon={plan.icon ?? ""}
@@ -104,7 +106,7 @@ export default function PricingCard({
       </div>
       {isCurrentPlan == true ? (
         <Button
-          className="mt-6 w-full text-background group-hover:text-white"
+          className="group-hover:text-back mt-6 w-full text-background"
           variant="bordered"
           color="default"
           onClick={() => handleCacelSubscription(plan)}

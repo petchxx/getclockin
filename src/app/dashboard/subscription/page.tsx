@@ -7,7 +7,7 @@ export default async function page() {
   const company = await api.company.get();
   return (
     <div className="my-10">
-      <Pricing company={company as Company} />
+      <Pricing company={company as Company} isShowSubscription />
     </div>
   );
 }
