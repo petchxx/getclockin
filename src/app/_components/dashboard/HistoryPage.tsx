@@ -779,7 +779,7 @@ export default function HistoryPage() {
               const a = document.createElement("a");
               console.log(csvString);
               a.href = URL.createObjectURL(
-                new Blob([csvString], { type: "text/csv;charset=utf-8;" }),
+                new Blob([csvString], { type: "text/csv" }),
               );
               a.download = "history.csv";
               a.click();
