@@ -15,6 +15,7 @@ import {
 } from "~/server/db/schema";
 import { input } from "@nextui-org/react";
 import { date } from "drizzle-orm/mysql-core";
+import { type Permissions } from "~/lib/interface/permissions";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -31,6 +32,23 @@ export const employeeRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const employeeId = ulid();
+      //check if reach max employees
+      const getEmployees = await ctx.db
+        .select()
+        .from(employees)
+        .where(sql`${employees.company_id} = ${ctx.session.user.id}`);
+
+      const company = await ctx.db
+        .select()
+        .from(companies)
+        .where(sql`${companies.id} = ${ctx.session.user.id}`);
+      const permissions = company[0]?.permissions as Permissions;
+
+      if (getEmployees.length >= permissions.maxEmployees)
+        throw new Error(
+          "พนักงานในบริษัทคุณเต็มแล้ว อัพเกรดแพ็คเกจเพื่อเพิ่มพนักงาน",
+        );
+
       //check if employee exist
       const exist = await ctx.db
         .select()

@@ -341,21 +341,7 @@ export default function EmployeePage({ employees }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            {company?.permissions.maxEmployees &&
-            company?.permissions.maxEmployees == employees.length ? (
-              <AddEmployee />
-            ) : (
-              <Button
-                color="danger"
-                variant="flat"
-                onClick={() => {
-                  router.push("/dashboard/subscription");
-                }}
-                // endContent={<Icon icon="ion:add-outline" />}
-              >
-                จำนวนพนักงานเต็ม
-              </Button>
-            )}
+            <AddEmployee />
           </div>
         </div>
         <div className="flex items-center justify-between">

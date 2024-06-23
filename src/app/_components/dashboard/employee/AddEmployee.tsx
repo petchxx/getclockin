@@ -61,7 +61,9 @@ export default function AddEmployee() {
     onError(error) {
       console.error(error);
       router.refresh();
-      toast.error("เพิ่มพนักงานไม่สำเร็จ");
+      toast.error(error.message, {
+        autoClose: 5000,
+      });
     },
   });
 
