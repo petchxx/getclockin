@@ -42,6 +42,7 @@ export const companies = createTable("company", {
   is_trial: boolean("is_trial").default(true),
   stripe_customer_id: varchar("stripe_customer_id", { length: 255 }),
   stripe_subscription_id: varchar("stripe_subscription_id", { length: 255 }),
+  permissions: jsonb("permissions"),
   created_at: timestamp("created_at", { withTimezone: true }).default(
     sql`CURRENT_TIMESTAMP`,
   ),
