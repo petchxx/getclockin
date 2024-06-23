@@ -39,6 +39,7 @@ export const employeeRouter = createTRPCRouter({
           sql`${employees.email} = ${input.email} AND ${employees.company_id} = ${ctx.session.user.id}`,
         );
       if (exist.length > 0) throw new Error("พนักงานคนนี้มีอยู่แล้วในระบบ");
+
       return await ctx.db
         .insert(employees)
         .values({

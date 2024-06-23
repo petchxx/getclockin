@@ -20,6 +20,7 @@ export async function handle(event: Stripe.Event) {
           status: "active",
           stripe_customer_id: event.data.object.customer as string,
           stripe_subscription_id: event.data.object.id,
+          permissions: JSON.parse(event.data.object.metadata.permissions!),
         })
         .where(sql`${companies.id} = ${event.data.object.metadata.companyId}`);
 
@@ -27,6 +28,14 @@ export async function handle(event: Stripe.Event) {
       break;
     case "customer.subscription.updated":
       console.log(event.data.object);
+      await db
+        .update(companies)
+        .set({
+          permissions: JSON.parse(event.data.object.metadata.permissions!),
+        })
+        .where(
+          sql`${companies.stripe_subscription_id} = ${event.data.object.id}`,
+        );
 
       // Used to provision services as they are updated.
       break;

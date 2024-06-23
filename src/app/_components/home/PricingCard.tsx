@@ -28,6 +28,12 @@ type Plan = {
   description: string;
   monthlyPriceId?: string;
   annualPriceId?: string;
+  permissions: {
+    maxEmployees: number;
+    isLeaveOt?: boolean;
+    isLineNotify?: boolean;
+    isCalculate?: boolean;
+  };
 };
 
 type Props = {
@@ -90,12 +96,14 @@ export default function PricingCard({
           priceId: plan.annualPriceId ?? "",
           subscriptionId: subscriptionId ?? "",
           subscriptionItemId: subscriptionItemId ?? "",
+          permissions: plan.permissions,
         });
       } else {
         updateSubscription.mutate({
           priceId: plan.monthlyPriceId ?? "",
           subscriptionId: subscriptionId ?? "",
           subscriptionItemId: subscriptionItemId ?? "",
+          permissions: plan.permissions,
         });
       }
       return;
@@ -105,12 +113,14 @@ export default function PricingCard({
         priceId: plan.annualPriceId ?? "",
         companyId: company?.id ?? "",
         isTrial: company?.is_trial ?? false,
+        permissions: plan.permissions,
       });
     } else {
       createCheckoutSession.mutate({
         priceId: plan.monthlyPriceId ?? "",
         companyId: company?.id ?? "",
         isTrial: company?.is_trial ?? false,
+        permissions: plan.permissions,
       });
     }
   };

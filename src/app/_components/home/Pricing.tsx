@@ -41,6 +41,9 @@ export default function Pricing({
       ],
       monthlyPriceId: "price_1PTLRcHwApzxTyYDohrIHONB",
       yearlyPriceId: "price_1PGE1EAxJWaaPumFqNXbAbxF",
+      permissions: {
+        maxEmployees: 0,
+      },
     },
     {
       name: "Business Plans",
@@ -55,6 +58,11 @@ export default function Pricing({
       ],
       monthlyPriceId: "price_1PUMrdHwApzxTyYDwlPxCZPM",
       yearlyPriceId: "",
+      permissions: {
+        maxEmployees: 20,
+        isLeaveOt: true,
+        isLineNotify: true,
+      },
     },
     {
       name: "Enterprise Plans",
@@ -65,6 +73,12 @@ export default function Pricing({
       features: ["คำนวนเงินเดือน", "ไม่จำกัดจำนวนผู้ใช้", "ClockIn Care"],
       monthlyPriceId: "",
       yearlyPriceId: "",
+      permissions: {
+        maxEmployees: 100,
+        isLeaveOt: true,
+        isLineNotify: true,
+        isCalculate: true,
+      },
     },
   ];
 

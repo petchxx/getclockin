@@ -1,6 +1,7 @@
 import React from "react";
 import EmployeePage from "~/app/_components/dashboard/employee/EmployeePage";
-import { Employee } from "~/lib/interface/employee";
+import { type Company } from "~/lib/interface/company";
+import { type Employee } from "~/lib/interface/employee";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 

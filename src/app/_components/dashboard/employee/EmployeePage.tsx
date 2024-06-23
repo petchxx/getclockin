@@ -31,6 +31,8 @@ import { Icon } from "@iconify/react";
 import DeleteEmployee from "./DeleteEmployee";
 import { type Employee } from "~/lib/interface/employee";
 import GravatarImage from "../../GravatarImage";
+import { type Company } from "~/lib/interface/company";
+import { api } from "~/trpc/react";
 
 type Props = {
   employees: Employee[];
@@ -280,6 +282,8 @@ export default function EmployeePage({ employees }: Props) {
     setPage(1);
   }, []);
 
+  const company = api.company.get.useQuery().data as Company;
+
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -337,7 +341,21 @@ export default function EmployeePage({ employees }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <AddEmployee />
+            {company?.permissions.maxEmployees &&
+            company?.permissions.maxEmployees == employees.length ? (
+              <AddEmployee />
+            ) : (
+              <Button
+                color="danger"
+                variant="flat"
+                onClick={() => {
+                  router.push("/dashboard/subscription");
+                }}
+                // endContent={<Icon icon="ion:add-outline" />}
+              >
+                จำนวนพนักงานเต็ม
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-between">

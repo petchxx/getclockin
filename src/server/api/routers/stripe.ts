@@ -24,6 +24,12 @@ export const stripeRouter = createTRPCRouter({
         priceId: z.string(),
         companyId: z.string(),
         isTrial: z.boolean(),
+        permissions: z.object({
+          maxEmployees: z.number(),
+          isLeaveOt: z.boolean().optional(),
+          isLineNotify: z.boolean().optional(),
+          isCalculate: z.boolean().optional(),
+        }),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -53,6 +59,7 @@ export const stripeRouter = createTRPCRouter({
           trial_period_days: input.isTrial ? 30 : undefined,
           metadata: {
             companyId: ctx.session.user.id,
+            permissions: JSON.stringify(input.permissions),
           },
         },
         success_url: `${baseUrl}/dashboard?success=true`,
@@ -108,6 +115,12 @@ export const stripeRouter = createTRPCRouter({
         priceId: z.string(),
         subscriptionId: z.string(),
         subscriptionItemId: z.string(),
+        permissions: z.object({
+          maxEmployees: z.number(),
+          isLeaveOt: z.boolean().optional(),
+          isLineNotify: z.boolean().optional(),
+          isCalculate: z.boolean().optional(),
+        }),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -127,6 +140,10 @@ export const stripeRouter = createTRPCRouter({
                 price: input.priceId,
               },
             ],
+            metadata: {
+              companyId: ctx.session.user.id,
+              permissions: JSON.stringify(input.permissions),
+            },
           },
         );
         return update;

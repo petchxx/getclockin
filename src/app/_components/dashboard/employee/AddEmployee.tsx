@@ -10,7 +10,7 @@ import {
   Select,
   SelectItem,
   useDisclosure,
-  Selection,
+  type Selection,
   TimeInput,
 } from "@nextui-org/react";
 import React from "react";
@@ -20,6 +20,7 @@ import { Icon } from "@iconify/react";
 import moment from "moment";
 import { Time } from "@internationalized/date";
 import { api } from "~/trpc/react";
+import { type Company } from "~/lib/interface/company";
 
 export default function AddEmployee() {
   const router = useRouter();

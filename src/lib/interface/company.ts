@@ -8,5 +8,10 @@ export interface Company {
   stripe_customer_id: string | null;
   stripe_subscription_id: string | null;
   is_trial: boolean | null;
-  permissions: string[];
+  permissions: {
+    maxEmployees: number;
+    isLeaveOt?: boolean;
+    isLineNotify?: boolean;
+    isCalculate?: boolean;
+  };
 }
