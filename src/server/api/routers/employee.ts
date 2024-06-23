@@ -185,8 +185,9 @@ export const employeeRouter = createTRPCRouter({
           });
         }
 
-        return updatedEmployee;
+        return input.status;
       });
+      return input.status;
     }),
 
   recentClock: protectedProcedure.query(async ({ ctx }) => {
