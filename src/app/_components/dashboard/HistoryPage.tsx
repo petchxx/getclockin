@@ -31,6 +31,7 @@ import { api } from "~/trpc/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // type User = {
 //   id: number;
@@ -557,7 +558,7 @@ export default function HistoryPage() {
             Total {history.length} users
           </span>
           <label className="flex items-center text-small text-default-400">
-            Rows per page:
+            แถวต่อหน้า:{" "}
             <select
               className="bg-transparent text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
@@ -746,6 +747,47 @@ export default function HistoryPage() {
             </DropdownMenu>
           </Dropdown>
         </div>
+        {history.length > 0 && (
+          <Button
+            isIconOnly
+            className="h-14 w-14"
+            variant="flat"
+            onClick={() => {
+              //export name, email, date, inTime, outTime, inNote, outNote,  inLocation, outLocation, status
+              const csv = history.map((row) => {
+                const date = moment(row.date).format("DD/MM/YYYY");
+                const inTime = row.in_date_time?.toLocaleTimeString() ?? "";
+                const outTime = row.out_date_time?.toLocaleTimeString() ?? "";
+                const inNote = row.in_note ?? "";
+                const outNote = row.out_note ?? "";
+                const inLocation = row.in_location ?? "";
+                const outLocation = row.out_location ?? "";
+                const status =
+                  row.status == "absent"
+                    ? "ขาดงาน"
+                    : row.status == "present"
+                      ? "เข้างาน"
+                      : "วันหยุด";
+                return `${selectedEmployee?.name},${date},${inTime},${outTime},${inNote},${outNote},${inLocation},${outLocation},${status}`;
+              });
+
+              const csvArray = [
+                "ชื่อ,วันที่,เวลาเข้างาน,เวลาออกงาน,หมายเหตุเข้างาน, หมายเหตุออกงาน,สถานที่เข้างาน,สถานที่ออกงาน,สถานะ",
+              ].concat(csv);
+              // const csvString = csvArray.join("\n");
+              const csvString = "\uFEFF" + csvArray.join("\n");
+              const a = document.createElement("a");
+              console.log(csvString);
+              a.href = URL.createObjectURL(
+                new Blob([csvString], { type: "text/csv;charset=utf-8;" }),
+              );
+              a.download = "history.csv";
+              a.click();
+            }}
+          >
+            <Icon icon="ion:download-outline" fontSize={24} />
+          </Button>
+        )}
 
         {/* <Button */}
         {/*   color="primary" */}
