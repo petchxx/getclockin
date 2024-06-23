@@ -22,6 +22,7 @@ import {
   type SortDescriptor,
   Select,
   SelectItem,
+  Card,
 } from "@nextui-org/react";
 import { type History, type Clock } from "~/lib/interface/clock";
 import { type Employee } from "~/lib/interface/employee";
@@ -79,6 +80,7 @@ export default function HistoryPage() {
   const [history, setHistory] = React.useState<History[]>([]);
 
   const getEmployees = api.employee.getAll.useQuery();
+  const [showCalculate, setShowCalculate] = React.useState(false);
 
   useEffect(() => {
     if (getEmployees.data) {
@@ -404,6 +406,9 @@ export default function HistoryPage() {
     setPage(1);
   }, []);
 
+  const [lateCount, setLateCount] = React.useState(0);
+  const [outEarlyCount, setOutEarlyCount] = React.useState(0);
+
   const calculateEarlyLate = (
     start: string,
     stop: string,
@@ -445,6 +450,7 @@ export default function HistoryPage() {
         return <p className="text-foreground/50">ตรงเวลา</p>;
       } else {
         const lateBy = Math.abs(difference);
+        setLateCount((prev) => prev + 1);
         return (
           <p className="text-red-500">
             สาย {Math.floor(lateBy / 60)}.{lateBy % 60} ชม.
@@ -458,6 +464,7 @@ export default function HistoryPage() {
 
       if (difference < 0) {
         const earlyBy = Math.abs(difference - 1);
+        setOutEarlyCount((prev) => prev + 1);
         return (
           <p className="text-red-500">
             ก่อน {Math.floor(earlyBy / 60)}.{earlyBy % 60} ชม.
@@ -612,6 +619,37 @@ export default function HistoryPage() {
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
+  const [add, setAdd] = React.useState<number | null>();
+  const [deduct, setDeduct] = React.useState<number | null>();
+  const [showCalculateButton, setShowCalculateButton] = React.useState(false);
+
+  const getPresent = (history: History[]) => {
+    const presentEntries = history.filter(
+      (entry) => entry.status === "present",
+    );
+    return presentEntries.length;
+  };
+
+  const getAbsent = (history: History[]) => {
+    const absentEntries = history.filter((entry) => entry.status === "absent");
+    return absentEntries.length;
+  };
+
+  const getOffday = (history: History[]) => {
+    const offdayEntries = history.filter((entry) => entry.status === "offday");
+    return offdayEntries.length;
+  };
+
+  const getTotal = () => {
+    if (!selectedEmployee) {
+      return 0;
+    }
+    const addValue = add ?? 0;
+    const deductValue = deduct ?? 0;
+    const change = addValue - deductValue;
+    return selectedEmployee?.salary + change;
+  };
+
   return (
     <div className="mt-4 ">
       <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -626,8 +664,13 @@ export default function HistoryPage() {
             );
             setSelectedEmployee(selected);
             await getData(selected);
+            setShowCalculateButton(true);
             // employees.find((employee: any) => employee.id == e.target.value),
             // setShowCalculate(false);
+            setLateCount(0);
+            setOutEarlyCount(0);
+            setAdd(0);
+            setDeduct(0);
           }}
         >
           {employees.map((employee: Employee) => (
@@ -713,103 +756,97 @@ export default function HistoryPage() {
         {/* > */}
         {/*   ค้นหา */}
         {/* </Button> */}
-        {/* {showCalculateButton && ( */}
-        {/*   <Button */}
-        {/*     color="primary" */}
-        {/*     className="w-40" */}
-        {/*     size="lg" */}
-        {/*     variant="flat" */}
-        {/*     onClick={() => { */}
-        {/*       setShowCalculate(!showCalculate); */}
-        {/*       console.log(history); */}
-        {/*     }} */}
-        {/*   > */}
-        {/*     คำนวนเงินเดือน */}
-        {/*   </Button> */}
-        {/* )} */}
+        {showCalculateButton && (
+          <Button
+            color="primary"
+            className="h-14 w-40"
+            size="lg"
+            // variant="flat"
+            onClick={() => {
+              setShowCalculate(!showCalculate);
+              console.log(history);
+            }}
+          >
+            คำนวนเงินเดือน
+          </Button>
+        )}
       </div>
-      {/* {showCalculate && ( */}
-      {/*   <Card className="p-4"> */}
-      {/*     <p className="font-bold">เงินเดือน</p> */}
-      {/*     <>พนักงาน : {selectedEmployee.name}</> */}
-      {/* get present count without duplicate date*/}
-      {/*     <p>เข้างาน : {getPresent(history)} วัน</p> */}
-      {/* get absent */}
-      {/*     <p> */}
-      {/*       ขาดงาน : {history.filter((h: any) => h.status == "absent").length}{" "} */}
-      {/*       วัน */}
-      {/*     </p> */}
-      {/*     <p> */}
-      {/*       วันหยุด : {history.filter((h: any) => h.status == "offday").length}{" "} */}
-      {/*       วัน */}
-      {/*     </p> */}
-      {/*     <p>มาสาย : {getLate(history, selectedEmployee.start_time)} วัน</p> */}
-      {/*     <p> */}
-      {/*       ออกก่อนเวลา : {getOutEarly(history, selectedEmployee.stop_time)} วัน */}
-      {/*     </p> */}
-      {/*     <p>เงินเดือน : {getSalary(history)} บาท</p> */}
-      {/*     <div className="mt-4 flex gap-2"> */}
-      {/*       <Input */}
-      {/*         className="w-40 rounded-xl bg-white" */}
-      {/*         type="number" */}
-      {/*         variant="bordered" */}
-      {/*         label="เพิ่มเงินเดือน" */}
-      {/*         placeholder="0.00" */}
-      {/*         startContent={ */}
-      {/*           <div className="pointer-events-none flex items-center"> */}
-      {/*             <span className="text-small text-default-400">+</span> */}
-      {/*           </div> */}
-      {/*         } */}
-      {/*         endContent={ */}
-      {/*           <div className="pointer-events-none flex items-center"> */}
-      {/*             <span className="text-small text-default-400">บาท</span> */}
-      {/*           </div> */}
-      {/*         } */}
-      {/*         value={add} */}
-      {/*         onChange={(e) => { */}
-      {/*           if (parseInt(e.target.value) < 0) { */}
-      {/*             toast.error("เพิ่มเงินต้องมากกว่า 0"); */}
-      {/*             return; */}
-      {/*           } */}
-      {/**/}
-      {/*           setAdd(e.target.value); */}
-      {/*         }} */}
-      {/*       /> */}
-      {/*       <Input */}
-      {/*         className="w-40 rounded-xl bg-white" */}
-      {/*         type="number" */}
-      {/*         variant="bordered" */}
-      {/*         label="หักเงินเดือน" */}
-      {/*         placeholder="0.00" */}
-      {/*         startContent={ */}
-      {/*           <div className="pointer-events-none flex items-center"> */}
-      {/*             <span className="text-small text-default-400">-</span> */}
-      {/*           </div> */}
-      {/*         } */}
-      {/*         endContent={ */}
-      {/*           <div className="pointer-events-none flex items-center"> */}
-      {/*             <span className="text-small text-default-400">บาท</span> */}
-      {/*           </div> */}
-      {/*         } */}
-      {/*         // value={} */}
-      {/*         onChange={(e) => { */}
-      {/*           if (parseInt(e.target.value) > selectedEmployee.salary) { */}
-      {/*             toast.error("หักเงินเกินจำนวนเงินที่ได้รับ"); */}
-      {/*             return; */}
-      {/*           } */}
-      {/*           if (parseInt(e.target.value) < 0) { */}
-      {/*             toast.error("หักเงินต้องมากกว่า 0"); */}
-      {/*             return; */}
-      {/*           } */}
-      {/*           setDeduct(e.target.value); */}
-      {/*         }} */}
-      {/*       /> */}
-      {/*     </div> */}
-      {/*     <p className="mt-4 flex gap-2"> */}
-      {/*       รวม : <p className="font-bold text-primary"> {getTotal()} บาท</p> */}
-      {/*     </p> */}
-      {/*   </Card> */}
-      {/* )} */}
+      {showCalculate && (
+        <Card className="p-4">
+          <p className="font-bold">เงินเดือน</p>
+          <>พนักงาน : {selectedEmployee?.name}</>
+          {/* get present count without duplicate date */}
+          <p>เข้างาน : {getPresent(history)} วัน</p>
+          {/* get absent */}
+          <p>ขาดงาน : {getAbsent(history)} วัน</p>
+          {/* get offday */}
+          <p>วันหยุด : {getOffday(history)} วัน</p>
+          <p>มาสาย : {lateCount} วัน</p>
+          <p>ออกก่อนเวลา : {outEarlyCount} วัน</p>
+          <p>เงินเดือน : {selectedEmployee?.salary} บาท</p>
+          <div className="mt-4 flex gap-2">
+            <Input
+              className="w-40 rounded-xl "
+              type="number"
+              variant="bordered"
+              label="เพิ่มเงินเดือน"
+              placeholder="0.00"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">+</span>
+                </div>
+              }
+              endContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">บาท</span>
+                </div>
+              }
+              value={add}
+              onChange={(e) => {
+                if (parseInt(e.target.value) < 0) {
+                  toast.error("เพิ่มเงินต้องมากกว่า 0");
+                  return;
+                }
+
+                setAdd(e.target.value);
+              }}
+            />
+            <Input
+              className="w-40 rounded-xl "
+              type="number"
+              variant="bordered"
+              label="หักเงินเดือน"
+              placeholder="0.00"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">-</span>
+                </div>
+              }
+              endContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-small text-default-400">บาท</span>
+                </div>
+              }
+              // value={}
+              onChange={(e) => {
+                const salary = selectedEmployee?.salary ?? 0;
+                if (parseInt(e.target.value) > salary) {
+                  toast.error("หักเงินเกินจำนวนเงินที่ได้รับ");
+                  return;
+                }
+                if (parseInt(e.target.value) < 0) {
+                  toast.error("หักเงินต้องมากกว่า 0");
+                  return;
+                }
+                setDeduct(e.target.value);
+              }}
+            />
+          </div>
+          <p className="mt-4 flex gap-2">
+            รวม : <p className="font-bold text-primary"> {getTotal()} บาท</p>
+          </p>
+        </Card>
+      )}
 
       <Table
         className="mt-4 "

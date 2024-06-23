@@ -59,10 +59,8 @@ export default function PricingCard({
 
   const updateSubscription = api.stripe.updateSubscription.useMutation({
     async onSuccess(data) {
-      if (data?.status == "active") {
-        return window.location.reload();
-        // return toast.success("อัปเดตแพ็คเกจสำเร็จ");
-      }
+      // router.refresh();
+      return window.location.reload();
     },
   });
 
