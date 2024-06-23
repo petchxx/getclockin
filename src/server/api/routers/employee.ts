@@ -17,6 +17,7 @@ import {
 import { input } from "@nextui-org/react";
 import { date } from "drizzle-orm/mysql-core";
 import { type Permissions } from "~/lib/interface/permissions";
+import { type Company } from "~/lib/interface/company";
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -164,16 +165,18 @@ export const employeeRouter = createTRPCRouter({
           .returning();
 
         //get company
-        const [company] = await tx
+        const company = (await tx
           .select()
           .from(companies)
-          .where(sql`${companies.id} = ${updatedEmployee?.company_id}`);
+          .where(
+            sql`${companies.id} = ${updatedEmployee?.company_id}`,
+          )) as Company[];
 
-        if (company?.line_token) {
+        if (company[0]?.line_token && company[0].permissions.isLineNotify) {
           await fetch("https://notify-api.line.me/api/notify", {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${company.line_token}`,
+              Authorization: `Bearer ${company[0].line_token}`,
               "Content-Type": "application/x-www-form-urlencoded",
             },
             body: new URLSearchParams({

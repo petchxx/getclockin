@@ -11,6 +11,7 @@ import {
 import Credentials from "next-auth/providers/credentials";
 import { db } from "~/server/db";
 import { companies, employees } from "./db/schema";
+import { type Company } from "~/lib/interface/company";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -80,12 +81,12 @@ export const authOptions: NextAuthOptions = {
             return null;
 
           console.log("credentials", credentials);
-          const [company] = await db
+          const [company] = (await db
             .select()
             .from(companies)
             .where(
               sql`${companies.name} = ${credentials.company_name} AND ${companies.app_password} = ${credentials.password}`,
-            );
+            )) as Company[];
           console.log("company", company);
           if (!company) return null;
 
@@ -97,7 +98,7 @@ export const authOptions: NextAuthOptions = {
             );
           if (!employee) return null;
           //send line notify if company.line_token exist
-          if (company.line_token) {
+          if (company.line_token && company.permissions.isLineNotify) {
             await fetch("https://notify-api.line.me/api/notify", {
               method: "POST",
               headers: {
