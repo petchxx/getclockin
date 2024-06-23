@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import moment from "moment";
 import { z } from "zod";
 import { ulid } from "ulid";
 import {
@@ -159,12 +160,30 @@ export const employeeRouter = createTRPCRouter({
           .set({
             status: input.status,
           })
-          .where(sql`${employees.id} = ${ctx.session.user.id}`);
+          .where(sql`${employees.id} = ${ctx.session.user.id}`)
+          .returning();
+
+        //get company
+        const [company] = await tx
+          .select()
+          .from(companies)
+          .where(sql`${companies.id} = ${updatedEmployee?.company_id}`);
+
+        if (company?.line_token) {
+          await fetch("https://notify-api.line.me/api/notify", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${company.line_token}`,
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              message: `\n\n• ชื่อ: ${updatedEmployee?.name}\n• สถานะ: ${input.status == "in" ? "เข้างาน" : "ออกงาน"}\n• หมายเหตุ: ${input.note == "" ? "[ ว่าง ]" : input.note}\n\n• สถานที่: ${input.location}\n\n${moment().format("DD/MM/YYYY HH:mm:ss")}`,
+            }),
+          });
+        }
 
         return updatedEmployee;
       });
-
-      return input.status;
     }),
 
   recentClock: protectedProcedure.query(async ({ ctx }) => {

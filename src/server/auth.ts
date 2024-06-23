@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
+import moment from "moment";
 
 import { sql } from "drizzle-orm";
 import {
-  UserRole,
+  type UserRole,
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
@@ -95,6 +96,19 @@ export const authOptions: NextAuthOptions = {
               sql`${employees.email} = ${credentials.email} AND ${employees.company_id} = ${company?.id} `,
             );
           if (!employee) return null;
+          //send line notify if company.line_token exist
+          if (company.line_token) {
+            await fetch("https://notify-api.line.me/api/notify", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${company.line_token}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: new URLSearchParams({
+                message: `\n\n•ชื่อ: ${employee.name}\n•สถานะ: เข้าสู่ระบบ\n\n${moment().format("DD/MM/YYYY HH:mm:ss")} `,
+              }),
+            });
+          }
           return {
             id: employee.id.toString(),
             email: employee.email,
