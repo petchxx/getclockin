@@ -619,8 +619,8 @@ export default function HistoryPage() {
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
-  const [add, setAdd] = React.useState<number | null>();
-  const [deduct, setDeduct] = React.useState<number | null>();
+  const [add, setAdd] = React.useState("");
+  const [deduct, setDeduct] = React.useState("");
   const [showCalculateButton, setShowCalculateButton] = React.useState(false);
 
   const getPresent = (history: History[]) => {
@@ -644,10 +644,11 @@ export default function HistoryPage() {
     if (!selectedEmployee) {
       return 0;
     }
-    const addValue = add ?? 0;
-    const deductValue = deduct ?? 0;
-    const change = addValue - deductValue;
-    return selectedEmployee?.salary + change;
+    return (
+      selectedEmployee.salary +
+      parseInt(add == "" ? "0" : add) -
+      parseInt(deduct == "" ? "0" : deduct)
+    );
   };
 
   return (
@@ -669,8 +670,8 @@ export default function HistoryPage() {
             // setShowCalculate(false);
             setLateCount(0);
             setOutEarlyCount(0);
-            setAdd(0);
-            setDeduct(0);
+            setAdd("");
+            setDeduct("");
           }}
         >
           {employees.map((employee: Employee) => (
