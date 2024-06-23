@@ -40,19 +40,22 @@ export default function Sidebar({ company }: Props) {
           title="ประวัติการทำงาน"
         />
 
-        <p className="mt-2 text-sm">คำขอ</p>
+        {company.permissions.isLeaveOt && (
+          <div>
+            <p className="mt-2 text-sm">คำขอ</p>
+            <SidebarItem
+              path="/dashboard/leave"
+              icon={<Icon icon="ion:calendar-outline" fontSize={24} />}
+              title="ขอลางาน"
+            />
+            <SidebarItem
+              path="/dashboard/overtime"
+              icon={<Icon icon="ion:timer-outline" fontSize={24} />}
+              title="ขอทำงานล่วงเวลา"
+            />
+          </div>
+        )}
 
-        <SidebarItem
-          path="/dashboard/leave"
-          icon={<Icon icon="ion:calendar-outline" fontSize={24} />}
-          title="ขอลางาน"
-        />
-
-        <SidebarItem
-          path="/dashboard/overtime"
-          icon={<Icon icon="ion:timer-outline" fontSize={24} />}
-          title="ขอทำงานล่วงเวลา"
-        />
         <p className="mt-2 text-sm">บัญชี</p>
         <SidebarItem
           path="/dashboard/subscription"
