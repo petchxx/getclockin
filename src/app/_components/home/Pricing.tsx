@@ -42,7 +42,7 @@ export default function Pricing({
       monthlyPriceId: "price_1PTLRcHwApzxTyYDohrIHONB",
       yearlyPriceId: "price_1PGE1EAxJWaaPumFqNXbAbxF",
       permissions: {
-        maxEmployees: 0,
+        maxEmployees: 10,
       },
     },
     {
