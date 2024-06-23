@@ -32,6 +32,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { type Company } from "~/lib/interface/company";
 
 // type User = {
 //   id: number;
@@ -96,6 +97,7 @@ export default function HistoryPage() {
       console.log(data);
     },
   });
+  const company = api.company.get.useQuery().data as Company;
 
   async function getData(selectedEmployee: Employee | null = null) {
     console.log(selectedEmployee);
@@ -799,7 +801,7 @@ export default function HistoryPage() {
         {/* > */}
         {/*   ค้นหา */}
         {/* </Button> */}
-        {showCalculateButton && (
+        {showCalculateButton && company.permissions.isCalculate && (
           <Button
             color="primary"
             className="h-14 w-40"
