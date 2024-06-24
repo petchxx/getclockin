@@ -1,17 +1,12 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import HomeNavbar from "./_components/home/HomeNavbar";
-import { Icon } from "@iconify/react";
-import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
-import { motion } from "framer-motion";
+import { Button, Divider } from "@nextui-org/react";
 import Landing from "./_components/home/Landing";
 import Feature from "./_components/home/Feature";
-import Pricing from "./_components/home/Pricing";
+import Pricing from "./_components/pricing/Pricing";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
 
   return (

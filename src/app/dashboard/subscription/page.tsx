@@ -1,5 +1,5 @@
 import React from "react";
-import Pricing from "~/app/_components/home/Pricing";
+import Pricing from "~/app/_components/pricing/Pricing";
 import { type Company } from "~/lib/interface/company";
 import { api } from "~/trpc/server";
 

@@ -13,7 +13,6 @@ import {
 } from "@nextui-org/react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { type Router } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 import { type Company } from "~/lib/interface/company";
