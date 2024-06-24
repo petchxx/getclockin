@@ -26,6 +26,7 @@ export default function Pricing({
 }: Props) {
   const [isAnnual, setIsAnnual] = React.useState(false);
   const subscription = api.stripe.getSubscription.useQuery().data;
+  const env = process.env.NODE_ENV;
 
   const plans = [
     {
@@ -39,8 +40,14 @@ export default function Pricing({
         "ผู้ใช้งาน 10 คน",
         "Customer Support",
       ],
-      monthlyPriceId: "price_1PTLRcHwApzxTyYDohrIHONB",
-      yearlyPriceId: "price_1PGE1EAxJWaaPumFqNXbAbxF",
+
+      monthlyPriceId:
+        env == "development"
+          ? "price_1PTLRcHwApzxTyYDohrIHONB"
+          : env == "production"
+            ? "price_1PV27GHwApzxTyYDX4aZ6Gq4"
+            : "",
+      yearlyPriceId: "",
       permissions: {
         maxEmployees: 10,
       },
@@ -56,7 +63,12 @@ export default function Pricing({
         "แจ้งเตือนผ่านไลน์",
         "ผู้ใช้งาน 20 คน",
       ],
-      monthlyPriceId: "price_1PUMrdHwApzxTyYDwlPxCZPM",
+      monthlyPriceId:
+        env == "development"
+          ? "price_1PUMrdHwApzxTyYDwlPxCZPM"
+          : env == "production"
+            ? "price_1PV27oHwApzxTyYDO7v2WyYm"
+            : "",
       yearlyPriceId: "",
       permissions: {
         maxEmployees: 20,
@@ -71,7 +83,12 @@ export default function Pricing({
       icon: "material-symbols-light:diamond-outline-rounded",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       features: ["คำนวนเงินเดือน", "ไม่จำกัดจำนวนผู้ใช้", "ClockIn Care"],
-      monthlyPriceId: "",
+      monthlyPriceId:
+        env == "development"
+          ? "price_1PV2DLHwApzxTyYDtgZhSM79"
+          : env == "production"
+            ? "price_1PV28KHwApzxTyYDprZjEH2R"
+            : "",
       yearlyPriceId: "",
       permissions: {
         maxEmployees: 100,
