@@ -47,7 +47,7 @@ export default function Pricing({
           : env == "production"
             ? "price_1PV27GHwApzxTyYDX4aZ6Gq4"
             : "",
-      yearlyPriceId: "",
+      yearlyPriceId: "price_1PZYQbHwApzxTyYDTIiAcZrw",
       permissions: {
         maxEmployees: 10,
       },
@@ -69,7 +69,7 @@ export default function Pricing({
           : env == "production"
             ? "price_1PV27oHwApzxTyYDO7v2WyYm"
             : "",
-      yearlyPriceId: "",
+      yearlyPriceId: "price_1PZYSXHwApzxTyYD16AJ1woW",
       permissions: {
         maxEmployees: 20,
         isLeaveOt: true,
@@ -89,7 +89,7 @@ export default function Pricing({
           : env == "production"
             ? "price_1PV28KHwApzxTyYDprZjEH2R"
             : "",
-      yearlyPriceId: "",
+      yearlyPriceId: "price_1PZYTjHwApzxTyYDoM0MT7y2",
       permissions: {
         maxEmployees: 100,
         isLeaveOt: true,
