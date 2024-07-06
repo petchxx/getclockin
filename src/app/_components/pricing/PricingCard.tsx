@@ -159,7 +159,10 @@ export default function PricingCard({
         {isAnnual
           ? plan.yearlyPrice?.toLocaleString()
           : plan.monthlyPrice?.toLocaleString()}
-        <span className="text-sm opacity-60"> / เดือน</span>
+        <span className="text-sm opacity-60">
+          {" "}
+          / เดือน {isAnnual && "(จ่ายรายปี)"}
+        </span>
       </p>
       <p className="mt-4 text-sm opacity-60">สิทธิ์การเข้าถึง</p>
       <div className="mt-2">

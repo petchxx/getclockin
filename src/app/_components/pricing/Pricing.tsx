@@ -34,7 +34,7 @@ export default function Pricing({
       monthlyPrice: 950,
       yearlyPrice: 899,
       icon: "material-symbols-light:lightbulb-outline",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "แพ็คเกจสำหรับธุรกิจขนาดเล็ก",
       features: [
         "ระบบบันทึกเวลาเข้างานและออกงาน",
         "ผู้ใช้งาน 10 คน",
@@ -57,7 +57,7 @@ export default function Pricing({
       monthlyPrice: 1350,
       yearlyPrice: 1299,
       icon: "material-symbols-light:kid-star-outline",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      description: "แพ็คเกจสำหรับธุรกิจขนาดกลาง",
       features: [
         "ระบบลาและทำงานล่วงเวลา",
         "แจ้งเตือนผ่านไลน์",
@@ -81,8 +81,8 @@ export default function Pricing({
       monthlyPrice: 1450,
       yearlyPrice: 1399,
       icon: "material-symbols-light:diamond-outline-rounded",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      features: ["คำนวนเงินเดือน", "ไม่จำกัดจำนวนผู้ใช้", "ClockIn Care"],
+      description: "แพ็คเกจสำหรับธุรกิจขนาดใหญ่",
+      features: ["คำนวนเงินเดือน", "ผู้ใช้งานไม่จำกัด", "ClockIn Care"],
       monthlyPriceId:
         env == "development"
           ? "price_1PV2DLHwApzxTyYDtgZhSM79"
