@@ -219,10 +219,12 @@ export default function Topbar({ company, title }: Props) {
               </Link>
               <Link
                 color={`${
-                  pathname == "/dashboard/status" ? "primary" : "foreground"
+                  pathname == "/dashboard/subscription"
+                    ? "primary"
+                    : "foreground"
                 }`}
                 className="w-full"
-                href="/dashboard/status"
+                href="/dashboard/subscription"
                 size="lg"
               >
                 สถานะ
