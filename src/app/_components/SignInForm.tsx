@@ -5,9 +5,12 @@ import { Card, Input, Button } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useFormStatus } from "react-dom";
+import SubmitButton from "./SubmitButton";
 
 export default function SignInForm() {
   const router = useRouter();
+  const { pending } = useFormStatus();
 
   async function handleSignIn(formdata: FormData) {
     const signin = await signIn("credentials", {
@@ -20,7 +23,7 @@ export default function SignInForm() {
       toast.error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       return;
     } else {
-      router.push("/dashboard");
+      return router.push("/dashboard");
     }
   }
 
@@ -55,14 +58,7 @@ export default function SignInForm() {
               type="password"
               variant="bordered"
             />
-            <Button
-              color="primary"
-              className="mt-6 h-12 w-80"
-              type="submit"
-              variant="shadow"
-            >
-              เข้าสู่ระบบ
-            </Button>
+            <SubmitButton title="เข้าสู่ระบบ" />
           </form>
           <p className="mt-4 text-sm text-gray-400">
             ยังไม่มีบัญชีใช่หรือไม่?

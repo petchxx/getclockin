@@ -16,6 +16,7 @@ import { api } from "~/trpc/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import SubmitButton from "./SubmitButton";
 
 export default function SignUpForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -87,14 +88,7 @@ export default function SignUpForm() {
               name="confirmPassword"
               variant="bordered"
             />
-            <Button
-              color="primary"
-              className="mt-6 h-12 w-80"
-              type="submit"
-              variant="shadow"
-            >
-              ยืนยัน
-            </Button>
+            <SubmitButton title="สมัคเลย" />
 
             {/* <SignUpButton /> */}
           </form>

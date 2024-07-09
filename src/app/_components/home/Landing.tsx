@@ -20,10 +20,10 @@ export default function Landing() {
             {/* eng */}
           </h1>
           <p className="mt-4 max-w-2xl text-foreground/60">
-            ClockIn คือระบบบันทึกเวลาทำงานที่ใช้งานง่าย และสะดวก
-            สามารถบันทึกเวลาและสถานที่ทำงานได้ทุกเวลา
-            และสามารถดูรายงานการทำงานได้ง่ายๆ และสะดวก
-            เหมาะสำหรับบริษัทที่ต้องการบันทึกเวลาการทำงานของพนักงาน
+            ClockIn คือระบบบันทึกเวลาทำงาน
+            ที่สามารถบันทึกเวลาและสถานที่เข้าทำงานได้
+            และยังสามารถจัดการคำขอลาและการขอทำงานล่วงหน้าได้
+            และยังสามารถคำนวนเงินเดือนได้อีกด้วย
             {/* eng */}
             {/*ClockIn is an easy-to-use and convenient time tracking system.
               It can record the time and location of work at all times. And

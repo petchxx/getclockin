@@ -51,17 +51,17 @@ export default function Feature() {
       <Chip color="primary" className="rounded-full ">
         ฟีเจอร์
       </Chip>
-      <p className="mt-4 text-center text-4xl">ใช้งานง่าย และสดวก</p>
+      <p className="mt-4 text-center text-4xl">ClockIn ทำอะไรได้?</p>
       <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
         ClockIn ทำให้คุณสามารถบันทึกเวลาการทำงานของพนักงานได้ง่ายๆ และสะดวก
         โดยจะมีการบันทึกเวลาและสถานที่เข้าทำงานที่แม่นยำ
         และยังสมารถคำนวนเงินเดือนได้อีกด้วย
       </p>
-      <div className="mt-4 grid grid-cols-1 items-center justify-center  gap-6 p-6  md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-4 grid w-full grid-cols-1 items-center justify-center gap-6  p-6 sm:w-auto  md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => {
           return (
             <Card
-              className="h-48 w-80 cursor-pointer p-4 hover:scale-[1.02]"
+              className="h-48 w-full cursor-pointer p-4 hover:scale-[1.02] md:w-80"
               key={index}
             >
               <CardHeader className="flex gap-3">

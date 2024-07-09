@@ -5,6 +5,7 @@ import { Company } from "~/lib/interface/company";
 import { Icon } from "@iconify/react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import SubmitButton from "../SubmitButton";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function RegisterPage() {
   async function handleSubmit(formData: FormData) {
     const name = formData.get("name") as string;
     const app_password = formData.get("app_password") as string;
-    register.mutate({ name, app_password });
+    return register.mutate({ name, app_password });
   }
   return (
     <main>
@@ -52,14 +53,7 @@ export default function RegisterPage() {
               type="text"
               variant="bordered"
             />
-            <Button
-              color="primary"
-              className="mt-6 h-12 w-80"
-              type="submit"
-              variant="shadow"
-            >
-              ยืนยัน
-            </Button>
+            <SubmitButton title="บันทึก" />
           </form>
         </div>
       </div>
