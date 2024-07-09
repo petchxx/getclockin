@@ -80,18 +80,18 @@ export default function Feature() {
         })}
       </div>
 
-      <motion.div
-        className="mt-12"
-        // transition={{ type: "tween" }}
-      >
-        <Image
-          src="/images/desktop.svg"
-          alt="Clockin"
-          height={1000}
-          width={1000}
-          className="rounded-3xl border-4"
-        />
-      </motion.div>
+      {/* <motion.div */}
+      {/*   className="mt-12" */}
+      {/*   // transition={{ type: "tween" }} */}
+      {/* > */}
+      {/*   <Image */}
+      {/*     src="/images/desktop.svg" */}
+      {/*     alt="Clockin" */}
+      {/*     height={1000} */}
+      {/*     width={1000} */}
+      {/*     className="rounded-3xl border-4" */}
+      {/*   /> */}
+      {/* </motion.div> */}
     </motion.div>
   );
 }
