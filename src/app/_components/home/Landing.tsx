@@ -3,8 +3,11 @@ import { Button, Link } from "@nextui-org/react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import React from "react";
+import { useTheme } from "next-themes";
 
 export default function Landing() {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="flex items-center justify-center pt-12">
       <div className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row">
@@ -52,7 +55,11 @@ export default function Landing() {
           className=""
         >
           <Image
-            src="/images/phone1.png"
+            src={
+              theme == "dark"
+                ? "/images/phone-dark.png"
+                : "/images/phone-light.png"
+            }
             className="object-cover"
             alt="Clockin"
             width={300}

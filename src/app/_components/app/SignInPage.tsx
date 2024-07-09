@@ -5,6 +5,7 @@ import { api } from "~/trpc/react";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import SubmitButton from "../SubmitButton";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -60,14 +61,7 @@ export default function SignInPage() {
               type="password"
               variant="bordered"
             />
-            <Button
-              color="primary"
-              className="mt-6 h-12 w-80"
-              type="submit"
-              variant="shadow"
-            >
-              เข้าสู่ระบบ
-            </Button>
+            <SubmitButton title="เข้าสู่ระบบ" />
           </form>
           {/* <p className="mt-4 text-sm text-gray-400"> */}
           {/*   ยังไม่มีบัญชีใช่หรือไม่? */}
