@@ -148,32 +148,32 @@ export default function PricingCard({
       >
         <Icon
           icon={plan.icon ?? ""}
-          height={20}
+          fontSize={24}
           className={`  ${isCurrentPlan == true ? "group-hover:text-foreground" : "group-hover:text-white"} `}
         />
       </Card>
-      <p className="mt-2">{plan.name}</p>
-      <p className="mt-2 text-sm opacity-60">{plan.description}</p>
-      <p className="mt-4 text-4xl">
+      <p className="mt-2 text-lg">{plan.name}</p>
+      <p className="opacity-60">{plan.description}</p>
+      <p className="mt-2 text-4xl font-medium">
         ฿
         {isAnnual
           ? plan.yearlyPrice?.toLocaleString()
           : plan.monthlyPrice?.toLocaleString()}
-        <span className="text-sm opacity-60">
+        <span className="text-base opacity-60">
           {" "}
           / เดือน {isAnnual && "(จ่ายรายปี)"}
         </span>
       </p>
-      <p className="mt-4 text-sm opacity-60">สิทธิ์การเข้าถึง</p>
-      <div className="mt-2">
+      <p className="mt-4 opacity-60">สิทธิ์การเข้าถึง</p>
+      <div className="">
         {plan.features?.map((feature, index) => (
           <div key={index} className="mt-2 flex items-center">
             <Icon
               icon="material-symbols-light:check"
-              height={20}
+              fontSize={24}
               className={`mr-2 inline-block ${isCurrentPlan ? "text-background" : " text-primary "}`}
             />
-            <p className="text-sm">{feature}</p>
+            <p className="">{feature}</p>
           </div>
         ))}
       </div>
