@@ -27,12 +27,9 @@ export default function SignInPage() {
     <main>
       <div className=" flex h-[100dvh] items-center justify-center">
         <div className="flex flex-col items-center justify-center p-10">
-          <Link
-            className="cursor-pointer text-5xl font-bold text-primary"
-            href={"/"}
-          >
+          <p className="cursor-pointer text-5xl font-bold text-primary">
             ClockIn
-          </Link>
+          </p>
           <p className="text-l text-gray-400">แอพพลิเคชั่น</p>
           <form action={handleSignIn}>
             <Input

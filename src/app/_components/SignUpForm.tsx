@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import SubmitButton from "./SubmitButton";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function SignUpForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -55,7 +56,7 @@ export default function SignUpForm() {
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
-        back
+        <Icon icon="ion:chevron-back-outline" fontSize={24} />
       </Link>
       <div className="flex h-[100dvh] flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center p-10">

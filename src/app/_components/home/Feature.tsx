@@ -52,7 +52,7 @@ export default function Feature() {
         ฟีเจอร์
       </Chip>
       <p className="mt-4 text-center text-4xl">ClockIn ทำอะไรได้?</p>
-      <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
+      <p className="mt-4 max-w-screen-md px-6 text-center text-foreground/60">
         ClockIn ทำให้คุณสามารถบันทึกเวลาการทำงานของพนักงานได้ง่ายๆ และสะดวก
         โดยจะมีการบันทึกเวลาและสถานที่เข้าทำงานที่แม่นยำ
         และยังสมารถคำนวนเงินเดือนได้อีกด้วย

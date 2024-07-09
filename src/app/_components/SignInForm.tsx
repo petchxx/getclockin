@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useFormStatus } from "react-dom";
 import SubmitButton from "./SubmitButton";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -30,16 +31,13 @@ export default function SignInForm() {
   return (
     <main>
       <Link className="absolute left-0 top-0 ml-4 mt-4" href="/">
-        back
+        <Icon icon="ion:chevron-back-outline" fontSize={24} />
       </Link>
       <div className=" flex h-[100dvh] items-center justify-center">
         <div className="flex flex-col items-center justify-center p-10">
-          <Link
-            className="cursor-pointer text-5xl font-bold text-primary"
-            href={"/"}
-          >
+          <p className="cursor-pointer text-5xl font-bold text-primary">
             ClockIn
-          </Link>
+          </p>
           <p className="text-l text-gray-400">แดชบอร์ด</p>
           <form action={handleSignIn}>
             <Input

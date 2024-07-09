@@ -118,9 +118,8 @@ export default function Pricing({
         )}
         <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
           เพื่อให้คุณได้สัมผัสกับความสามารถและคุณสมบัติที่เรามีให้
-          กรุณาเลือกแพ็คเกจที่ต้องการ
-          <br />
-          หากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม กรุณาติดต่อเรา
+          กรุณาเลือกแพ็คเกจที่ต้องการ และหากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม
+          กรุณาติดต่อเรา
         </p>
         {subscription && company?.status == "active" && (
           <p className="mt-2 text-primary">
