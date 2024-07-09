@@ -114,9 +114,11 @@ export default function Pricing({
         {company?.is_trial == false ? (
           <p className="mt-4 text-center text-4xl">ต่ออายุการใช้งาน</p>
         ) : (
-          <p className="mt-4 text-center text-4xl">ทดลองใช้ฟรี 30 วัน!</p>
+          <p className="mt-4 text-center text-4xl font-semibold">
+            ทดลองใช้ฟรี 30 วัน!
+          </p>
         )}
-        <p className="mt-4 max-w-screen-md px-4 text-center text-foreground/60">
+        <p className="md mt-4 max-w-2xl px-4 text-center text-foreground/60">
           เพื่อให้คุณได้สัมผัสกับความสามารถและคุณสมบัติที่เรามีให้
           กรุณาเลือกแพ็คเกจที่ต้องการ และหากมีข้อสงสัยหรือต้องการข้อมูลเพิ่มเติม
           กรุณาติดต่อเรา

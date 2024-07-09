@@ -17,8 +17,8 @@ export default function Landing() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "tween" }}
         >
-          <h1 className="text-lg text-primary">ClockIn</h1>
-          <h1 className="text-4xl font-medium">
+          <h1 className="font-semibold text-primary">คล็อคอิน</h1>
+          <h1 className="text-4xl font-semibold">
             ระบบบันทึกเวลาทำงาน
             {/* eng */}
           </h1>

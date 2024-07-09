@@ -154,7 +154,7 @@ export default function PricingCard({
       </Card>
       <p className="mt-2 text-lg">{plan.name}</p>
       <p className="opacity-60">{plan.description}</p>
-      <p className="mt-2 text-4xl font-medium">
+      <p className="mt-4 text-4xl font-medium">
         ฿
         {isAnnual
           ? plan.yearlyPrice?.toLocaleString()
