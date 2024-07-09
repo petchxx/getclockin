@@ -8,34 +8,34 @@ import { Icon } from "@iconify/react";
 export default function Feature() {
   const features = [
     {
-      icon: <Icon icon="ri:account-pin-circle-line" fontSize={20} />,
+      icon: <Icon icon="ri:account-pin-circle-line" fontSize={24} />,
       title: "บันทึกเวลา เข้า-ออก",
       description: "บันทึกเวลาการเข้าและออกงานของพนักงานได้",
     },
 
     {
-      icon: <Icon icon="ri:line-fill" fontSize={20} />,
+      icon: <Icon icon="ri:line-fill" fontSize={24} />,
       title: "แจ้งเตือนผ่าน Line",
       description: "แจ้งเตือนผ่าน Line ได้ เมื่อพนักงานเข้าและออกงาน",
     },
     {
-      icon: <Icon icon="ri:history-line" fontSize={20} />,
+      icon: <Icon icon="ri:history-line" fontSize={24} />,
       title: "ดูประวัติ",
       description: "ดูประวัติการเข้างานของพนักงานได้",
     },
     {
-      icon: <Icon icon="ri:calculator-line" fontSize={20} />,
+      icon: <Icon icon="ri:calculator-line" fontSize={24} />,
       title: "คำนวนเงินเดือน",
       description: "ระบบคำนวนเงินเดือนของพนักงานอัตโนมัติ",
     },
     {
-      icon: <Icon icon="ri:calendar-event-line" fontSize={20} />,
+      icon: <Icon icon="ri:calendar-event-line" fontSize={24} />,
 
       title: "ขอลา",
       description: "สามารถให้พนักงานขอลาได้ผ่านระบบ",
     },
     {
-      icon: <Icon icon="ri:calendar-schedule-line" fontSize={20} />,
+      icon: <Icon icon="ri:calendar-schedule-line" fontSize={24} />,
       title: "ขอทำงานล่วงเวลา",
       description: "สามารถให้พนักงานขอทำงานล่วงเวลาได้ผ่านระบบ",
     },
@@ -51,7 +51,7 @@ export default function Feature() {
       <Chip color="primary" className="rounded-full ">
         ฟีเจอร์
       </Chip>
-      <p className="mt-4 text-center text-4xl">ClockIn ทำอะไรได้?</p>
+      <p className="mt-4 text-center text-4xl">ClockIn ทำอะไรได้ ?</p>
       <p className="mt-4 max-w-screen-md px-6 text-center text-foreground/60">
         ClockIn ทำให้คุณสามารถบันทึกเวลาการทำงานของพนักงานได้ง่ายๆ และสะดวก
         โดยจะมีการบันทึกเวลาและสถานที่เข้าทำงานที่แม่นยำ
@@ -65,7 +65,7 @@ export default function Feature() {
               key={index}
             >
               <CardHeader className="flex gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary bg-opacity-20 text-primary">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary bg-opacity-20 text-primary">
                   {feature.icon}
                 </div>
                 <div className="flex flex-col">

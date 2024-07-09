@@ -18,32 +18,33 @@ export default function Landing() {
           transition={{ type: "tween" }}
         >
           <h1 className="text-lg text-primary">ClockIn</h1>
-          <h1 className="text-4xl ">
+          <h1 className="text-4xl font-medium">
             ระบบบันทึกเวลาทำงาน
             {/* eng */}
           </h1>
-          <p className="mt-4 max-w-2xl text-foreground/60">
+          <p className="mt-4 max-w-xl text-foreground/60">
             ClockIn คือระบบบันทึกเวลาทำงาน
             ที่สามารถบันทึกเวลาและสถานที่เข้าทำงานได้
             และยังสามารถจัดการคำขอลาและการขอทำงานล่วงหน้าได้
-            และยังสามารถคำนวนเงินเดือนได้อีกด้วย
+            และยังสามารถคำนวนเงินเดือนได้อีกด้วย ระบบ HR ดีที่สุด
             {/* eng */}
             {/*ClockIn is an easy-to-use and convenient time tracking system.
               It can record the time and location of work at all times. And
               can view work reports easily and conveniently. Suitable for
               companies that want to record employee work hours*/}
           </p>
-          <div className="mt-4 flex gap-2">
+          <div className="mt-6 flex gap-2">
             <Button
               disableRipple
               className="relative overflow-visible bg-primary  text-white shadow-xl after:absolute after:inset-0 after:z-[-1] after:rounded-xl after:bg-primary/40 after:transition after:!duration-500 after:content-[''] hover:after:scale-150 hover:after:opacity-0"
               as={Link}
               href="/signup"
+              size="lg"
             >
               เริ่มต้นใช้งาน
             </Button>
 
-            <Button color="primary" variant="bordered">
+            <Button color="primary" variant="bordered" size="lg">
               ดูตัวอย่าง
             </Button>
           </div>
