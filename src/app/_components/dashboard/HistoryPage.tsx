@@ -875,7 +875,7 @@ export default function HistoryPage() {
               // value={}
               onChange={(e) => {
                 const salary = selectedEmployee?.salary ?? 0;
-                if (parseInt(e.target.value) > salary) {
+                if (parseInt(e.target.value) > salary + parseInt(add)) {
                   toast.error("หักเงินเกินจำนวนเงินที่ได้รับ");
                   return;
                 }
