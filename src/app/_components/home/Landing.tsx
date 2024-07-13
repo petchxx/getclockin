@@ -1,4 +1,5 @@
 "use client";
+import Spline from "@splinetool/react-spline/next";
 import { Button, Link } from "@nextui-org/react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -49,25 +50,29 @@ export default function Landing() {
             </Button>
           </div>
         </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 200 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween" }}
-          className=""
-        >
-          <Image
-            src={
-              theme == "dark"
-                ? "/images/phone-dark.png"
-                : "/images/phone-light.png"
-            }
-            className="object-cover"
-            alt="Clockin"
-            width={300}
-            height={300}
-            priority={true}
-          />
-        </motion.div>
+        <div className="h-[600px] w-80 ">
+          <Spline scene="https://prod.spline.design/e0XdiplgvapfH87v/scene.splinecode" />
+        </div>
+
+        {/* <motion.div */}
+        {/*   initial={{ opacity: 0, x: 200 }} */}
+        {/*   animate={{ opacity: 1, x: 0 }} */}
+        {/*   transition={{ type: "tween" }} */}
+        {/*   className="" */}
+        {/* > */}
+        {/*   <Image */}
+        {/*     src={ */}
+        {/*       theme == "dark" */}
+        {/*         ? "/images/phone-dark.png" */}
+        {/*         : "/images/phone-light.png" */}
+        {/*     } */}
+        {/*     className="object-cover" */}
+        {/*     alt="Clockin" */}
+        {/*     width={300} */}
+        {/*     height={300} */}
+        {/*     priority={true} */}
+        {/*   /> */}
+        {/* </motion.div> */}
       </div>
     </div>
   );
