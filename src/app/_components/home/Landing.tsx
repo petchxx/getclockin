@@ -1,11 +1,12 @@
 "use client";
-import Spline from "@splinetool/react-spline/next";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link, Skeleton } from "@nextui-org/react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import React from "react";
+import { useTheme } from "next-themes";
 
 export default function Landing() {
+  const { theme, setTheme } = useTheme();
   return (
     <div className="flex items-center justify-center pt-12">
       <div className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row">
@@ -47,29 +48,29 @@ export default function Landing() {
             </Button>
           </div>
         </motion.div>
-        <div className="h-[600px] w-80 ">
-          <Spline scene="https://prod.spline.design/e0XdiplgvapfH87v/scene.splinecode" />
-        </div>
+        {/* <div className="h-[600px] w-80 "> */}
+        {/*   <Spline scene="https://prod.spline.design/e0XdiplgvapfH87v/scene.splinecode" /> */}
+        {/* </div> */}
 
-        {/* <motion.div */}
-        {/*   initial={{ opacity: 0, x: 200 }} */}
-        {/*   animate={{ opacity: 1, x: 0 }} */}
-        {/*   transition={{ type: "tween" }} */}
-        {/*   className="" */}
-        {/* > */}
-        {/*   <Image */}
-        {/*     src={ */}
-        {/*       theme == "dark" */}
-        {/*         ? "/images/phone-dark.png" */}
-        {/*         : "/images/phone-light.png" */}
-        {/*     } */}
-        {/*     className="object-cover" */}
-        {/*     alt="Clockin" */}
-        {/*     width={300} */}
-        {/*     height={300} */}
-        {/*     priority={true} */}
-        {/*   /> */}
-        {/* </motion.div> */}
+        <motion.div
+          initial={{ opacity: 0, x: 200 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "tween" }}
+          className=""
+        >
+          <Image
+            src={
+              theme == "dark"
+                ? "/images/phone-dark.png"
+                : "/images/phone-light.png"
+            }
+            className="object-cover"
+            alt="Clockin"
+            width={300}
+            height={300}
+            priority={true}
+          />
+        </motion.div>
       </div>
     </div>
   );
