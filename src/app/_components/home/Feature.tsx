@@ -52,9 +52,9 @@ export default function Feature() {
       }}
       className="mt-14 flex flex-col items-center justify-center pt-20"
       id="features"
-      // initial={{ opacity: 0, y: 200 }}
-      // animate={{ opacity: 1, y: 0 }}
-      // transition={{ type: "tween" }}
+      initial={{ opacity: 0, y: 200 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "tween", duration: 0.8 }}
     >
       <Chip color="primary" className="rounded-full ">
         ฟีเจอร์

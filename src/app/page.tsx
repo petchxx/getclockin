@@ -5,6 +5,7 @@ import { Button, Divider } from "@nextui-org/react";
 import Landing from "./_components/home/Landing";
 import Feature from "./_components/home/Feature";
 import Pricing from "./_components/pricing/Pricing";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -34,19 +35,28 @@ export default async function Home() {
       <div className="mt-12 pt-32" id="contact">
         <div className="flex justify-center text-5xl font-bold">ติดต่อเรา</div>
         <div className="m-4 flex justify-center">
-          <div className="flex max-w-lg items-center text-center">
+          <div className="flex max-w-lg items-center text-center text-foreground/60">
             หากมีข้อสงสัย หรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถติดต่อเราได้ที่
             {/* eng */}
           </div>
         </div>
         <div className="m-4 flex justify-center">
           <div className="flex max-w-lg items-center text-center">
-            <Link
-              href={`mailto:petchxpanuphong@gmail.com}`}
-              className="cursor-pointer"
+            <Button
+              isIconOnly
+              as={Link}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#06c755]"
+              href="https://lin.ee/4lkElFh"
             >
-              petchxpanuphong@gmail.com
-            </Link>
+              <Icon icon="bi:line" className="text-white" fontSize={24} />
+            </Button>
+
+            {/* <Link */}
+            {/*   href={`mailto:petchxpanuphong@gmail.com}`} */}
+            {/*   className="cursor-pointer" */}
+            {/* > */}
+            {/*   petchxpanuphong@gmail.com */}
+            {/* </Link> */}
           </div>
         </div>
       </div>
@@ -57,6 +67,15 @@ export default async function Home() {
           © 2021 ClockIn. All rights reserved.
         </div>
       </div>
+      {/* bottom right floating button */}
+      <Button
+        isIconOnly
+        className="fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-[#06c755]"
+        as={Link}
+        href="https://lin.ee/4lkElFh"
+      >
+        <Icon icon="bi:line" className="text-white" fontSize={24} />
+      </Button>
     </main>
   );
 }

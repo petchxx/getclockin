@@ -755,7 +755,7 @@ export default function HistoryPage() {
             className="h-14 w-14"
             variant="flat"
             onClick={() => {
-              //export name, email, date, inTime, outTime, inNote, outNote,  inLocation, outLocation, status
+              // Export name, email, date, inTime, outTime, inNote, outNote, inLocation, outLocation, status
               const csv = history.map((row) => {
                 const date = moment(row.date).format("DD/MM/YYYY");
                 const inTime = row.in_date_time?.toLocaleTimeString() ?? "";
@@ -769,15 +769,42 @@ export default function HistoryPage() {
                     ? "ขาดงาน"
                     : row.status == "present"
                       ? "เข้างาน"
-                      : "วันหยุด";
-                return `${selectedEmployee?.name},${date},${inTime},${outTime},${inNote},${outNote},${inLocation},${outLocation},${status}`;
+                      : row.status == "offday"
+                        ? "วันหยุด"
+                        : "ว่าง";
+
+                // Function to wrap fields with commas in double quotes
+                const escapeField = (field: string | undefined) => {
+                  if (field?.includes(",")) {
+                    return `"${field}"`;
+                  }
+                  return field;
+                };
+
+                return [
+                  selectedEmployee?.name,
+                  selectedEmployee?.email,
+                  date,
+                  inTime,
+                  outTime,
+                  inNote,
+                  outNote,
+                  inLocation,
+                  outLocation,
+                  status,
+                ]
+                  .map(escapeField)
+                  .join(",");
               });
 
               const csvArray = [
-                "ชื่อ,วันที่,เวลาเข้างาน,เวลาออกงาน,หมายเหตุเข้างาน, หมายเหตุออกงาน,สถานที่เข้างาน,สถานที่ออกงาน,สถานะ",
+                "ชื่อ,Email,วันที่,เวลาเข้างาน,เวลาออกงาน,หมายเหตุเข้างาน,หมายเหตุออกงาน,สถานที่เข้างาน,สถานที่ออกงาน,สถานะ",
               ].concat(csv);
-              // const csvString = csvArray.join("\n");
+
+              // Join the array into a CSV string with a BOM for proper encoding
               const csvString = "\uFEFF" + csvArray.join("\n");
+
+              // Create a download link and trigger it
               const a = document.createElement("a");
               console.log(csvString);
               a.href = URL.createObjectURL(
@@ -875,7 +902,7 @@ export default function HistoryPage() {
               // value={}
               onChange={(e) => {
                 const salary = selectedEmployee?.salary ?? 0;
-                if (parseInt(e.target.value) > salary) {
+                if (parseInt(e.target.value) > salary + parseInt(add)) {
                   toast.error("หักเงินเกินจำนวนเงินที่ได้รับ");
                   return;
                 }

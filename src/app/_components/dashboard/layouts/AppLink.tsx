@@ -42,18 +42,18 @@ export default function AppLink() {
                 >
                   https://getclockin.com/app
                 </Snippet>
-                <p className="mt-2 text-sm">หรือแชร์ไปยัง</p>
+                {/* <p className="mt-2 text-sm">หรือแชร์ไปยัง</p> */}
 
-                <div className="">
-                  {/* <LineShareButton */}
-                  {/*   url={"https://getclockin.com/app"} */}
-                  {/*   title={ */}
-                  {/*     "next-share is a social share buttons for your next React apps." */}
-                  {/*   } */}
-                  {/* > */}
-                  {/*   <LineIcon className="rounded-full" size={40} /> */}
-                  {/* </LineShareButton> */}
-                </div>
+                {/* <div className=""> */}
+                {/* <LineShareButton */}
+                {/*   url={"https://getclockin.com/app"} */}
+                {/*   title={ */}
+                {/*     "next-share is a social share buttons for your next React apps." */}
+                {/*   } */}
+                {/* > */}
+                {/*   <LineIcon className="rounded-full" size={40} /> */}
+                {/* </LineShareButton> */}
+                {/* </div> */}
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onPress={onClose}>
