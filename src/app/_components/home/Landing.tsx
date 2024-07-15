@@ -13,9 +13,9 @@ export default function Landing() {
       <div className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row">
         <motion.div
           className="mr-12 mt-10 md:mt-0"
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween" }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "tween", duration: 0.8 }}
         >
           <h1 className="text-lg text-primary">ClockIn</h1>
           <h1 className="text-4xl ">
@@ -49,9 +49,9 @@ export default function Landing() {
           </div>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: 200 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween" }}
+          initial={{ opacity: 0, rotateX: -50 }}
+          animate={{ opacity: 1, rotateX: 0, rotateY: 0, rotateZ: 0 }}
+          transition={{ type: "tween", duration: 0.8 }}
           className=""
         >
           <Image

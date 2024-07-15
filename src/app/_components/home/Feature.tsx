@@ -46,7 +46,7 @@ export default function Feature() {
       id="features"
       initial={{ opacity: 0, y: 200 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "tween" }}
+      transition={{ type: "tween", duration: 0.8 }}
     >
       <Chip color="primary" className="rounded-full ">
         ฟีเจอร์
