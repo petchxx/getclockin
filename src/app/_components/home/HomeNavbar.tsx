@@ -30,7 +30,7 @@ export default function HomeNavbar({ session }: Props) {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="">
+    <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="lg" className="">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}

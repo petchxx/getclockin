@@ -14,6 +14,7 @@ import PricingCard from "./PricingCard";
 import { type Company } from "~/lib/interface/company";
 import { api } from "~/trpc/react";
 import moment from "moment";
+import { motion } from "framer-motion";
 
 type Props = {
   company?: Company;
@@ -100,7 +101,17 @@ export default function Pricing({
   ];
 
   return (
-    <div>
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: "easeOut" }}
+      variants={{
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 100 },
+      }}
+      id="features"
+    >
       <div className="flex flex-col items-center">
         <Chip
           color="primary"
@@ -173,6 +184,6 @@ export default function Pricing({
           </Tab>
         </Tabs>
       </div>
-    </div>
+    </motion.div>
   );
 }

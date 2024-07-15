@@ -42,11 +42,19 @@ export default function Feature() {
   ];
   return (
     <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+      variants={{
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 100 },
+      }}
       className="mt-14 flex flex-col items-center justify-center pt-20"
       id="features"
-      initial={{ opacity: 0, y: 200 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "tween" }}
+      // initial={{ opacity: 0, y: 200 }}
+      // animate={{ opacity: 1, y: 0 }}
+      // transition={{ type: "tween" }}
     >
       <Chip color="primary" className="rounded-full ">
         ฟีเจอร์

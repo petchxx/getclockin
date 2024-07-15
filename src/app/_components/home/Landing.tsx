@@ -14,10 +14,10 @@ export default function Landing() {
           className="mr-12 mt-10 md:mt-0"
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween" }}
+          transition={{ type: "tween", duration: 0.5, ease: "easeOut" }}
         >
-          <h1 className="font-semibold text-primary">คล็อคอิน</h1>
-          <h1 className="text-4xl font-semibold">
+          <h1 className="text-lg font-semibold text-primary">คล็อคอิน</h1>
+          <h1 className="text-5xl font-semibold">
             ระบบบันทึกเวลาทำงาน
             {/* eng */}
           </h1>
@@ -55,7 +55,7 @@ export default function Landing() {
         <motion.div
           initial={{ opacity: 0, x: 200 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween" }}
+          transition={{ type: "tween", duration: 0.5, ease: "easeOut" }}
           className=""
         >
           <Image
