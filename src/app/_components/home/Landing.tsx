@@ -9,7 +9,12 @@ export default function Landing() {
   const { theme, setTheme } = useTheme();
   return (
     <div className="flex items-center justify-center pt-12">
-      <div className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row">
+      <div
+        className="flex max-w-5xl flex-col-reverse items-center justify-center px-6 md:flex-row"
+        style={{
+          perspective: "2000px",
+        }}
+      >
         <motion.div
           className="mr-12 mt-10 md:mt-0"
           initial={{ opacity: 0, x: -100 }}
@@ -53,9 +58,13 @@ export default function Landing() {
         {/* </div> */}
 
         <motion.div
-          initial={{ opacity: 0, x: 200 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween", duration: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0, rotateX: 45 }}
+          animate={{ opacity: 1, rotateX: 0 }}
+          transition={{
+            type: "spring",
+            duration: 1,
+            ease: "easeOut",
+          }}
           className=""
         >
           <Image
