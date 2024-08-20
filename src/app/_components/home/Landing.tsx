@@ -58,7 +58,7 @@ export default function Landing() {
         {/* </div> */}
 
         <motion.div
-          initial={{ opacity: 0, rotateX: 45 }}
+          initial={{ opacity: 0, rotateX: -45 }}
           animate={{ opacity: 1, rotateX: 0 }}
           transition={{
             type: "spring",

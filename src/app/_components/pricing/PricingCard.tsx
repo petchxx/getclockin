@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import {
   Button,
   Card,
+  Chip,
   Modal,
   ModalBody,
   ModalContent,
@@ -33,6 +34,7 @@ type Plan = {
     isLineNotify?: boolean;
     isCalculate?: boolean;
   };
+  isPopular?: boolean;
 };
 
 type Props = {
@@ -42,6 +44,7 @@ type Props = {
   subscriptionPricingId?: string;
   subscriptionItemId?: string;
   subscriptionId?: string;
+  isPopular?: boolean;
 };
 
 export default function PricingCard({
@@ -51,6 +54,7 @@ export default function PricingCard({
   subscriptionPricingId,
   subscriptionItemId,
   subscriptionId,
+  isPopular,
 }: Props) {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -141,17 +145,28 @@ export default function PricingCard({
       : "";
   return (
     <Card
-      className={`group w-80 items-start p-4 hover:border-primary ${isCurrentPlan && "bg-primary text-background"}`}
+      className={`group w-80 items-start p-4 hover:border-primary ${plan.isPopular && "border-1 border-primary shadow-xl shadow-primary/50"} ${isCurrentPlan && "bg-primary text-background"}`}
     >
-      <Card
-        className={`flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary ${isCurrentPlan && "group-hover:bg-background"}`}
-      >
-        <Icon
-          icon={plan.icon ?? ""}
-          fontSize={24}
-          className={`  ${isCurrentPlan == true ? "group-hover:text-foreground" : "group-hover:text-white"} `}
-        />
-      </Card>
+      <div className="flex">
+        <Card
+          className={`flex h-10 w-10 items-center justify-center transition-colors duration-200 group-hover:bg-primary ${isCurrentPlan && "group-hover:bg-background"}`}
+        >
+          <Icon
+            icon={plan.icon ?? ""}
+            fontSize={24}
+            className={`  ${isCurrentPlan == true ? "group-hover:text-foreground" : "group-hover:text-white"} `}
+          />
+        </Card>
+        {plan.isPopular && (
+          <Chip
+            variant="bordered"
+            color="primary"
+            className="absolute right-4 top-4 "
+          >
+            ยอดนิยม
+          </Chip>
+        )}
+      </div>
       <p className="mt-2 text-lg">{plan.name}</p>
       <p className="opacity-60">{plan.description}</p>
       <p className="mt-4 text-4xl font-medium">

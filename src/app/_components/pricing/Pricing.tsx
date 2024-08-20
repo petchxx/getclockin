@@ -97,6 +97,7 @@ export default function Pricing({
         isLineNotify: true,
         isCalculate: true,
       },
+      isPopular: true,
     },
   ];
 
@@ -105,7 +106,7 @@ export default function Pricing({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      transition={{ duration: 1, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       variants={{
         visible: { opacity: 1, y: 0 },
         hidden: { opacity: 0, y: 100 },
