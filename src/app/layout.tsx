@@ -4,6 +4,8 @@ import { Noto_Sans_Thai } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Providers } from "./providers";
+import Head from "next/head";
+import Script from "next/script";
 const nst = Noto_Sans_Thai({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,11 +22,12 @@ export default async function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en" className={`${nst.className}`}>
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16547685038"></Script>
       <body>
         <TRPCReactProvider>
           <Providers>{children}</Providers>
         </TRPCReactProvider>
       </body>
-    </html>
+    </html >
   );
 }
