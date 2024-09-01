@@ -67,7 +67,7 @@ export default function AddEmployee() {
     },
   });
 
-  const handleAddEmployee = async () => {
+  const handleAddEmployee = async (onClose: void) => {
     const offDaysArray = Array.from(offDays);
     console.log(
       email,
@@ -90,6 +90,7 @@ export default function AddEmployee() {
       stop_time: stopTime.toString(),
       off_days: offDaysArray as string[],
     });
+    onClose
   };
 
   return (
@@ -200,9 +201,8 @@ export default function AddEmployee() {
                 <Button
                   color="primary"
                   onPress={async () => {
-                    await handleAddEmployee();
+                    await handleAddEmployee(onClose());
                   }}
-                  onClick={onClose}
                 >
                   เพิ่ม
                 </Button>
