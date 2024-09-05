@@ -11,7 +11,7 @@ const nst = Noto_Sans_Thai({ subsets: ["latin"] });
 export const metadata = {
   title: "ClockIn | ระบบบันทึกเวลาทำงาน",
   description:
-    "ClockIn ระบบบันทึกเวลาทำงานของพนักงาน ระบบคำนวนเงินเดือน ระบบจัดการพนักงาน",
+    "ClockIn ระบบบันทึกเวลาทำงานของพนักงาน ระบบคำนวณเงินเดือน ระบบจัดการพนักงาน",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -22,12 +22,15 @@ export default async function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en" className={`${nst.className}`}>
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16547685038"></Script>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-16547685038"
+      ></Script>
       <body>
         <TRPCReactProvider>
           <Providers>{children}</Providers>
         </TRPCReactProvider>
       </body>
-    </html >
+    </html>
   );
 }

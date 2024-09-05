@@ -30,7 +30,7 @@ export default function Landing() {
             ClockIn คือระบบบันทึกเวลาทำงาน
             ที่สามารถบันทึกเวลาและสถานที่เข้าทำงานได้
             และยังสามารถจัดการคำขอลาและการขอทำงานล่วงหน้าได้
-            และยังสามารถคำนวนเงินเดือนได้อีกด้วย ระบบ HR ดีที่สุด
+            และยังสามารถคำนวณเงินเดือนได้อีกด้วย ระบบ HR ดีที่สุด
             {/* eng */}
             {/*ClockIn is an easy-to-use and convenient time tracking system.
               It can record the time and location of work at all times. And

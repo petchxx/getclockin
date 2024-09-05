@@ -179,7 +179,7 @@ export default function PricingCard({
           / เดือน {isAnnual && "(จ่ายรายปี)"}
         </span>
       </p>
-      <p className="mt-4 opacity-60">สิทธิ์การเข้าถึง</p>
+      <p className="mt-4 opacity-60">สิทธิการเข้าถึง</p>
       <div className="">
         {plan.features?.map((feature, index) => (
           <div key={index} className="mt-2 flex items-center">

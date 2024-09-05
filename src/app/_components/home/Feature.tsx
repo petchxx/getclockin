@@ -25,8 +25,8 @@ export default function Feature() {
     },
     {
       icon: <Icon icon="ri:calculator-line" fontSize={24} />,
-      title: "คำนวนเงินเดือน",
-      description: "ระบบคำนวนเงินเดือนของพนักงานอัตโนมัติ",
+      title: "คำนวณเงินเดือน",
+      description: "ระบบคำนวณเงินเดือนของพนักงานอัตโนมัติ",
     },
     {
       icon: <Icon icon="ri:calendar-event-line" fontSize={24} />,
@@ -65,7 +65,7 @@ export default function Feature() {
       <p className="mt-4 max-w-2xl px-6 text-center text-foreground/60">
         ClockIn ทำให้คุณสามารถบันทึกเวลาการทำงานของพนักงานได้ง่ายๆ และสะดวก
         โดยจะมีการบันทึกเวลาและสถานที่เข้าทำงานที่แม่นยำ
-        และยังสมารถคำนวนเงินเดือนได้อีกด้วย
+        และยังสามารถคำนวณเงินเดือนได้อีกด้วย
       </p>
       <div className="mt-4 grid w-full grid-cols-1 items-center justify-center gap-6  p-6 sm:w-auto  md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => {

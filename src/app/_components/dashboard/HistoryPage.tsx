@@ -839,7 +839,7 @@ export default function HistoryPage() {
               console.log(history);
             }}
           >
-            คำนวนเงินเดือน
+            คำนวณเงินเดือน
           </Button>
         )}
       </div>

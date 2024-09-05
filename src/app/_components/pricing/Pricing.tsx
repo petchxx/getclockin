@@ -31,7 +31,7 @@ export default function Pricing({
 
   const plans = [
     {
-      name: "Basic Plans",
+      name: "Basic Plan",
       monthlyPrice: 950,
       yearlyPrice: 899,
       icon: "material-symbols-light:lightbulb-outline",
@@ -54,7 +54,7 @@ export default function Pricing({
       },
     },
     {
-      name: "Business Plans",
+      name: "Business Plan",
       monthlyPrice: 1350,
       yearlyPrice: 1299,
       icon: "material-symbols-light:kid-star-outline",
@@ -78,12 +78,12 @@ export default function Pricing({
       },
     },
     {
-      name: "Enterprise Plans",
+      name: "Enterprise Plan",
       monthlyPrice: 1450,
       yearlyPrice: 1399,
       icon: "material-symbols-light:diamond-outline-rounded",
       description: "แพ็คเกจสำหรับธุรกิจขนาดใหญ่",
-      features: ["คำนวนเงินเดือน", "ผู้ใช้งานไม่จำกัด", "ClockIn Care"],
+      features: ["คำนวณเงินเดือน", "ผู้ใช้งานไม่จำกัด", "ClockIn Care"],
       monthlyPriceId:
         env == "development"
           ? "price_1PV2DLHwApzxTyYDtgZhSM79"
