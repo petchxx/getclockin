@@ -15,18 +15,40 @@ export default function Landing() {
           perspective: "2000px",
         }}
       >
-        <motion.div
-          className="mr-12 mt-10 md:mt-0"
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "tween", duration: 0.5, ease: "easeOut" }}
-        >
-          <h1 className="text-lg font-semibold text-primary">คล็อคอิน</h1>
-          <h1 className="text-5xl font-semibold">
+        <motion.div className="mr-12 mt-10 md:mt-0">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "tween", duration: 0.5, ease: "easeOut" }}
+            className="text-lg text-primary"
+          >
+            คล็อคอิน
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              delay: 0.2,
+              duration: 0.5,
+              ease: "easeOut",
+            }}
+            className="bg-gradient-to-br from-foreground to-foreground/50 bg-clip-text text-6xl  font-semibold  text-transparent"
+          >
             ระบบบันทึกเวลาทำงาน
             {/* eng */}
-          </h1>
-          <p className="mt-4 max-w-xl text-foreground/60">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              type: "tween",
+              delay: 0.5,
+              duration: 0.5,
+              ease: "easeOut",
+            }}
+            className="mt-4 max-w-xl bg-gradient-to-br from-foreground to-foreground/50 bg-clip-text text-lg text-transparent"
+          >
             ClockIn คือระบบบันทึกเวลาทำงาน
             ที่สามารถบันทึกเวลาและสถานที่เข้าทำงานได้
             และยังสามารถจัดการคำขอลาและการขอทำงานล่วงหน้าได้
@@ -36,21 +58,43 @@ export default function Landing() {
               It can record the time and location of work at all times. And
               can view work reports easily and conveniently. Suitable for
               companies that want to record employee work hours*/}
-          </p>
+          </motion.div>
           <div className="mt-6 flex gap-2">
-            <Button
-              disableRipple
-              className="relative overflow-visible bg-primary  text-white shadow-xl after:absolute after:inset-0 after:z-[-1] after:rounded-xl after:bg-primary/40 after:transition after:!duration-500 after:content-[''] hover:after:scale-150 hover:after:opacity-0"
-              as={Link}
-              href="/signup"
-              size="lg"
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.8,
+                type: "tween",
+                duration: 0.5,
+                ease: "easeOut",
+              }}
             >
-              เริ่มต้นใช้งาน
-            </Button>
+              <Button
+                disableRipple
+                className="relative overflow-visible bg-primary  text-white shadow-xl after:absolute after:inset-0 after:z-[-1] after:rounded-xl after:bg-primary/40 after:transition after:!duration-500 after:content-[''] hover:after:scale-150 hover:after:opacity-0"
+                as={Link}
+                href="/signup"
+                size="lg"
+              >
+                เริ่มต้นใช้งาน
+              </Button>
+            </motion.div>
 
-            <Button color="primary" variant="bordered" size="lg">
-              ดูตัวอย่าง
-            </Button>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                type: "tween",
+                duration: 0.5,
+                ease: "easeOut",
+                delay: 1,
+              }}
+            >
+              <Button color="primary" variant="bordered" size="lg">
+                ดูตัวอย่าง
+              </Button>
+            </motion.div>
           </div>
         </motion.div>
         {/* <div className="h-[600px] w-80 "> */}
