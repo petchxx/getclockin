@@ -56,13 +56,13 @@ export default function Feature() {
       // animate={{ opacity: 1, y: 0 }}
       // transition={{ type: "tween", duration: 0.8 }}
     >
-      <Chip color="primary" className="rounded-full ">
+      <Chip color="primary" className="rounded-full " variant="bordered">
         ฟีเจอร์
       </Chip>
-      <p className="mt-4 text-center text-4xl font-semibold">
+      <p className="mt-4 text-center text-5xl font-semibold">
         ClockIn ทำอะไรได้ ?
       </p>
-      <p className="mt-4 max-w-2xl px-6 text-center text-foreground/60">
+      <p className="mt-4 max-w-2xl px-6 text-center text-lg text-foreground/60">
         ClockIn ทำให้คุณสามารถบันทึกเวลาการทำงานของพนักงานได้ง่ายๆ และสะดวก
         โดยจะมีการบันทึกเวลาและสถานที่เข้าทำงานที่แม่นยำ
         และยังสามารถคำนวณเงินเดือนได้อีกด้วย
@@ -79,11 +79,13 @@ export default function Feature() {
                   {feature.icon}
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-lg ">{feature.title}</p>
+                  <p className="text-lg font-semibold">{feature.title}</p>
                 </div>
               </CardHeader>
               <CardBody>
-                <p className="text-foreground/60">{feature.description}</p>
+                <p className="text-lg text-foreground/60">
+                  {feature.description}
+                </p>
               </CardBody>
             </Card>
           );

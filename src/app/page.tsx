@@ -33,15 +33,17 @@ export default async function Home() {
         <Pricing />
       </div>
       <div className="mt-12 pt-32" id="contact">
-        <div className="flex justify-center text-5xl font-bold">ติดต่อเรา</div>
+        <div className="flex justify-center text-5xl font-semibold">
+          ติดต่อเรา
+        </div>
         <div className="m-4 flex justify-center">
-          <div className="flex max-w-lg items-center text-center text-foreground/60">
+          <div className="flex max-w-lg items-center text-center text-lg text-foreground/60">
             หากมีข้อสงสัย หรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถติดต่อเราได้ที่
             {/* eng */}
           </div>
         </div>
         <div className="m-4 flex justify-center">
-          <div className="flex max-w-lg items-center text-center">
+          <div className="flex max-w-lg items-center gap-4 text-center">
             <Button
               isIconOnly
               as={Link}
@@ -49,6 +51,22 @@ export default async function Home() {
               href="https://lin.ee/4lkElFh"
             >
               <Icon icon="bi:line" className="text-white" fontSize={24} />
+            </Button>
+            <Button
+              isIconOnly
+              as={Link}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1877f2]"
+              href="https://web.facebook.com/profile.php?id=61564667780360"
+            >
+              <Icon icon="bi:facebook" className="text-white" fontSize={24} />
+            </Button>
+            <Button
+              isIconOnly
+              as={Link}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1877f2]"
+              href="mailto:petchxpanuphong@gmail.com"
+            >
+              <Icon icon="lucide:mail" className="text-white" fontSize={24} />
             </Button>
 
             {/* <Link */}
