@@ -7,22 +7,24 @@ ClockIn is a comprehensive employee time-tracking and management solution. This 
 ### User (Employee)
 - ⏲️ **Clock In/Out**: Log work hours with a simple clock-in and clock-out system.
 - 📊 **Work History**: View detailed history of logged hours and work sessions.
-- 📝 **Request Adjustments**: Submit requests for time adjustments if work hours were logged incorrectly.
-- 🔔 **Notifications**: Receive notifications for clock-ins, reminders, and work status updates.
+- 📝 **Request Leave or OT**: Submit requests for leave or overtime work.
+- 🔔 **Notifications**: Receive notifications for clock-ins via line notify.
   
-### Admin (Manager/Owner)
+### Company (Manager/HR)
 - 📅 **View Employee Attendance**: Track the work hours of all employees in real-time.
-- 🛠️ **Manage Time Entries**: Add, edit, or remove clock-in/clock-out entries for employees.
-- 🔄 **Approve/Reject Time Adjustment Requests**: Review employee requests for time adjustments and take appropriate action.
+- 🛠️ **Manage Employee**: Add, edit, or remove employee entries.
+- 🔄 **Approve/Reject Time Leave or OT Requests**: Review employee requests for leave or overtime work and take appropriate action.
 - 📈 **Reports**: Generate detailed reports on employee attendance and hours worked for payroll and performance tracking.
 
 ## 🗂️ Data Models
 
 | Model                | Attributes                                                                                  |
 |----------------------|---------------------------------------------------------------------------------------------|
-| **User**             | `id`, `name`, `email`, `role`, `emailVerified`, `password`, `workEntries`, `createdAt`, `updatedAt` |
-| **WorkEntry**        | `id`, `clockInTime`, `clockOutTime`, `status`, `adjustmentRequest`, `userId`, `createdAt`, `updatedAt` |
-| **AdjustmentRequest** | `id`, `userId`, `workEntryId`, `requestedChange`, `status`, `createdAt`, `updatedAt`        |
+| **Company**          | `id`, `name`, `email`, `password`, `app_password`, `line_token`, `status`, `is_trial`, `stripe_customer_id`, `stripe_subscription_id`, `permissions`, `created_at` |
+| **Employee**         | `id`, `company_id`, `email`, `name`, `phone`, `role`, `start_time`, `stop_time`, `status`, `salary`, `off_days`, `is_trial`, `created_at` |
+| **Clock**            | `id`, `date_time`, `employee_id`, `status`, `note`, `location`, `created_at`              |
+| **Leave**            | `id`, `employee_id`, `leave_type`, `from`, `to`, `status`, `note`, `created_at`           |
+| **Overtime**         | `id`, `employee_id`, `date`, `from`, `to`, `status`, `note`, `created_at`                 |
 
 ## 📸 Screenshots
 
