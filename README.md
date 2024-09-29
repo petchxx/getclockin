@@ -58,9 +58,9 @@ ClockIn is a comprehensive employee time-tracking and management solution. This 
    ```
 3. **Set up the environment variables**:
    Create a `.env` file in the root directory and add the necessary environment variables for your database, API keys, etc.
-4. **Run the development server**:
+5. **Run the development server**:
    ```bash
-  npm run dev
+   npm run dev
    ```
-5. **Access the application**:
+6. **Access the application**:
    Open your browser and go to `http://localhost:3000`.
