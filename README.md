@@ -11,18 +11,19 @@ ClockIn is a comprehensive employee time-tracking and management solution. This 
 
 ### User (Employee)
 
-- ⏲️ **Clock In/Out**: Log work hours, note and location with a simple clock-in and clock-out system.
-- 📊 **Work History**: View detailed history of logged hours and work sessions.
-- 📝 **Request Leave or OT**: Submit requests for leave or overtime work.
-- 🔔 **Notifications**: Receive notifications for clock-ins via line notify.
+- ⏲️ Clock In/Out: Log work hours with a simple clock-in and clock-out system. Include notes and location tracking.
+- 📊 Work History: View detailed history of logged hours and work sessions.
+- 📝 Request Leave or OT: Submit requests for leave or overtime directly through the app.
+- 🔔 Notifications: Receive notifications for clock-ins and other activities via Line Notify.
 
 ### Company (Manager/HR)
 
-- 📅 **View Employee Attendance**: Track the work hours of all employees in real-time.
-- 🛠️ **Manage Employee**: Add, edit, or remove employee entries.
-- 🔄 **Approve/Reject Time Leave or OT Requests**: Review employee requests for leave or overtime work and take appropriate action.
-- 📈 **Reports**: Generate detailed reports on employee attendance and hours worked for payroll and performance tracking.
-- 💳 **Manage Plan**: Create, update, remove subsciption.
+- 🗃️ Dashboard Overview: Access an overview dashboard for a summary of company-wide attendance, employee activity, and other key metrics.
+- 📅 View Employee Attendance: Track the work hours and attendance of all employees in real-time.
+- 🛠️ Manage Employees: Add, edit, or remove employee entries. Includes managing employee details, such as contact information, roles, and salary.
+- 🔄 Approve/Reject Time Leave or OT Requests: Review and manage employee requests for leave or overtime, taking appropriate action.
+- 📈 Reports: Generate detailed reports on employee attendance, hours worked, and other statistics for payroll and performance tracking.
+- 📦 Manage Packages: View and manage subscription plans for the company, including registration for new packages and managing trial status.
 
 ## 🗂️ Data Models
 
