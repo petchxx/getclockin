@@ -5,7 +5,7 @@ ClockIn is a comprehensive employee time-tracking and management solution. This 
 ## 🚀 Features
 
 ### User (Employee)
-- ⏲️ **Clock In/Out**: Log work hours with a simple clock-in and clock-out system.
+- ⏲️ **Clock In/Out**: Log work hours, note and location with a simple clock-in and clock-out system.
 - 📊 **Work History**: View detailed history of logged hours and work sessions.
 - 📝 **Request Leave or OT**: Submit requests for leave or overtime work.
 - 🔔 **Notifications**: Receive notifications for clock-ins via line notify.
@@ -15,6 +15,7 @@ ClockIn is a comprehensive employee time-tracking and management solution. This 
 - 🛠️ **Manage Employee**: Add, edit, or remove employee entries.
 - 🔄 **Approve/Reject Time Leave or OT Requests**: Review employee requests for leave or overtime work and take appropriate action.
 - 📈 **Reports**: Generate detailed reports on employee attendance and hours worked for payroll and performance tracking.
+- 💳 **Manage Plan**: Create, update, remove subsciption.
 
 ## 🗂️ Data Models
 
